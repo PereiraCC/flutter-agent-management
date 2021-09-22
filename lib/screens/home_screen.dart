@@ -36,7 +36,7 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  FloatingActionButton(
-      onPressed: () {},
+      onPressed: () => Navigator.pushNamed(context, 'create'),
       backgroundColor: Colors.red.shade300,
       child: Icon(Icons.add, color: Colors.white)
     );

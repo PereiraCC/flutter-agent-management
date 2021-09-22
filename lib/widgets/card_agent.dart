@@ -23,32 +23,15 @@ class CardAgent extends StatelessWidget {
       ),
       child: Row(  
         children: [
-          _ImageAgent(),
+          ImageAgent(
+            wid: 100,
+            hei: 70,
+            urlImage: 'assets/male-icon.jpg',
+          ),
           _DataAgent(),
           _EditIcon()
         ],
       ),
-    );
-  }
-}
-
-class _ImageAgent extends StatelessWidget {
-
-  const _ImageAgent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.green,
-      width: 100,
-      height: 70,
-      margin: EdgeInsets.all(5),
-      padding: EdgeInsets.all(2.0),
-      child: CircleAvatar(
-        backgroundImage: AssetImage('assets/male-icon.jpg'),
-        radius: 25.0,
-      ),
-
     );
   }
 }
