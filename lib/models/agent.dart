@@ -4,18 +4,18 @@
 
 import 'dart:convert';
 
-Agent agentFromJson(String str) => Agent.fromJson(json.decode(str));
+List<Agent> agentFromJson(String str) => List<Agent>.from(json.decode(str).map((x) => Agent.fromJson(x)));
 
-String agentToJson(Agent data) => json.encode(data.toJson());
+String agentToJson(List<Agent> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Agent {
     Agent({
         this.idAgent,
-        required this.identification,
         required this.name,
         required this.lastname,
         required this.email,
         required this.phone,
+        required this.identification,
     });
 
     String? idAgent;
@@ -26,20 +26,20 @@ class Agent {
     String identification;
 
     factory Agent.fromJson(Map<String, dynamic> json) => Agent(
-        idAgent: json["id_agent"],
-        name: json["name"],
-        lastname: json["lastname"],
-        email: json["email"],
-        phone: json["phone"],
-        identification: json["identification"],
+        identification : json['identification'],
+        idAgent        : json['id_agent'],
+        name           : json['name'],
+        lastname       : json['lastname'],
+        email          : json['email'],
+        phone          : json['phone'],
     );
 
     Map<String, dynamic> toJson() => {
-        "id_agent": idAgent,
-        "name": name,
-        "lastname": lastname,
-        "email": email,
-        "phone": phone,
-        "identification": identification,
+        'identification' : identification,
+        'id_agent'       : idAgent,
+        'name'           : name,
+        'lastname'       : lastname,
+        'email'          : email,
+        'phone'          : phone,
     };
 }
