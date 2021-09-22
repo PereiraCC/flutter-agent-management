@@ -8,38 +8,12 @@ class CreateAgentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarCustom(),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-      
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-      
-      
-          ]),
-      ),
-      floatingActionButton: AddButton()
+      body: Center(  
+        child: Text('Create screen'),
+      )
    );
   }
 }
 
-class AddButton extends StatelessWidget {
 
-  const AddButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return  FloatingActionButton(
-      onPressed: () {},
-      backgroundColor: Colors.red.shade300,
-      child: Icon(Icons.add, color: Colors.white)
-    );
-  }
-}
 
