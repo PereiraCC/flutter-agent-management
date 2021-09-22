@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:agent_management/routes/routes.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -8,16 +9,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Agent management'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Agent management'),
-          ),
-        ),
-      ),
+      initialRoute: 'create',
+      routes: getRoutes(),
     );
   }
 }

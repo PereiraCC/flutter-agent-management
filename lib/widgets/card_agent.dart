@@ -1,0 +1,118 @@
+part of 'widgets.dart';
+
+class CardAgent extends StatelessWidget {
+  const CardAgent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 350,
+      height: 100,
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 5),
+          )
+        ]
+      ),
+      child: Row(  
+        children: [
+          _ImageAgent(),
+          _DataAgent(),
+          _EditIcon()
+        ],
+      ),
+    );
+  }
+}
+
+class _ImageAgent extends StatelessWidget {
+
+  const _ImageAgent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // color: Colors.green,
+      width: 100,
+      height: 70,
+      margin: EdgeInsets.all(5),
+      padding: EdgeInsets.all(2.0),
+      child: CircleAvatar(
+        backgroundImage: AssetImage('assets/male-icon.jpg'),
+        radius: 25.0,
+      ),
+
+    );
+  }
+}
+
+class _DataAgent extends StatelessWidget {
+  const _DataAgent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // color: Colors.red,
+      width: 180,
+      child: Column( 
+        mainAxisAlignment: MainAxisAlignment.center, 
+        children: [
+
+          Container(
+            // color: Colors.green,
+            width: 180,
+            child: Text('305230581',
+              style: TextStyle(
+                fontSize: 20, 
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.left,
+
+            ),
+          ),
+
+          SizedBox(height: 10),
+
+          Container(
+            // color: Colors.green,
+            width: 180,
+            child: Text('Carlos Pereira',
+              style: TextStyle(
+                fontSize: 15, 
+                fontWeight: FontWeight.w300,
+              ),
+              textAlign: TextAlign.left,
+
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
+}
+
+class _EditIcon extends StatelessWidget {
+  const _EditIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // color: Colors.green,
+      width: 50,
+      child: IconButton(
+        onPressed: () {
+          print('edit agent');
+        },
+        icon: Icon(Icons.edit_outlined)
+      ),
+    );
+  }
+}
