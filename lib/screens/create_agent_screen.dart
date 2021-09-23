@@ -1,6 +1,9 @@
+import 'package:agent_management/models/agent.dart';
+import 'package:agent_management/providers/agent_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class CreateAgentScreen extends StatelessWidget {
 
@@ -140,9 +143,12 @@ class _BoxBackground extends StatelessWidget {
 }
 
 class _InputsForm extends StatelessWidget {
-  const _InputsForm({
-    Key? key,
-  }) : super(key: key);
+
+  final _identificationController = TextEditingController();
+  final _nameController           = TextEditingController();
+  final _lastNameController       = TextEditingController();
+  final _emailController          = TextEditingController();
+  final _phoneController          = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -180,35 +186,41 @@ class _InputsForm extends StatelessWidget {
 
                 _InputTitle(text: 'Identification'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: 101110222', icon: Icons.badge),
+                _Input(helpText: 'Example: 101110222', icon: Icons.badge, controller: _identificationController),
 
                 SizedBox(height: 20),
 
                 _InputTitle(text: 'Name'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: Carlos', icon: Icons.person),
+                _Input(helpText: 'Example: Carlos', icon: Icons.person, controller: _nameController),
 
                 SizedBox(height: 20),
 
                 _InputTitle(text: 'Last name'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: Pereira', icon: Icons.person),
+                _Input(helpText: 'Example: Pereira', icon: Icons.person, controller: _lastNameController),
 
                 SizedBox(height: 20),
 
                 _InputTitle(text: 'Email'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: carlos@pereira.com', icon: Icons.mail),
+                _Input(helpText: 'Example: carlos@pereira.com', icon: Icons.mail, controller: _emailController),
 
                 SizedBox(height: 20),
 
                 _InputTitle(text: 'Phone Number'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: 11112222', icon: Icons.phone),
+                _Input(helpText: 'Example: 11112222', icon: Icons.phone, controller: _phoneController),
 
                 SizedBox(height: 20),
 
-                _SaveButton()
+                _SaveButton(
+                  identification: _identificationController,
+                  name: _nameController,
+                  lastName: _lastNameController,
+                  email: _emailController,
+                  phone: _phoneController,
+                )
               ],
             ),
           ),
@@ -246,9 +258,13 @@ class _Input extends StatelessWidget {
 
   final String helpText;
   final IconData icon;
+  final TextEditingController controller;
   
   const _Input({
-    Key? key, required this.helpText, required this.icon,
+    Key? key, 
+    required this.helpText, 
+    required this.icon, 
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -256,10 +272,10 @@ class _Input extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 20, right: 20),
       child: TextField(  
+        controller: this.controller,
         textCapitalization: TextCapitalization.sentences,
-        // autofocus: false,
+        autofocus: false,
         cursorColor: Colors.red.shade300,
-
         decoration: InputDecoration( 
           focusedBorder: OutlineInputBorder(  
             borderRadius: BorderRadius.circular(15.0),
@@ -279,14 +295,24 @@ class _Input extends StatelessWidget {
 
 class _SaveButton extends StatelessWidget {
   
+  final TextEditingController identification;
+  final TextEditingController name;
+  final TextEditingController lastName;
+  final TextEditingController email;
+  final TextEditingController phone;
+
   const _SaveButton({
-    Key? key,
+    Key? key, 
+    required this.identification, 
+    required this.name, 
+    required this.lastName, 
+    required this.email, 
+    required this.phone,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {}, 
       child: Container(
         width: 250,
         height: 50,
@@ -305,7 +331,27 @@ class _SaveButton extends StatelessWidget {
         child: Center(
           child: Text('Save', style: TextStyle(fontSize: 20, color: Colors.white))
         )
-      )
+      ),
+      onPressed: () async {
+
+        final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+
+        final newAgent = new Agent(
+          name: this.name.text, 
+          lastname: this.lastName.text, 
+          email: this.email.text, 
+          phone: this.phone.text, 
+          identification: this.identification.text
+        );
+
+        final resp = await agentProvider.createAgent(newAgent);
+
+        if(resp){
+          print('Show alert with success message');
+        } else {
+          print('Show alert with error message');
+        }
+      }, 
     );
   }
 }

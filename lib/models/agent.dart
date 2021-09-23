@@ -18,12 +18,14 @@ class Agent {
         required this.identification,
     });
 
+    Agent.empty();
+
     String? idAgent;
-    String name;
-    String lastname;
-    String email;
-    String phone;
-    String identification;
+    String? name;
+    String? lastname;
+    String? email;
+    String? phone;
+    String? identification;
 
     factory Agent.fromJson(Map<String, dynamic> json) => Agent(
         identification : json['identification'],

@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       providers: [
 
         ChangeNotifierProvider(
-          create: ( _ ) => AgentManamegent()
+          create: ( _ ) => AgentManamegentProvider()
         )
 
       ],
