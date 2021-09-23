@@ -1,8 +1,21 @@
-// To parse this JSON data, do
-//
-//     final agent = agentFromJson(jsonString);
-
 import 'dart:convert';
+
+class Agents {
+
+  List<Agent> items = [];
+
+  Agents();
+
+  Agents.fromJsonList( List<dynamic> jsonList  ) {
+
+    for ( var item in jsonList  ) {
+      final agent = new Agent.fromJson(item);
+      items.add( agent );
+    }
+
+  }
+
+}
 
 List<Agent> agentFromJson(String str) => List<Agent>.from(json.decode(str).map((x) => Agent.fromJson(x)));
 
@@ -28,12 +41,12 @@ class Agent {
     String? identification;
 
     factory Agent.fromJson(Map<String, dynamic> json) => Agent(
-        identification : json['identification'],
-        idAgent        : json['id_agent'],
-        name           : json['name'],
-        lastname       : json['lastname'],
-        email          : json['email'],
-        phone          : json['phone'],
+        identification : json['identification'].toString(),
+        idAgent        : json['id_agent'].toString(),
+        name           : json['name'].toString(),
+        lastname       : json['lastname'].toString(),
+        email          : json['email'].toString(),
+        phone          : json['phone'].toString(),
     );
 
     Map<String, dynamic> toJson() => {
