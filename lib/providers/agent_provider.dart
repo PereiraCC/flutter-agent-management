@@ -73,7 +73,9 @@ class AgentManamegentProvider with ChangeNotifier {
         final decodedData = json.decode(resp.body);
         final agents = Agents.fromJsonList(decodedData['documents']);
 
-        return agents.items;
+        this.agents = agents.items;
+        notifyListeners();
+        return this.agents;
       }
 
       return [];

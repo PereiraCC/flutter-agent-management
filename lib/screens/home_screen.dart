@@ -1,3 +1,4 @@
+import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/providers/agent_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -8,23 +9,39 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final agentsProvider = Provider.of<AgentManamegentProvider>(context);
+
     return Scaffold(
       appBar: AppBarCustom(),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-      
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-            CardAgent(),
-      
-      
-          ]),
+      body: FutureBuilder(
+        future: agentsProvider.getAllAgents(),
+        // initialData: <Agent>[
+        //     Agent(name: 'Toby', lastname: 'Toby', email: 'toby', phone: 'toby', identification: '123456')
+        // ],
+        builder : ( _ , AsyncSnapshot<List<Agent>> snapshot) {
+
+          if(!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.red.shade300,
+                // color: Colors.red.shade300,
+              )
+            );
+          }
+
+          final agents = snapshot.data;
+
+          return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: agents?.length ?? 0,
+            itemBuilder: ( _, i) {
+              return CardAgent(agent: agents![i]);
+            }
+          );
+
+
+        }
       ),
       floatingActionButton: FloatiangButton()
    );

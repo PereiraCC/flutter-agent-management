@@ -1,7 +1,9 @@
 part of 'widgets.dart';
 
 class CardAgent extends StatelessWidget {
-  const CardAgent({Key? key}) : super(key: key);
+
+  final Agent agent;
+  const CardAgent({Key? key, required this.agent}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,10 @@ class CardAgent extends StatelessWidget {
             hei: 70,
             urlImage: 'assets/male-icon.jpg',
           ),
-          _DataAgent(),
+          _DataAgent( 
+            completeName: '${this.agent.name} ${this.agent.lastname}',
+            identification: this.agent.identification ?? 'No identification', 
+          ),
           _EditIcon()
         ],
       ),
@@ -37,7 +42,15 @@ class CardAgent extends StatelessWidget {
 }
 
 class _DataAgent extends StatelessWidget {
-  const _DataAgent({Key? key}) : super(key: key);
+
+  final String completeName;
+  final String identification;
+
+  const _DataAgent({
+    Key? key, 
+    required this.completeName, 
+    required this.identification
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +64,11 @@ class _DataAgent extends StatelessWidget {
           Container(
             // color: Colors.green,
             width: 180,
-            child: Text('305230581',
+            child: Text(this.identification,
               style: TextStyle(
                 fontSize: 20, 
                 fontWeight: FontWeight.bold,
+                color: Colors.red.shade300
               ),
               textAlign: TextAlign.left,
 
@@ -66,7 +80,7 @@ class _DataAgent extends StatelessWidget {
           Container(
             // color: Colors.green,
             width: 180,
-            child: Text('Carlos Pereira',
+            child: Text(this.completeName,
               style: TextStyle(
                 fontSize: 15, 
                 fontWeight: FontWeight.w300,
