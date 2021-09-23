@@ -1,6 +1,8 @@
+import 'package:agent_management/providers/agent_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -42,7 +44,14 @@ class FloatiangButton extends StatelessWidget {
         children: [
 
           FloatingActionButton(
-            onPressed: () => Navigator.pushNamed(context, 'create'),
+            // onPressed: () => Navigator.pushNamed(context, 'create'),
+            onPressed: () async {
+
+              final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+
+              await agentProvider.getAllAgents();
+
+            },
             backgroundColor: Colors.red.shade300,
             child: Icon(Icons.sync, color: Colors.white)
           ),
