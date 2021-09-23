@@ -24,21 +24,38 @@ class HomeScreen extends StatelessWidget {
       
           ]),
       ),
-      floatingActionButton: AddButton()
+      floatingActionButton: FloatiangButton()
    );
   }
 }
 
-class AddButton extends StatelessWidget {
+class FloatiangButton extends StatelessWidget {
 
-  const AddButton({Key? key}) : super(key: key);
+  const FloatiangButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  FloatingActionButton(
-      onPressed: () => Navigator.pushNamed(context, 'create'),
-      backgroundColor: Colors.red.shade300,
-      child: Icon(Icons.add, color: Colors.white)
+    return Padding(
+      padding: EdgeInsets.only(top: 550),
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+
+          FloatingActionButton(
+            onPressed: () => Navigator.pushNamed(context, 'create'),
+            backgroundColor: Colors.red.shade300,
+            child: Icon(Icons.sync, color: Colors.white)
+          ),
+
+          SizedBox(height: 10),
+
+          FloatingActionButton(
+            onPressed: () => Navigator.pushNamed(context, 'create'),
+            backgroundColor: Colors.red.shade300,
+            child: Icon(Icons.add, color: Colors.white)
+          ),
+        ],
+      ),
     );
   }
 }
