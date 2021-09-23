@@ -1,3 +1,4 @@
+import 'package:agent_management/helpers/show_alert.dart';
 import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/providers/agent_provider.dart';
 import 'package:flutter/material.dart';
@@ -347,9 +348,9 @@ class _SaveButton extends StatelessWidget {
         final resp = await agentProvider.createAgent(newAgent);
 
         if(resp){
-          print('Show alert with success message');
+          showAlert(context, 'Success', 'Successfully created agent');
         } else {
-          print('Show alert with error message');
+          showAlert(context, 'Error', 'Failed to create a new agent');
         }
       }, 
     );
