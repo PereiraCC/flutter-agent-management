@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:agent_management/models/agent.dart';
+import 'package:agent_management/providers/agent_provider.dart';
 
 part 'appbar_custom.dart';
 part 'card_agent.dart';

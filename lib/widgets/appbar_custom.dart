@@ -21,8 +21,11 @@ class _AppBarCustomState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    final agentProvider = Provider.of<AgentManamegentProvider>(context);
+
     return AppBar(  
-      title: Text(this.title, style: TextStyle(color: Colors.red.shade300)),
+      title: Text('${this.title} (${agentProvider.countAgent})', style: TextStyle(color: Colors.red.shade300)),
       centerTitle: true,
       backgroundColor: Colors.white,
       elevation: 10.0,
