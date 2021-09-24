@@ -1,12 +1,12 @@
-import 'package:agent_management/providers/agent_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
 
-import 'package:agent_management/helpers/show_alert.dart';
 import 'package:agent_management/models/agent.dart';
+import 'package:agent_management/helpers/show_alert.dart';
 import 'package:agent_management/services/agent_service.dart';
-import 'package:provider/provider.dart';
+import 'package:agent_management/providers/agent_provider.dart';
 
 
 class CreateAgentScreen extends StatelessWidget {
@@ -162,13 +162,13 @@ class _InputsForm extends StatelessWidget {
 
     final agentProvider = Provider.of<AgentManamegentProvider>(context);
 
-    if(agentProvider.updating) {
-      _identificationController.text = agentProvider.agent.identification ?? '';
-      _nameController.text           = agentProvider.agent.name           ?? '';
-      _lastNameController.text       = agentProvider.agent.lastname       ?? '';
-      _emailController.text          = agentProvider.agent.email          ?? '';
-      _phoneController.text          = agentProvider.agent.phone          ?? '';
-    }
+    // if(agentProvider.updating) {
+    //   _identificationController.text = agentProvider.agent.identification ?? '';
+    //   _nameController.text           = agentProvider.agent.name           ?? '';
+    //   _lastNameController.text       = agentProvider.agent.lastname       ?? '';
+    //   _emailController.text          = agentProvider.agent.email          ?? '';
+    //   _phoneController.text          = agentProvider.agent.phone          ?? '';
+    // }
 
     return Container(
       margin: EdgeInsets.only(top: 210),
@@ -204,31 +204,57 @@ class _InputsForm extends StatelessWidget {
 
                 _InputTitle(text: 'Identification'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: 101110222', icon: Icons.badge, controller: _identificationController),
+                _Input(
+                  hintText: (agentProvider.updating) ? agentProvider.agent.identification : '', 
+                  helpText: 'Example: 101110222', 
+                  icon: Icons.badge, 
+                  controller: _identificationController, 
+                  enable: (agentProvider.updating) ? false : true
+                ),
 
                 SizedBox(height: 20),
 
                 _InputTitle(text: 'Name'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: Carlos', icon: Icons.person, controller: _nameController),
+                _Input(
+                  hintText: (agentProvider.updating) ? agentProvider.agent.name : '',
+                  helpText: 'Example: Carlos', 
+                  icon: Icons.person, 
+                  controller: _nameController
+                ),
 
                 SizedBox(height: 20),
 
                 _InputTitle(text: 'Last name'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: Pereira', icon: Icons.person, controller: _lastNameController),
+                _Input(
+                  hintText: (agentProvider.updating) ? agentProvider.agent.lastname : '',
+                  helpText: 'Example: Pereira', 
+                  icon: Icons.person, 
+                  controller: _lastNameController
+                ),
 
                 SizedBox(height: 20),
 
                 _InputTitle(text: 'Email'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: carlos@pereira.com', icon: Icons.mail, controller: _emailController),
+                _Input(
+                  hintText: (agentProvider.updating) ? agentProvider.agent.email : '',
+                  helpText: 'Example: carlos@pereira.com', 
+                  icon: Icons.mail, 
+                  controller: _emailController
+                ),
 
                 SizedBox(height: 20),
 
                 _InputTitle(text: 'Phone Number'),
                 SizedBox(height: 10),
-                _Input(helpText: 'Example: 11112222', icon: Icons.phone, controller: _phoneController),
+                _Input(
+                  hintText: (agentProvider.updating) ? agentProvider.agent.phone : '',
+                  helpText: 'Example: 11112222', 
+                  icon: Icons.phone, 
+                  controller: _phoneController
+                ),
 
                 SizedBox(height: 20),
 
@@ -275,14 +301,18 @@ class _InputTitle extends StatelessWidget {
 class _Input extends StatelessWidget {
 
   final String helpText;
+  final String? hintText;
   final IconData icon;
   final TextEditingController controller;
+  final bool? enable;
   
   const _Input({
     Key? key, 
     required this.helpText, 
     required this.icon, 
     required this.controller,
+    this.enable = true,
+    this.hintText = ''
   }) : super(key: key);
 
   @override
@@ -303,8 +333,9 @@ class _Input extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.0),
           ),
           helperText: this.helpText,
+          hintText: this.hintText,
           suffixIcon: Icon(this.icon, color: Colors.red.shade300),
-          // focusColor: Colors.red.shade300
+          enabled: this.enable ?? true
         ),
       ),
     );
@@ -352,21 +383,48 @@ class _SaveButton extends StatelessWidget {
       ),
       onPressed: () async {
 
-        final newAgent = new Agent(
-          name: this.name.text, 
-          lastname: this.lastName.text, 
-          email: this.email.text, 
-          phone: this.phone.text, 
-          identification: this.identification.text
-        );
+        bool resp;
 
-        final resp = await AgentService.createAgent(newAgent);
+        final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
 
-        if(resp){
-          showAlert(context, 'Success', 'Successfully created agent');
+        if(!agentProvider.updating) {
+
+            final newAgent = new Agent(
+              name: this.name.text, 
+              lastname: this.lastName.text, 
+              email: this.email.text, 
+              phone: this.phone.text, 
+              identification: this.identification.text
+            );
+
+          resp = await AgentService.createAgent(newAgent);
+
+          if(resp){
+            showAlert(context, 'Success', 'Successfully created agent');
+          } else {
+            showAlert(context, 'Error', 'Failed to create a new agent');
+          }
+
         } else {
-          showAlert(context, 'Error', 'Failed to create a new agent');
+
+          final newAgent = new Agent(
+              name: (this.name.text == '') ? agentProvider.agent.name : this.name.text, 
+              lastname: (this.lastName.text == '') ? agentProvider.agent.lastname : this.lastName.text,
+              email: (this.email.text == '') ? agentProvider.agent.email : this.email.text, 
+              phone: (this.phone.text == '') ? agentProvider.agent.phone : this.phone.text, 
+              identification: (this.identification.text == '') ? agentProvider.agent.identification : this.identification.text,
+            );
+
+          resp = await AgentService.updateAgent(newAgent);
+
+          if(resp){
+            showAlert(context, 'Success', 'Successfully updated agent');
+          } else {
+            showAlert(context, 'Error', 'Failed to update an agent');
+          }
+
         }
+
       }, 
     );
   }

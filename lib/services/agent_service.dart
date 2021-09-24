@@ -1,12 +1,12 @@
 
 
 import 'dart:convert';
-
-import 'package:agent_management/providers/db_access_provider.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/global/environment.dart';
+
+import 'package:agent_management/providers/db_access_provider.dart';
 
 class AgentService {
 
@@ -22,7 +22,7 @@ class AgentService {
         headers: {
           'Content-Type' : 'application/json; charset=utf-8',
         },
-        body: jsonEncode(agent.toJson())
+        body: jsonEncode(agent.toJsonServices())
       );
 
       if (resp.statusCode == 201) {
@@ -62,6 +62,33 @@ class AgentService {
     } catch (err) {
       print('Error $err');
       // return [];
+    }
+
+  }
+
+  static Future<bool> updateAgent(Agent agent) async {
+
+    try {
+
+       Uri url = Uri.parse('${Environment.apiAgentsUrl}/${agent.identification}');
+      
+      final resp = await http.put(url, 
+        headers: {
+          'Content-Type' : 'application/json; charset=utf-8',
+        },
+        body: jsonEncode(agent.toJsonServices())
+      );
+
+      if (resp.statusCode == 200) {
+        // print(resp.body[]);
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (err) {
+      print('Error $err');
+      return false;
     }
 
   }
