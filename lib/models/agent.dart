@@ -57,4 +57,12 @@ class Agent {
         'email'          : email,
         'phone'          : phone,
     };
+
+    Map<String, dynamic> toJsonServices() => {
+        'identification' : identification,
+        'name'           : name,
+        'lastname'       : lastname,
+        'email'          : email,
+        'phone'          : phone,
+    };
 }
