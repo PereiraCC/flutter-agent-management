@@ -1,10 +1,11 @@
-import 'package:agent_management/helpers/show_alert.dart';
-import 'package:agent_management/models/agent.dart';
-import 'package:agent_management/providers/agent_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
-import 'package:provider/provider.dart';
+
+import 'package:agent_management/helpers/show_alert.dart';
+import 'package:agent_management/models/agent.dart';
+import 'package:agent_management/services/agent_service.dart';
+
 
 class CreateAgentScreen extends StatelessWidget {
 
@@ -335,8 +336,6 @@ class _SaveButton extends StatelessWidget {
       ),
       onPressed: () async {
 
-        final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-
         final newAgent = new Agent(
           name: this.name.text, 
           lastname: this.lastName.text, 
@@ -345,7 +344,7 @@ class _SaveButton extends StatelessWidget {
           identification: this.identification.text
         );
 
-        final resp = await agentProvider.createAgent(newAgent);
+        final resp = await AgentService.createAgent(newAgent);
 
         if(resp){
           showAlert(context, 'Success', 'Successfully created agent');

@@ -51,7 +51,7 @@ class Agent {
 
     Map<String, dynamic> toJson() => {
         'identification' : identification,
-        'id_agent'       : idAgent,
+        'idAgent'        : idAgent,
         'name'           : name,
         'lastname'       : lastname,
         'email'          : email,

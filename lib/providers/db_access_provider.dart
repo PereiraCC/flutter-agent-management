@@ -41,7 +41,7 @@ class DbAccessProvider {
             lastname TEXT,
             email TEXT,
             phone TEXT,
-            status TEXT,
+            status TEXT
           )
         ''');
       }

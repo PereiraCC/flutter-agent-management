@@ -1,5 +1,7 @@
+import 'package:agent_management/helpers/loading_alert.dart';
 import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/providers/agent_provider.dart';
+import 'package:agent_management/services/agent_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
@@ -14,37 +16,59 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBarCustom(),
-      body: FutureBuilder(
-        future: agentsProvider.getAllAgents(),
-        // initialData: <Agent>[
-        //     Agent(name: 'Toby', lastname: 'Toby', email: 'toby', phone: 'toby', identification: '123456')
-        // ],
-        builder : ( _ , AsyncSnapshot<List<Agent>> snapshot) {
-
-          if(!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Colors.red.shade300,
-                // color: Colors.red.shade300,
-              )
-            );
-          }
-
-          final agents = snapshot.data;
-
-          return ListView.builder(
-            physics: BouncingScrollPhysics(),
-            itemCount: agents?.length ?? 0,
-            itemBuilder: ( _, i) {
-              return CardAgent(agent: agents![i]);
-            }
-          );
-
-
-        }
-      ),
+      body: (!agentsProvider.loading) 
+              ? _CreateBody(agentsProvider: agentsProvider) 
+              : Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red.shade300,
+                )
+              ),
       floatingActionButton: FloatiangButton()
    );
+  }
+}
+
+class _CreateBody extends StatelessWidget {
+
+  const _CreateBody({
+    Key? key,
+    required this.agentsProvider,
+  }) : super(key: key);
+
+  final AgentManamegentProvider agentsProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: agentsProvider.getAllAgents(),
+      builder : ( _ , AsyncSnapshot<List<Agent>> snapshot) {
+
+        if(!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Colors.red.shade300,
+            )
+          );
+        }
+
+        if(snapshot.data!.length == 0){
+          // TODO: Container no data
+          return Center(
+            child: Text('No agents')
+          );
+        }
+
+        final agents = snapshot.data;
+
+        return ListView.builder(
+          physics: BouncingScrollPhysics(),
+          itemCount: agents?.length ?? 0,
+          itemBuilder: ( _, i) {
+            return CardAgent(agent: agents![i]);
+          }
+        );
+      }
+    );
   }
 }
 
@@ -64,9 +88,10 @@ class FloatiangButton extends StatelessWidget {
             // onPressed: () => Navigator.pushNamed(context, 'create'),
             onPressed: () async {
 
-              final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-
-              await agentProvider.getAllAgents();
+              final agentP = Provider.of<AgentManamegentProvider>(context, listen: false);
+              agentP.loading = true;
+              await AgentService.getAllAgentsServices();
+              agentP.loading = false;
 
             },
             backgroundColor: Colors.red.shade300,
@@ -78,7 +103,8 @@ class FloatiangButton extends StatelessWidget {
           FloatingActionButton(
             onPressed: () => Navigator.pushNamed(context, 'create'),
             backgroundColor: Colors.red.shade300,
-            child: Icon(Icons.add, color: Colors.white)
+            child: Icon(Icons.add, color: Colors.white),
+            heroTag: null,
           ),
         ],
       ),

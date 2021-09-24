@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-void _onLoading(BuildContext context) {
+showLoading(BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -18,7 +18,4 @@ void _onLoading(BuildContext context) {
       );
     },
   );
-  new Future.delayed(new Duration(seconds: 3), () {
-    Navigator.pop(context); //pop dialog
-  });
 }
