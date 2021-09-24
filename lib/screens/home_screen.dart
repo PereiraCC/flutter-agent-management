@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:agent_management/widgets/widgets.dart';
+
 import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/providers/agent_provider.dart';
 import 'package:agent_management/services/agent_service.dart';
-import 'package:flutter/material.dart';
 
-import 'package:agent_management/widgets/widgets.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -51,7 +53,6 @@ class _CreateBody extends StatelessWidget {
         }
 
         if(snapshot.data!.length == 0){
-          // TODO: Container no data
           return _NoData();
         }
 

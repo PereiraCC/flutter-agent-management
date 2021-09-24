@@ -1,3 +1,4 @@
+import 'package:agent_management/providers/agent_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
@@ -5,6 +6,7 @@ import 'package:agent_management/widgets/widgets.dart';
 import 'package:agent_management/helpers/show_alert.dart';
 import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/services/agent_service.dart';
+import 'package:provider/provider.dart';
 
 
 class CreateAgentScreen extends StatelessWidget {
@@ -67,6 +69,9 @@ class _Title extends StatelessWidget {
             padding: EdgeInsets.only(right: 50),
             icon: Icon(Icons.arrow_back_ios, color: Colors.white),
             onPressed: () {
+              final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+              if(agentProvider.updating) 
+                agentProvider.updating = false;
               Navigator.pushNamed(context, 'home');
             },
           ),
@@ -154,6 +159,17 @@ class _InputsForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final agentProvider = Provider.of<AgentManamegentProvider>(context);
+
+    if(agentProvider.updating) {
+      _identificationController.text = agentProvider.agent.identification ?? '';
+      _nameController.text           = agentProvider.agent.name           ?? '';
+      _lastNameController.text       = agentProvider.agent.lastname       ?? '';
+      _emailController.text          = agentProvider.agent.email          ?? '';
+      _phoneController.text          = agentProvider.agent.phone          ?? '';
+    }
+
     return Container(
       margin: EdgeInsets.only(top: 210),
       // color: Colors.red,
@@ -162,7 +178,7 @@ class _InputsForm extends StatelessWidget {
         children: [
 
           TextCustom(  
-            text: 'New Agent',
+            text: (agentProvider.updating) ? 'Update Agent' :'New Agent',
             size: 20,
             font: FontWeight.bold,
             color: Colors.red.shade300,
@@ -171,7 +187,7 @@ class _InputsForm extends StatelessWidget {
           SizedBox(height: 10),
 
           TextCustom(  
-            text: 'Please complete the agent information',
+            text: (agentProvider.updating) ? '${agentProvider.agent.email}' : 'Please complete the agent information',
             size: 15,
             font: FontWeight.normal,
             color: Colors.grey

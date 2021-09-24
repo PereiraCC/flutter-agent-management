@@ -7,35 +7,44 @@ class CardAgent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 350,
-      height: 100,
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 5),
-          )
-        ]
-      ),
-      child: Row(  
-        children: [
-          ImageAgent(
-            wid: 100,
-            hei: 70,
-            urlImage: 'assets/male-icon.jpg',
-          ),
-          _DataAgent( 
-            completeName: '${this.agent.name} ${this.agent.lastname}',
-            identification: this.agent.identification ?? 'No identification', 
-          ),
-          _EditIcon()
-        ],
+    return GestureDetector(
+      onTap: () {
+        // print(this.agent.name);
+        final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+        agentProvider.updating = true;
+        agentProvider.agent = this.agent;
+        Navigator.pushNamed(context, 'create');
+      },
+      child: Container(
+        width: 350,
+        height: 100,
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 5),
+            )
+          ]
+        ),
+        child: Row(  
+          children: [
+            ImageAgent(
+              wid: 100,
+              hei: 70,
+              urlImage: 'assets/male-icon.jpg',
+            ),
+            _DataAgent( 
+              completeName: '${this.agent.name} ${this.agent.lastname}',
+              identification: this.agent.identification ?? 'No identification', 
+            ),
+            _EditIcon(agent: this.agent)
+          ],
+        ),
       ),
     );
   }
@@ -97,7 +106,10 @@ class _DataAgent extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key? key}) : super(key: key);
+
+  final Agent agent;
+
+  const _EditIcon({Key? key, required this.agent}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +118,11 @@ class _EditIcon extends StatelessWidget {
       width: 50,
       child: IconButton(
         onPressed: () {
-          print('edit agent');
+          // print('Edit button: ${this.agent.name}');
+          final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+          agentProvider.updating = true;
+          agentProvider.agent = this.agent;
+          Navigator.pushNamed(context, 'create');
         },
         icon: Icon(Icons.edit_outlined)
       ),

@@ -8,8 +8,9 @@ class AgentManamegentProvider with ChangeNotifier {
 
   String _countAgent = '';
   bool _loading = false;
+  bool _updating = false;
   List<Agent> _agents = [];
-  Agent _newAgent = new Agent.empty();
+  Agent _agent = new Agent.empty();
 
   String get countAgent => _countAgent;
   set countAgent(String data) {
@@ -23,15 +24,21 @@ class AgentManamegentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool get updating => _updating;
+  set updating(bool data) {
+    this._updating = data;
+    notifyListeners();
+  }
+
   List<Agent> get agents => _agents;
   set agents(List<Agent> data) {
     this._agents = data;
     notifyListeners();
   }
 
-  Agent get newAgent => _newAgent;
-  set newAgent(Agent data) {
-    this._newAgent = data;
+  Agent get agent => _agent;
+  set agent(Agent data) {
+    this._agent = data;
     notifyListeners();
   }
 
@@ -40,6 +47,7 @@ class AgentManamegentProvider with ChangeNotifier {
     try {
       
       agents = await DbAccessProvider.db.getAllClients();
+      countAgent = agents.length.toString();
       return agents;
 
     } catch (err) {
