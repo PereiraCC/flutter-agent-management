@@ -97,6 +97,8 @@ class AgentService {
 
     try {
 
+      if(identification == 'no-identification') return false;
+
       Uri url = Uri.parse('${Environment.apiAgentsUrl}/$identification');
       
       final resp = await http.delete(url);

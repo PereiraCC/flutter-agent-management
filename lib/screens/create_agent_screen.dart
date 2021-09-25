@@ -132,8 +132,20 @@ class _BoxForm extends StatelessWidget {
                 context: context,
                 title: 'Delete an agent',
                 subtitle: 'Do you want to remove this agent?',
-                continueEvent: () {
-                  print('Delete agent');
+                continueEvent: () async {
+
+                  final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+                  final resp = await AgentService.deleteAgent(agentProvider.agent.identification ?? 'no-identification');
+
+                  if(agentProvider.updating) 
+                      agentProvider.updating = false;
+
+                  if(resp) {
+                    showAlert(context, 'Success', 'Successfully deleted agent');
+                  } else {
+                    showAlert(context, 'Error', 'Failed to delete an agent');
+                  }
+
                 },
                 cancelEvent: () {
                   Navigator.pop(context);
