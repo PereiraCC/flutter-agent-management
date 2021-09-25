@@ -93,4 +93,27 @@ class AgentService {
 
   }
 
+  static Future<bool> deleteAgent(String identification) async {
+
+    try {
+
+      Uri url = Uri.parse('${Environment.apiAgentsUrl}/$identification');
+      
+      final resp = await http.delete(url);
+
+      if (resp.statusCode == 200) {
+        // print(resp.body[]);
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (err) {
+      print('Error $err');
+      return false;
+    }
+
+  }
+
+
 }
