@@ -102,13 +102,16 @@ class _BoxForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final widthScreen = MediaQuery.of(context).size.width;
+
     return Stack(
       children: [
 
         _BoxBackground(),
 
         Container(
-          margin: EdgeInsets.only(top: 100, left: 120),
+          margin: EdgeInsets.only(top: 100, left: widthScreen * 0.35),
           child: ImageAgent(
             wid: 100,
             hei: 100,

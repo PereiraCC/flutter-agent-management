@@ -152,8 +152,11 @@ class FloatiangButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final heightScreen = MediaQuery.of(context).size.height;
+
     return Padding(
-      padding: EdgeInsets.only(top: 550),
+      padding: EdgeInsets.only(top: heightScreen - 140),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
         children: [

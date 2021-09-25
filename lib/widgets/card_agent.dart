@@ -15,37 +15,38 @@ class CardAgent extends StatelessWidget {
         agentProvider.agent = this.agent;
         Navigator.pushNamed(context, 'create');
       },
-      child: Container(
-        width: 350,
-        height: 100,
-        margin: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 5),
-            )
-          ]
+      child:
+        Container(
+          width: 350,
+          height: 100,
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 5),
+              )
+            ]
+          ),
+          child: Row(  
+            children: [
+              ImageAgent(
+                wid: 100,
+                hei: 70,
+                urlImage: 'assets/male-icon.jpg',
+              ),
+              _DataAgent( 
+                completeName: '${this.agent.name} ${this.agent.lastname}',
+                identification: this.agent.identification ?? 'No identification', 
+              ),
+              Expanded(child: _EditIcon(agent: this.agent))
+            ],
+          ),
         ),
-        child: Row(  
-          children: [
-            ImageAgent(
-              wid: 100,
-              hei: 70,
-              urlImage: 'assets/male-icon.jpg',
-            ),
-            _DataAgent( 
-              completeName: '${this.agent.name} ${this.agent.lastname}',
-              identification: this.agent.identification ?? 'No identification', 
-            ),
-            _EditIcon(agent: this.agent)
-          ],
-        ),
-      ),
     );
   }
 }
