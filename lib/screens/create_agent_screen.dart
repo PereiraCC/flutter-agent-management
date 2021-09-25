@@ -1,3 +1,4 @@
+import 'package:agent_management/helpers/confirmation_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -103,6 +104,7 @@ class _BoxForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Stack(
@@ -123,12 +125,23 @@ class _BoxForm extends StatelessWidget {
           // color: Colors.green,
           height: 50,
           margin: EdgeInsets.only(top: 150, left: widthScreen - 80),
-          child: IconButton(
+          child: (agentProvider.updating) ? IconButton(
             icon: Icon(Icons.delete, color: Colors.red.shade300),
             onPressed: () {
-              print('Delete agent');
+              showConfirmationAlert(
+                context: context,
+                title: 'Delete an agent',
+                subtitle: 'Do you want to remove this agent?',
+                continueEvent: () {
+                  print('Delete agent');
+                },
+                cancelEvent: () {
+                  Navigator.pop(context);
+                }
+              );
             }, 
           )
+          : Container()
         ),
 
         _InputsForm()
