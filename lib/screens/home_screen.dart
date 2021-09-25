@@ -40,33 +40,51 @@ class _CreateBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: agentsProvider.getAllAgents(),
-      builder : ( _ , AsyncSnapshot<List<Agent>> snapshot) {
 
-        if(!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: Colors.red.shade300,
-            )
-          );
-        }
+    this.agentsProvider.getAllAgents();
 
-        if(snapshot.data!.length == 0){
-          return _NoData();
-        }
+    if(agentsProvider.agents.length > 0) {
 
-        final agents = snapshot.data;
+      return ListView.builder(
+        physics: BouncingScrollPhysics(),
+        itemCount: agentsProvider.agents.length,
+        itemBuilder: ( _, i) {
+          return  CardAgent(agent: agentsProvider.agents[i]);
+        },
+      );
 
-        return ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: agents?.length ?? 0,
-          itemBuilder: ( _, i) {
-            return CardAgent(agent: agents![i]);
-          }
-        );
-      }
-    );
+    } else {
+      return _NoData();
+    }
+    
+    // Old code 
+    // return FutureBuilder(
+    //   future: agentsProvider.getAllAgents(),
+    //   builder : ( _ , AsyncSnapshot<List<Agent>> snapshot) {
+
+    //     if(!snapshot.hasData) {
+    //       return Center(
+    //         child: CircularProgressIndicator(
+    //           color: Colors.red.shade300,
+    //         )
+    //       );
+    //     }
+
+    //     if(snapshot.data!.length == 0){
+    //       return _NoData();
+    //     }
+
+    //     final agents = snapshot.data;
+
+    //     return ListView.builder(
+    //       physics: BouncingScrollPhysics(),
+    //       itemCount: agents?.length ?? 0,
+    //       itemBuilder: ( _, i) {
+    //         return CardAgent(agent: agents![i]);
+    //       }
+    //     );
+    //   }
+    // );
   }
 }
 
