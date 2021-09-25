@@ -25,15 +25,15 @@ class _AppBarCustomState extends State<StatefulWidget> {
     final agentProvider = Provider.of<AgentManamegentProvider>(context);
 
     return AppBar(  
-      title: Text('${this.title} (${agentProvider.countAgent})', style: TextStyle(color: Colors.red.shade300)),
+      title: Text('${this.title} (${agentProvider.countAgent})', style: TextStyle(color: Colors.white)),
       centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.red.shade300,
       elevation: 10.0,
-      leading: Icon(Icons.menu, color: Colors.red.shade300),
+      leading: Icon(Icons.menu, color: Colors.white),
       // toolbarHeight: 500,
       actions: [
         IconButton(
-          icon: Icon(Icons.search, color: Colors.red.shade300),
+          icon: Icon(Icons.search, color: Colors.white),
           onPressed: () {
             print('search button');
           }
