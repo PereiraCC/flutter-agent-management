@@ -119,6 +119,18 @@ class _BoxForm extends StatelessWidget {
           )
         ),
 
+        Container(
+          // color: Colors.green,
+          height: 50,
+          margin: EdgeInsets.only(top: 150, left: widthScreen - 80),
+          child: IconButton(
+            icon: Icon(Icons.delete, color: Colors.red.shade300),
+            onPressed: () {
+              print('Delete agent');
+            }, 
+          )
+        ),
+
         _InputsForm()
 
       ]

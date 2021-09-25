@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
 
-import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/providers/agent_provider.dart';
 import 'package:agent_management/services/agent_service.dart';
 

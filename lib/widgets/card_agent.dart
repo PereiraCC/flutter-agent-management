@@ -125,7 +125,7 @@ class _EditIcon extends StatelessWidget {
           agentProvider.agent = this.agent;
           Navigator.pushNamed(context, 'create');
         },
-        icon: Icon(Icons.edit_outlined)
+        icon: Icon(Icons.arrow_forward_ios, color: Colors.red.shade300)
       ),
     );
   }
