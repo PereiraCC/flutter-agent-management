@@ -10,3 +10,4 @@ part 'card_agent.dart';
 part 'curved_header.dart';
 part 'image_agent.dart';
 part 'text_custom.dart';
+part 'search_deletegate.dart';

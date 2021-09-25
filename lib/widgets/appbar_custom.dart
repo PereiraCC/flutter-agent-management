@@ -35,6 +35,10 @@ class _AppBarCustomState extends State<StatefulWidget> {
         IconButton(
           icon: Icon(Icons.search, color: Colors.white),
           onPressed: () {
+            showSearch(
+              context: context, 
+              delegate: DataSearch()
+            );
             print('search button');
           }
         ),
