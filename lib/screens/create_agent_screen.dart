@@ -132,6 +132,8 @@ class _BoxForm extends StatelessWidget {
                 context: context,
                 title: 'Delete an agent',
                 subtitle: 'Do you want to remove this agent?',
+                urlImage: 'assets/male-icon.jpg',
+                userName: '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
                 continueEvent: () async {
 
                   final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
