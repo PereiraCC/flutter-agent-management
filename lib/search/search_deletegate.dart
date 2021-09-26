@@ -36,13 +36,36 @@ class DataSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 100.0,
-        width: 100.0,
-        color: Colors.red,
-        child: Text(query),
-      ),
+
+    final agentProvider = Provider.of<AgentManamegentProvider>(context);
+
+    if ( query.isEmpty ) {
+      return Container();
+    }
+
+    return FutureBuilder(
+      future: agentProvider.getSearchAgents(query),
+      builder: (BuildContext context, AsyncSnapshot<List<Agent>> snapshot) {
+
+          if( snapshot.hasData ) {
+            
+            final agents = snapshot.data!;
+
+            return ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: agents.length,
+              itemBuilder: ( _, i) {
+                return CardAgent(agent: agents[i]);
+              },
+            );
+
+          } else {
+            return Center(
+              child: CircularProgressIndicator()
+            );
+          }
+
+      },
     );
   }
 
@@ -57,7 +80,7 @@ class DataSearch extends SearchDelegate {
     }
 
     return FutureBuilder(
-      future: agentProvider.getAllAgents(),
+      future: agentProvider.getSearchAgents(query),
       builder: (BuildContext context, AsyncSnapshot<List<Agent>> snapshot) {
 
           if( snapshot.hasData ) {
