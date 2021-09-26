@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:agent_management/models/agent.dart';
+
+import 'package:agent_management/helpers/show_alert.dart';
+import 'package:agent_management/helpers/confirmation_alert.dart';
+
 import 'package:agent_management/providers/agent_provider.dart';
+import 'package:agent_management/services/agent_service.dart';
 import 'package:agent_management/search/search_deletegate.dart';
 
 part 'appbar_custom.dart';
@@ -13,3 +18,4 @@ part 'image_agent.dart';
 part 'text_custom.dart';
 part 'no_data.dart';
 part 'header_create.dart';
+part 'body_create.dart';
