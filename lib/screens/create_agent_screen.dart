@@ -142,10 +142,24 @@ class _BoxForm extends StatelessWidget {
                   if(agentProvider.updating) 
                       agentProvider.updating = false;
 
-                  if(resp) {
-                    showAlert(context, 'Success', 'Successfully deleted agent');
+                  if(resp){
+                    showAlert(
+                      context  : context, 
+                      title    : 'Success', 
+                      subTitle : 'Successfully deleted agent', 
+                      urlImage : 'assets/male-icon.jpg', 
+                      userName : '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
+                      status   : StatusAlert.Success
+                    );
                   } else {
-                    showAlert(context, 'Error', 'Failed to delete an agent');
+                    showAlert(
+                      context  : context, 
+                      title    : 'Error', 
+                      subTitle : 'Failed to delete an agent', 
+                      urlImage : 'assets/male-icon.jpg', 
+                      userName : '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
+                      status   : StatusAlert.Error
+                    );
                   }
 
                 },
@@ -442,9 +456,23 @@ class _SaveButton extends StatelessWidget {
           resp = await AgentService.createAgent(newAgent);
 
           if(resp){
-            showAlert(context, 'Success', 'Successfully created agent');
+            showAlert(
+              context  : context, 
+              title    : 'Success', 
+              subTitle : 'Successfully created agent', 
+              urlImage : 'assets/male-icon.jpg', 
+              userName : '${newAgent.name} ${newAgent.lastname}',
+              status   : StatusAlert.Success
+            );
           } else {
-            showAlert(context, 'Error', 'Failed to create a new agent');
+            showAlert(
+              context  : context, 
+              title    : 'Error', 
+              subTitle : 'Failed to create an agent', 
+              urlImage : 'assets/male-icon.jpg', 
+              userName : '${newAgent.name} ${newAgent.lastname}',
+              status   : StatusAlert.Error
+            );
           }
 
         } else {
@@ -460,13 +488,25 @@ class _SaveButton extends StatelessWidget {
           resp = await AgentService.updateAgent(newAgent);
 
           if(resp){
-            showAlert(context, 'Success', 'Successfully updated agent');
+            showAlert(
+              context  : context, 
+              title    : 'Success', 
+              subTitle : 'Successfully updated agent', 
+              urlImage : 'assets/male-icon.jpg', 
+              userName : '${newAgent.name} ${newAgent.lastname}',
+              status   : StatusAlert.Success
+            );
           } else {
-            showAlert(context, 'Error', 'Failed to update an agent');
+            showAlert(
+              context  : context, 
+              title    : 'Error', 
+              subTitle : 'Failed to update an agent', 
+              urlImage : 'assets/male-icon.jpg', 
+              userName : '${newAgent.name} ${newAgent.lastname}',
+              status   : StatusAlert.Error
+            );
           }
-
         }
-
       }, 
     );
   }
