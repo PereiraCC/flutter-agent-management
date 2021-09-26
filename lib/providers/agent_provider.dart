@@ -57,4 +57,16 @@ class AgentManamegentProvider with ChangeNotifier {
 
   }
 
+  Future<List<Agent>> getSearchAgents(String query) async {
+
+    try {
+      
+      final data = agents.where((e) => (e.name == query || e.identification == query || e.lastname == query)).toList();
+      return data;
+    } catch (err) {
+      print('Error $err');
+      return [];
+    }
+
+  }
 }
