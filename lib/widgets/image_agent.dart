@@ -15,7 +15,6 @@ class ImageAgent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.green,
       width: this.wid,
       height: this.hei,
       margin: EdgeInsets.all(5),
@@ -24,7 +23,6 @@ class ImageAgent extends StatelessWidget {
         backgroundImage: AssetImage(this.urlImage),
         radius: 25.0,
       ),
-
     );
   }
 }

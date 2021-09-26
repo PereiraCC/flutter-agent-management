@@ -22,14 +22,14 @@ class _HeaderCurvoPainter extends CustomPainter {
 
     final lapiz = new Paint();
 
-    // Propiedades del lapiz
+    // Pencil property
     lapiz.color = Colors.red.shade300;
     lapiz.style =PaintingStyle.fill; //.fill .stroke
     lapiz.strokeWidth = 20;
 
     final path = new Path();
 
-    // Dibujar con el path y el lapiz
+    // Drawing with the path and the pencil
     path.lineTo(0, size.height * 0.30);
     path.quadraticBezierTo(size.width * 0.5, size.height * 0.40 ,size.width, size.height * 0.30);
     path.lineTo(size.width, 0);

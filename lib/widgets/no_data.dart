@@ -1,7 +1,7 @@
 part  of 'widgets.dart';
 
 class NoData extends StatelessWidget {
-
+  
   final String title;
   final String subtitle;
   final String secondSubtitle;
@@ -57,7 +57,6 @@ class _Labels extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 150),
-      // color: Colors.red,
       width: 400,
       child: Column(
         children: [
@@ -93,7 +92,7 @@ class _Labels extends StatelessWidget {
 }
 
 class _BoxBackground extends StatelessWidget {
-
+  
   const _BoxBackground({
     Key? key,
   }) : super(key: key);
