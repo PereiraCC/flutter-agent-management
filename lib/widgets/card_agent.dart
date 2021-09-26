@@ -1,5 +1,15 @@
 part of 'widgets.dart';
 
+// This function sets the Agent to the provider and navigates to create the screen.
+void setAgent({required BuildContext context, required Agent agent}) {
+
+  final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+  agentProvider.updating = true;
+  agentProvider.agent = agent;
+  Navigator.pushNamed(context, 'create');
+
+}
+
 class CardAgent extends StatelessWidget {
 
   final Agent agent;
@@ -8,13 +18,7 @@ class CardAgent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // print(this.agent.name);
-        final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-        agentProvider.updating = true;
-        agentProvider.agent = this.agent;
-        Navigator.pushNamed(context, 'create');
-      },
+      onTap: () => setAgent(context: context, agent: this.agent),
       child:
         Container(
           width: 350,
@@ -43,7 +47,7 @@ class CardAgent extends StatelessWidget {
                 completeName: '${this.agent.name} ${this.agent.lastname}',
                 identification: this.agent.identification ?? 'No identification', 
               ),
-              Expanded(child: _EditIcon(agent: this.agent))
+              Expanded(child: _ArrowIcon(agent: this.agent))
             ],
           ),
         ),
@@ -65,14 +69,11 @@ class _DataAgent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.red,
       width: 180,
       child: Column( 
         mainAxisAlignment: MainAxisAlignment.center, 
         children: [
-
           Container(
-            // color: Colors.green,
             width: 180,
             child: Text(this.identification,
               style: TextStyle(
@@ -81,14 +82,12 @@ class _DataAgent extends StatelessWidget {
                 color: Colors.red.shade300
               ),
               textAlign: TextAlign.left,
-
             ),
           ),
 
           SizedBox(height: 10),
 
           Container(
-            // color: Colors.green,
             width: 180,
             child: Text(this.completeName,
               style: TextStyle(
@@ -96,21 +95,19 @@ class _DataAgent extends StatelessWidget {
                 fontWeight: FontWeight.w300,
               ),
               textAlign: TextAlign.left,
-
             ),
           ),
-
         ],
       ),
     );
   }
 }
 
-class _EditIcon extends StatelessWidget {
+class _ArrowIcon extends StatelessWidget {
 
   final Agent agent;
 
-  const _EditIcon({Key? key, required this.agent}) : super(key: key);
+  const _ArrowIcon({Key? key, required this.agent}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -118,13 +115,7 @@ class _EditIcon extends StatelessWidget {
       // color: Colors.green,
       width: 50,
       child: IconButton(
-        onPressed: () {
-          // print('Edit button: ${this.agent.name}');
-          final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-          agentProvider.updating = true;
-          agentProvider.agent = this.agent;
-          Navigator.pushNamed(context, 'create');
-        },
+        onPressed: () => setAgent(context: context, agent: this.agent),
         icon: Icon(Icons.arrow_forward_ios, color: Colors.red.shade300)
       ),
     );
