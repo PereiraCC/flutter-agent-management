@@ -61,8 +61,11 @@ class AgentManamegentProvider with ChangeNotifier {
 
     try {
       
-      final data = agents.where((e) => (e.name == query || e.identification == query || e.lastname == query)).toList();
-      return data;
+      return agents.where((e) => 
+        (e.name!.toLowerCase() == query.toLowerCase() 
+          || e.identification!.toLowerCase() == query.toLowerCase()
+          || e.lastname!.toLowerCase() == query.toLowerCase()
+        )).toList();
     } catch (err) {
       print('Error $err');
       return [];
