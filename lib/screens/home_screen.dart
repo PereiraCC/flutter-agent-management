@@ -8,7 +8,7 @@ import 'package:agent_management/services/agent_service.dart';
 
 
 class HomeScreen extends StatelessWidget {
-
+  
   @override
   Widget build(BuildContext context) {
 
@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.red.shade300,
                 )
               ),
-      floatingActionButton: FloatiangButton()
+      floatingActionButton: _FloatiangButton()
    );
   }
 }
@@ -62,9 +62,9 @@ class _CreateBody extends StatelessWidget {
   }
 }
 
-class FloatiangButton extends StatelessWidget {
+class _FloatiangButton extends StatelessWidget {
 
-  const FloatiangButton({Key? key}) : super(key: key);
+  const _FloatiangButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +74,8 @@ class FloatiangButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: heightScreen - 140),
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
         children: [
-
           FloatingActionButton(
-            // onPressed: () => Navigator.pushNamed(context, 'create'),
             onPressed: () async {
 
               final agentP = Provider.of<AgentManamegentProvider>(context, listen: false);
