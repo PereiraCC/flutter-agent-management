@@ -4,12 +4,14 @@ class ImageAgent extends StatelessWidget {
 
   final double hei;
   final double wid;
+  final bool? networkImage;
   final String urlImage;
 
   const ImageAgent({Key? key, 
     required this.hei,
     required this.wid,
-    required this.urlImage
+    required this.urlImage, 
+    this.networkImage = false
   }) : super(key: key);
 
   @override
@@ -20,7 +22,9 @@ class ImageAgent extends StatelessWidget {
       margin: EdgeInsets.all(5),
       padding: EdgeInsets.all(2.0),
       child: CircleAvatar(
-        backgroundImage: AssetImage(this.urlImage),
+        backgroundImage: (networkImage == true) 
+                          ? NetworkImage(this.urlImage) 
+                          : AssetImage(this.urlImage) as ImageProvider,
         radius: 25.0,
       ),
     );
