@@ -52,6 +52,16 @@ class Agent {
         profileImage   : json['profile_image'].toString(),
     );
 
+    factory Agent.fromJsonBD(Map<String, dynamic> json) => Agent(
+        identification : json['identification'].toString(),
+        idAgent        : json['id_agent'].toString(),
+        name           : json['name'].toString(),
+        lastname       : json['lastname'].toString(),
+        email          : json['email'].toString(),
+        phone          : json['phone'].toString(),
+        profileImage   : json['profileImage'].toString(),
+    );
+
     Map<String, dynamic> toJson() => {
         'identification' : identification,
         'idAgent'        : idAgent,
@@ -59,7 +69,7 @@ class Agent {
         'lastname'       : lastname,
         'email'          : email,
         'phone'          : phone,
-        'profileAgent'   : profileImage,
+        'profileImage'   : (profileImage == 'null') ? 'no-image' : profileImage,
     };
 
     Map<String, dynamic> toJsonServices() => {
