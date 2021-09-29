@@ -29,9 +29,9 @@ class BodyScreenCreate extends StatelessWidget {
                           : false,
             urlImage: (agentProvider.updating) 
                         ? (agentProvider.agent.profileImage != 'no-image') 
-                              ? agentProvider.agent.profileImage ?? 'assets/male-icon.jpg' 
-                              : 'assets/male-icon.jpg'
-                        : 'assets/male-icon.jpg',
+                              ? agentProvider.agent.profileImage ?? 'assets/no-image.jpg'
+                              : 'assets/no-image.jpg'
+                        : 'assets/no-image.jpg',
           )
         ),
 
