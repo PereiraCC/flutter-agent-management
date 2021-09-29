@@ -27,6 +27,8 @@ class BodyScreenCreate extends StatelessWidget {
           )
         ),
 
+        _PictureIcon(),
+        
         _DeleteIcon(),
 
         _Content()
@@ -63,7 +65,7 @@ class _BoxBackgroundBody extends StatelessWidget {
 }
 
 class _DeleteIcon extends StatelessWidget {
-  
+    
   @override
   Widget build(BuildContext context) {
     
@@ -118,6 +120,27 @@ class _DeleteIcon extends StatelessWidget {
         status   : StatusAlert.Error
       );
     }
+  }
+}
+
+class _PictureIcon extends StatelessWidget {
+
+  const _PictureIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    final widthScreen = MediaQuery.of(context).size.width;
+
+    return Container(
+      margin: EdgeInsets.only(top: 150, left: widthScreen - 320),
+      child: IconButton(
+        icon: Icon(Icons.image, color: Colors.red.shade300),
+        onPressed: () {  
+          print('image button');
+        },  
+      ),
+    );
   }
 }
 
