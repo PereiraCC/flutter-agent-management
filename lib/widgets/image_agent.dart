@@ -22,11 +22,58 @@ class ImageAgent extends StatelessWidget {
       margin: EdgeInsets.all(5),
       padding: EdgeInsets.all(2.0),
       child: CircleAvatar(
-        backgroundImage: (networkImage == true) 
-                          ? NetworkImage(this.urlImage) 
-                          : AssetImage(this.urlImage) as ImageProvider,
-        radius: 25.0,
+        radius: 50.0,
+        backgroundColor: Colors.grey.shade300,
+        child: ClipOval(  
+          child: (networkImage == true) 
+                  ? _NetworkPicture(urlImage: urlImage)
+                  : _AssetPicture(urlImage: urlImage),
+        ),
       ),
+    );
+  }
+}
+
+class _AssetPicture extends StatelessWidget {
+  const _AssetPicture({
+    Key? key,
+    required this.urlImage,
+  }) : super(key: key);
+
+  final String urlImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Image(
+        image: AssetImage(this.urlImage),
+        width: 65,
+        // height: 100,
+        fit: BoxFit.cover,
+      )
+    );
+  }
+}
+
+class _NetworkPicture extends StatelessWidget {
+
+  const _NetworkPicture({
+    Key? key,
+    required this.urlImage,
+  }) : super(key: key);
+
+  final String urlImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child : FadeInImage(
+        placeholder: AssetImage('assets/loading.gif'),
+        image: NetworkImage(this.urlImage),
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+      )
     );
   }
 }
