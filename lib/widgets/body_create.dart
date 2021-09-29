@@ -10,7 +10,7 @@ class BodyScreenCreate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final agentProvider = Provider.of<AgentManamegentProvider>(context);
+    final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Stack(
@@ -157,7 +157,7 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final agentProvider = Provider.of<AgentManamegentProvider>(context);
+    final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
     
     return Container(
       margin: EdgeInsets.only(top: 210),
@@ -197,16 +197,16 @@ class _Content extends StatelessWidget {
 class _Form extends StatelessWidget {
   
   // Create controller for eath input
-  final TextEditingController _identificationController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  final  _identificationController = TextEditingController();
+  final  _nameController           = TextEditingController();
+  final  _lastNameController       = TextEditingController();
+  final  _emailController          = TextEditingController();
+  final  _phoneController          = TextEditingController();
     
   @override
   Widget build(BuildContext context) {
 
-    final agentProvider = Provider.of<AgentManamegentProvider>(context);
+    final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
 
     return Padding(
       padding: EdgeInsets.only(left: 20, right: 20),
