@@ -29,7 +29,7 @@ class DbAccessProvider {
     final path = join(dbDirectory.path, 'Agents.db');
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onOpen: (db) {},
       onCreate: (db, version) async {
         await db.execute('''
@@ -53,7 +53,13 @@ class DbAccessProvider {
     try {
       
       final db = await database;
+      // await db.transaction((txn) async {
+      //   return await txn.insert('Agent', newAgent.toJson());
+      // });
       return await db.insert('Agent', newAgent.toJson());
+
+
+      // return 0;
 
     } catch (err) {
       print('Error Sqflite Insert: $err');
@@ -65,7 +71,13 @@ class DbAccessProvider {
     try {
       
       final db = await database;
+      // await db.transaction((txn) async {
+      //   return await txn.delete('Agent');
+      // });
+
       return await db.delete('Agent');
+
+      // return 0;
 
     } catch (err) {
       print('Error Sqflite delete all: $err');
@@ -78,9 +90,15 @@ class DbAccessProvider {
      try {
       
       final db = await database;
-      final resp = await db.query('Agent');
+      // await db.transaction((txn) async {
+      //   final resp = await txn.query('Agent');
+      //   return resp.isNotEmpty ? resp.map((e) => Agent.fromJsonBD(e)).toList() : [];
+      // });
 
-      return resp.isNotEmpty ? resp.map((e) => Agent.fromJson(e)).toList() : [];
+      final resp = await db.query('Agent');
+      return resp.isNotEmpty ? resp.map((e) => Agent.fromJsonBD(e)).toList() : [];
+
+      // return [];
 
     } catch (err) {
       print('Error Sqflite get all: $err');
@@ -94,11 +112,20 @@ class DbAccessProvider {
     try {
       
       final db = await database;
-      final res = await db.rawQuery('''
-        SELECT * FROM Agent where identification='$id'
-      ''');
-      return res.isNotEmpty ? res.map((s) => Agent.fromJson(s)).toList() : [];
+      // await db.transaction((txn) async {
+      //   final res = await txn.rawQuery('''
+      //     SELECT * FROM Agent where identification='$id'
+      //   ''');
+      //   return res.isNotEmpty ? res.map((s) => Agent.fromJson(s)).toList() : [];
+      // });
 
+      final res = await db.rawQuery('''
+          SELECT * FROM Agent where identification='$id'
+        ''');
+        return res.isNotEmpty ? res.map((s) => Agent.fromJson(s)).toList() : [];
+
+      // return [];
+      
     } catch (err) {
       print('Error Sqflite get by ID: $err');
       return [];
@@ -112,8 +139,15 @@ class DbAccessProvider {
     try {
       
       final db = await database;
+      // await db.transaction((txn) async {
+      //   return await txn.update('Agent', newAgent.toJson(),
+      //                 where: 'id=?', whereArgs: [newAgent.identification]);
+      // });
+
       return await db.update('Agent', newAgent.toJson(),
                       where: 'id=?', whereArgs: [newAgent.identification]);
+      
+      // return 0;
 
     } catch (err) {
       print('Error Sqflite Insert: $err');
@@ -127,8 +161,15 @@ class DbAccessProvider {
     try {
       
       final db = await database;
+      // await db.transaction((txn) async {
+      //   return await txn.delete('Agent', where: 'identification=?', whereArgs: [identification]);
+      // });
+
       return await db.delete('Agent', where: 'identification=?', whereArgs: [identification]);
 
+
+      // return 0;
+      
     } catch (err) {
       print('Error Sqflite delete an agent: $err');
       return 0;
