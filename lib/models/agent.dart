@@ -24,6 +24,7 @@ String agentToJson(List<Agent> data) => json.encode(List<dynamic>.from(data.map(
 class Agent {
     Agent({
         this.idAgent,
+        this.profileImage,
         required this.name,
         required this.lastname,
         required this.email,
@@ -39,6 +40,7 @@ class Agent {
     String? email;
     String? phone;
     String? identification;
+    String? profileImage;
 
     factory Agent.fromJson(Map<String, dynamic> json) => Agent(
         identification : json['identification'].toString(),
@@ -47,6 +49,7 @@ class Agent {
         lastname       : json['lastname'].toString(),
         email          : json['email'].toString(),
         phone          : json['phone'].toString(),
+        profileImage   : json['profile_image'].toString(),
     );
 
     Map<String, dynamic> toJson() => {
@@ -56,6 +59,7 @@ class Agent {
         'lastname'       : lastname,
         'email'          : email,
         'phone'          : phone,
+        'profileAgent'   : profileImage,
     };
 
     Map<String, dynamic> toJsonServices() => {
