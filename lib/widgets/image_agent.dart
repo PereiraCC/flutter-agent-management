@@ -26,8 +26,8 @@ class ImageAgent extends StatelessWidget {
         backgroundColor: Colors.grey.shade300,
         child: ClipOval(  
           child: (networkImage == true) 
-                  ? _NetworkPicture(urlImage: urlImage)
-                  : _AssetPicture(urlImage: urlImage),
+                  ? _NetworkPicture(urlImage: urlImage, wid: this.hei,)
+                  : _AssetPicture(urlImage: urlImage, wid: this.hei),
         ),
       ),
     );
@@ -38,17 +38,19 @@ class _AssetPicture extends StatelessWidget {
   const _AssetPicture({
     Key? key,
     required this.urlImage,
+    required this.wid,
   }) : super(key: key);
 
   final String urlImage;
+  final double wid;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Image(
         image: AssetImage(this.urlImage),
-        width: 65,
-        // height: 100,
+        width: this.wid,
+        height: 100,
         fit: BoxFit.cover,
       )
     );
@@ -59,10 +61,12 @@ class _NetworkPicture extends StatelessWidget {
 
   const _NetworkPicture({
     Key? key,
-    required this.urlImage,
+    required this.urlImage, 
+    required this.wid,
   }) : super(key: key);
 
   final String urlImage;
+  final double wid;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +74,7 @@ class _NetworkPicture extends StatelessWidget {
       child : FadeInImage(
         placeholder: AssetImage('assets/loading.gif'),
         image: NetworkImage(this.urlImage),
-        width: 100,
+        width: this.wid,
         height: 100,
         fit: BoxFit.cover,
       )
