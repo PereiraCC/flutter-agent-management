@@ -10,6 +10,7 @@ class BodyScreenCreate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final agentProvider = Provider.of<AgentManamegentProvider>(context);
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Stack(
@@ -23,7 +24,14 @@ class BodyScreenCreate extends StatelessWidget {
           child: ImageAgent(
             wid: 100,
             hei: 100,
-            urlImage: 'assets/male-icon.jpg',
+            networkImage: (agentProvider.updating) 
+                          ? (agentProvider.agent.profileImage == 'no-image') ? false : true 
+                          : false,
+            urlImage: (agentProvider.updating) 
+                        ? (agentProvider.agent.profileImage != 'no-image') 
+                              ? agentProvider.agent.profileImage ?? 'assets/male-icon.jpg' 
+                              : 'assets/male-icon.jpg'
+                        : 'assets/male-icon.jpg',
           )
         ),
 
