@@ -41,7 +41,10 @@ class CardAgent extends StatelessWidget {
               ImageAgent(
                 wid: 100,
                 hei: 70,
-                urlImage: 'assets/male-icon.jpg',
+                urlImage: (this.agent.profileImage != 'no-image') 
+                          ? this.agent.profileImage ?? 'assets/no-image.jpg'
+                          : 'assets/no-image.jpg',
+                networkImage: (this.agent.profileImage != 'no-image') ? true : false          
               ),
               _DataAgent( 
                 completeName: '${this.agent.name} ${this.agent.lastname}',

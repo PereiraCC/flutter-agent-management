@@ -30,6 +30,7 @@ class NoData extends StatelessWidget {
             wid: 100,
             hei: 100,
             urlImage: 'assets/male-icon.jpg',
+            networkImage: false
           )
         ),
 
