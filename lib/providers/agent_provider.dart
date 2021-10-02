@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/models/agent.dart';
@@ -9,6 +11,8 @@ class AgentManamegentProvider with ChangeNotifier {
   String _countAgent = '';
   bool _loading = false;
   bool _updating = false;
+  bool _changePhoto = false;
+  File _photo = new File('');
   List<Agent> _agents = [];
   Agent _agent = new Agent.empty();
 
@@ -27,6 +31,18 @@ class AgentManamegentProvider with ChangeNotifier {
   bool get updating => _updating;
   set updating(bool data) {
     this._updating = data;
+    notifyListeners();
+  }
+
+  bool get changePhoto => _changePhoto;
+  set changePhoto(bool data) {
+    this._changePhoto = data;
+    notifyListeners();
+  }
+
+  File get photo => _photo;
+  set photo(File data) {
+    this._photo = data;
     notifyListeners();
   }
 
