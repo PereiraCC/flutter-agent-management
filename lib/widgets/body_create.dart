@@ -1,6 +1,7 @@
 
 part of 'widgets.dart';
 
+
 class BodyScreenCreate extends StatelessWidget {
 
   const BodyScreenCreate({
@@ -11,37 +12,51 @@ class BodyScreenCreate extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-    final widthScreen = MediaQuery.of(context).size.width;
-
+    
     return Stack(
       children: [
 
         _BoxBackgroundBody(),
 
-        // Circle Image
-        Container(
-          margin: EdgeInsets.only(top: 100, left: widthScreen * 0.35),
-          child: ImageAgent(
-            wid: 100,
-            hei: 100,
-            networkImage: (agentProvider.updating) 
-                          ? (agentProvider.agent.profileImage == 'no-image') ? false : true 
-                          : false,
-            urlImage: (agentProvider.updating) 
-                        ? (agentProvider.agent.profileImage != 'no-image') 
-                              ? agentProvider.agent.profileImage ?? 'assets/no-image.jpg'
-                              : 'assets/no-image.jpg'
-                        : 'assets/no-image.jpg',
-          )
-        ),
+        _CircleImage(),
 
         _PictureIcon(),
         
-        _DeleteIcon(),
+        _DeleteIcon(agentProvider: agentProvider),
 
-        _Content()
+        _Content(agentProvider: agentProvider)
 
       ]
+    );
+  }
+}
+
+class _CircleImage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    final agentPro = Provider.of<AgentManamegentProvider>(context);
+    final widthScreen = MediaQuery.of(context).size.width;
+
+    return Container(
+      margin: EdgeInsets.only(top: 100, left: widthScreen * 0.35),
+      child: (!agentPro.changePhoto) ? ImageAgent(
+        wid: 100,
+        hei: 100,
+        networkImage: (agentPro.updating) 
+                      ? (agentPro.agent.profileImage == 'no-image') ? false : true 
+                      : false,
+        urlImage: (agentPro.updating) 
+                    ? (agentPro.agent.profileImage != 'no-image') 
+                          ? agentPro.agent.profileImage ?? 'assets/no-image.jpg'
+                          : 'assets/no-image.jpg'
+                    : 'assets/no-image.jpg',
+      ) : Image.file( //TODO: Create new widget
+        agentPro.photo,
+        width: 100,
+        height: 100,
+      )
     );
   }
 }
@@ -73,11 +88,14 @@ class _BoxBackgroundBody extends StatelessWidget {
 }
 
 class _DeleteIcon extends StatelessWidget {
+  
+  final AgentManamegentProvider agentProvider;
+
+  const _DeleteIcon({Key? key, required this.agentProvider}) : super(key: key);
     
   @override
   Widget build(BuildContext context) {
     
-    final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
     final widthScreen = MediaQuery.of(context).size.width;
     
     return Container(
@@ -133,26 +151,46 @@ class _DeleteIcon extends StatelessWidget {
 
 class _PictureIcon extends StatelessWidget {
 
-  const _PictureIcon({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
 
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Container(
-      margin: EdgeInsets.only(top: 150, left: widthScreen - 320),
+      margin: EdgeInsets.only(top: 150, left: widthScreen - 380),
       child: IconButton(
         icon: Icon(Icons.image, color: Colors.red.shade300),
-        onPressed: () {  
-          print('image button');
+        onPressed: () async {  
+          await  _imageProcess(context);
         },  
       ),
     );
   }
+
+  _imageProcess(BuildContext context) async {
+
+    final agentPro = Provider.of<AgentManamegentProvider>(context, listen: false);
+
+    final _picker = ImagePicker();
+
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery
+    );
+
+    if (pickedFile?.path != null) {
+      agentPro.photo = File(pickedFile!.path);
+      agentPro.changePhoto = true;
+    }
+
+  }
 }
 
 class _Content extends StatelessWidget {
+
+  final AgentManamegentProvider agentProvider;
+
+  const _Content({Key? key, required this.agentProvider}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -187,7 +225,7 @@ class _Content extends StatelessWidget {
 
           SizedBox(height: 15),
 
-          _Form(),
+          _Form(agentProvider: agentProvider),
         ],
       ),
     );
@@ -195,18 +233,22 @@ class _Content extends StatelessWidget {
 }
 
 class _Form extends StatelessWidget {
-  
-  // Create controller for eath input
-  final  _identificationController = TextEditingController();
-  final  _nameController           = TextEditingController();
-  final  _lastNameController       = TextEditingController();
-  final  _emailController          = TextEditingController();
-  final  _phoneController          = TextEditingController();
+
+  final AgentManamegentProvider agentProvider;
+
+  const _Form({
+    required this.agentProvider, 
+  });
     
   @override
   Widget build(BuildContext context) {
 
-    final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+    // Create controller for eath input
+    final  TextEditingController _identificationController = new TextEditingController();
+    final  TextEditingController _nameController           = new TextEditingController();
+    final  TextEditingController _lastNameController       = new TextEditingController();
+    final  TextEditingController _emailController          = new TextEditingController();
+    final  TextEditingController _phoneController          = new TextEditingController();
 
     return Padding(
       padding: EdgeInsets.only(left: 20, right: 20),
@@ -394,6 +436,7 @@ class _SaveButton extends StatelessWidget {
 
   void _createAgent(BuildContext context) async {
 
+    // Upload photo agent
     bool resp;
 
     final newAgent = new Agent(
