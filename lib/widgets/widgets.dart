@@ -22,3 +22,4 @@ part 'text_custom.dart';
 part 'no_data.dart';
 part 'header_create.dart';
 part 'body_create.dart';
+part 'upload_image.dart';
