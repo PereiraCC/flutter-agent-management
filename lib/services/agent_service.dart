@@ -1,7 +1,11 @@
 
 
+import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import 'package:mime_type/mime_type.dart';
+import 'package:http_parser/http_parser.dart';
 
 import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/global/environment.dart';
@@ -117,5 +121,41 @@ class AgentService {
 
   }
 
+  static Future<bool> uploadImage(String identification, File photo) async {
 
+    try {
+
+      if(identification == '') return false;
+
+      Uri url = Uri.parse('${Environment.apiUploadAgentsUrl}/$identification');
+      final mimeType = mime(photo.path)!.split('/');
+      
+      final imageUploadRequest = http.MultipartRequest(  
+        'PUT',
+        url
+      );
+
+      final file = await http.MultipartFile.fromPath(
+        'file', 
+        photo.path,
+        contentType: MediaType(mimeType[0], mimeType[1])
+      );
+
+      imageUploadRequest.files.add(file);
+
+      final streamResponse = await imageUploadRequest.send();
+      final resp = await http.Response.fromStream(streamResponse);
+      
+      if (resp.statusCode == 200) {
+        // print(resp.body[]);
+        return true;
+      } else {
+        return false;
+      } 
+
+    } catch (err) {
+      print('error: $err');
+      return false;
+    }
+  }
 }
