@@ -29,6 +29,7 @@ dependencies:
   path_provider: ^2.0.4
   provider: ^6.0.0
   sqflite: ^2.0.0+4
+  mime_type:
 
 dev_dependencies:
   flutter_test:
