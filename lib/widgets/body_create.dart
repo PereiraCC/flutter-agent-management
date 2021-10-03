@@ -430,9 +430,8 @@ class _SaveButton extends StatelessWidget {
     );
   }
 
-  void _createAgent(BuildContext context) async {
+  void _createAgent(BuildContext context, AgentManamegentProvider provider) async {
 
-    // Upload photo agent
     bool resp;
 
     final newAgent = new Agent(
@@ -446,14 +445,32 @@ class _SaveButton extends StatelessWidget {
     resp = await AgentService.createAgent(newAgent);
 
     if(resp){
-      showAlert(
-        context  : context, 
-        title    : 'Success', 
-        subTitle : 'Successfully created agent', 
-        urlImage : 'assets/male-icon.jpg', 
-        userName : '${newAgent.name} ${newAgent.lastname}',
-        status   : StatusAlert.Success
-      );
+      if(provider.changePhoto){
+        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo);
+      }
+
+      if(resp) {
+        provider.changePhoto = false;
+        showAlert(
+          context  : context, 
+          title    : 'Success', 
+          subTitle : 'Successfully created agent', 
+          urlImage : 'assets/male-icon.jpg', 
+          userName : '${newAgent.name} ${newAgent.lastname}',
+          status   : StatusAlert.Success
+        );
+      } else {
+
+        showAlert(
+          context  : context, 
+          title    : 'Error', 
+          subTitle : 'Failed to create an agent', 
+          urlImage : 'assets/male-icon.jpg', 
+          userName : '${newAgent.name} ${newAgent.lastname}',
+          status   : StatusAlert.Error
+        );  
+
+      }
     } else {
       showAlert(
         context  : context, 
@@ -466,9 +483,10 @@ class _SaveButton extends StatelessWidget {
     }
   }
 
-  void _updateAgent(BuildContext context, Agent agent) async {
-
+  void _updateAgent(BuildContext context, AgentManamegentProvider provider) async {
+    
     bool resp;
+    Agent agent = provider.agent;
 
     final newAgent = new Agent(
       name: (this.name.text == '') ? agent.name : this.name.text, 
@@ -481,14 +499,31 @@ class _SaveButton extends StatelessWidget {
     resp = await AgentService.updateAgent(newAgent);
 
     if(resp){
-      showAlert(
-        context  : context, 
-        title    : 'Success', 
-        subTitle : 'Successfully updated agent', 
-        urlImage : 'assets/male-icon.jpg', 
-        userName : '${newAgent.name} ${newAgent.lastname}',
-        status   : StatusAlert.Success
-      );
+
+      if(provider.changePhoto){
+        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo);
+      }
+
+      if(resp) {
+        provider.changePhoto = false;
+        showAlert(
+          context  : context, 
+          title    : 'Success', 
+          subTitle : 'Successfully updated agent', 
+          urlImage : 'assets/male-icon.jpg', 
+          userName : '${newAgent.name} ${newAgent.lastname}',
+          status   : StatusAlert.Success
+        );
+      } else {
+        showAlert(
+          context  : context, 
+          title    : 'Error', 
+          subTitle : 'Failed to update an agent', 
+          urlImage : 'assets/male-icon.jpg', 
+          userName : '${newAgent.name} ${newAgent.lastname}',
+          status   : StatusAlert.Error
+        );  
+      }
     } else {
       showAlert(
         context  : context, 
@@ -506,9 +541,9 @@ class _SaveButton extends StatelessWidget {
     final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
 
     if(!agentProvider.updating) {
-      _createAgent(context);
+      _createAgent(context, agentProvider);
     } else {
-      _updateAgent(context, agentProvider.agent);      
+      _updateAgent(context, agentProvider);      
     }
   }
 
