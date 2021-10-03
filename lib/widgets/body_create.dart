@@ -52,11 +52,7 @@ class _CircleImage extends StatelessWidget {
                           ? agentPro.agent.profileImage ?? 'assets/no-image.jpg'
                           : 'assets/no-image.jpg'
                     : 'assets/no-image.jpg',
-      ) : Image.file( //TODO: Create new widget
-        agentPro.photo,
-        width: 100,
-        height: 100,
-      )
+      ) : UploadImage(photo: agentPro.photo)
     );
   }
 }
