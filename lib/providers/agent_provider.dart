@@ -12,6 +12,7 @@ class AgentManamegentProvider with ChangeNotifier {
   bool _loading = false;
   bool _updating = false;
   bool _changePhoto = false;
+  bool _back = true;
   File _photo = new File('');
   List<Agent> _agents = [];
   Agent _agent = new Agent.empty();
@@ -40,6 +41,11 @@ class AgentManamegentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool get back => _back;
+  set back(bool data) {
+    this._back = data;
+  }
+
   File get photo => _photo;
   set photo(File data) {
     this._photo = data;
@@ -47,28 +53,23 @@ class AgentManamegentProvider with ChangeNotifier {
   }
 
   List<Agent> get agents => _agents;
-  set agents(List<Agent> data) {
-    this._agents = data;
-    notifyListeners();
-  }
-
+  
   Agent get agent => _agent;
   set agent(Agent data) {
     this._agent = data;
     notifyListeners();
   }
 
-  Future<List<Agent>> getAllAgents() async {
+  getAllAgents() async {
 
     try {
-      
-      agents = await DbAccessProvider.db.getAllClients();
-      countAgent = agents.length.toString();
-      return agents;
+      final agent = await DbAccessProvider.db.getAllClients();
+      this._agents = [...agent];
+      countAgent = this._agents.length.toString();
+      notifyListeners();
 
     } catch (err) {
       print('Error $err');
-      return [];
     }
 
   }
@@ -77,7 +78,7 @@ class AgentManamegentProvider with ChangeNotifier {
 
     try {
       
-      return agents.where((e) => 
+      return this._agents.where((e) => 
         (e.name!.toLowerCase() == query.toLowerCase() 
           || e.identification!.toLowerCase() == query.toLowerCase()
           || e.lastname!.toLowerCase() == query.toLowerCase()
