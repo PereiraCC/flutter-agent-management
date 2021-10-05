@@ -66,6 +66,7 @@ class _ArrowBackIcon extends StatelessWidget {
         icon: Icon(Icons.arrow_back_ios, color: Colors.white),
         onPressed: () {
           final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+          agentProvider.back = true;
           if(agentProvider.updating){
             agentProvider.updating = false;
             agentProvider.agent = Agent.empty();
