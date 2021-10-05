@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBarCustom('Agents list'),
       body: (!agentsProvider.loading) 
-              ? _CreateBody(agentsProvider: agentsProvider) 
+              ? _CreateBody() 
               : Center(
                 child: CircularProgressIndicator(
                   color: Colors.red.shade300,
@@ -32,15 +32,17 @@ class _CreateBody extends StatelessWidget {
 
   const _CreateBody({
     Key? key,
-    required this.agentsProvider,
   }) : super(key: key);
-
-  final AgentManamegentProvider agentsProvider;
 
   @override
   Widget build(BuildContext context) {
 
-    this.agentsProvider.getAllAgents();
+    final agentsProvider = Provider.of<AgentManamegentProvider>(context);
+
+    if(agentsProvider.agents.length == 0 || !agentsProvider.back) {
+      agentsProvider.getAllAgents();
+      agentsProvider.back = true;
+    }
 
     if(agentsProvider.agents.length > 0) {
 
@@ -82,7 +84,7 @@ class _FloatiangButton extends StatelessWidget {
               agentP.loading = true;
               await AgentService.getAllAgentsServices();
               agentP.loading = false;
-
+              agentP.back = false;
             },
             backgroundColor: Colors.red.shade300,
             child: Icon(Icons.sync, color: Colors.white)
