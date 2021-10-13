@@ -12,7 +12,7 @@ class HeaderCreate extends StatelessWidget {
     return Stack(
       children :[
         Container(
-          child: CurvedHeader()
+          child: CurvedHeader( screen: Screens.Create )
         ),
         _Title(),
       ] 
