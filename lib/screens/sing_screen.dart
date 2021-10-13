@@ -12,7 +12,15 @@ class SingScreen extends StatelessWidget {
 
           Container(
             child: CurvedHeader( screen: Screens.Sing ),
-          )
+          ), 
+
+          ArrowBackIcon(
+            top       : 90, 
+            right     : 5, 
+            bottom    : 0, 
+            left      : 30, 
+            onPressed : () => print('sing arrow back icon') //TODO: Add fuction
+          ),
 
         ],
       )
