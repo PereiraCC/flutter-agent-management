@@ -13,7 +13,6 @@ class SingScreen extends StatelessWidget {
           children: [
       
             Container(
-              // color: Colors.red,
               height: 250,
               child: CurvedHeader( screen: Screens.Sing ),
             ), 
@@ -55,7 +54,7 @@ class _CreateBody extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _Input(
+          CustomInput(
             hintText: 'Identification',
             helpText: 'Example: 00000000', 
             icon: Icons.badge, 
@@ -64,7 +63,7 @@ class _CreateBody extends StatelessWidget {
 
           SizedBox(height: 15),
 
-          _Input(
+          CustomInput(
             hintText: 'Full Name',
             helpText: 'Example: Carlos Pereira', 
             icon: Icons.person, 
@@ -73,7 +72,7 @@ class _CreateBody extends StatelessWidget {
 
           SizedBox(height: 15),
 
-          _Input(
+          CustomInput(
             hintText: 'Email',
             helpText: 'Example: test@test.com', 
             icon: Icons.mail, 
@@ -82,14 +81,15 @@ class _CreateBody extends StatelessWidget {
 
           SizedBox(height: 15),
 
-          _Input(
+          CustomInput(
             hintText: 'Password',
             helpText: '', 
             icon: Icons.password, 
-            controller: _passController
+            controller: _passController,
+            isPassword: true,
           ),
 
-          _CreateButton(
+          _CreateAccountButton(
             identification: _identificationController,
             fullName      : _fullNameController,
             email         : _emailController,
@@ -110,87 +110,46 @@ class _Titles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        children: [
 
-        Container(
-          width: 350,
-          child: Text(
-            'Create', 
-            style: TextStyle(
-              color: Colors.red.shade300, 
-              fontSize: 25
+          Container(
+            width: 350,
+            child: Text(
+              'Create', 
+              style: TextStyle(
+                color: Colors.red.shade300, 
+                fontSize: 25
+              )
             )
-          )
-        ),
+          ),
 
-        Container(
-          width: 350,
-          child: Text(
-            'New account', 
-            style: TextStyle(
-              color: Colors.red.shade300, 
-              fontSize: 25
+          Container(
+            width: 350,
+            child: Text(
+              'New account', 
+              style: TextStyle(
+                color: Colors.red.shade300, 
+                fontSize: 25
+              )
             )
-          )
-        ),
-      ],
-    );
-  }
-}
-
-// TODO: Create widget reusable
-class _Input extends StatelessWidget {
-
-  final String helpText;
-  final String? hintText;
-  final IconData icon;
-  final TextEditingController controller;
-  final bool? enable;
-  
-  const _Input({
-    Key? key, 
-    required this.helpText, 
-    required this.icon, 
-    required this.controller,
-    this.enable = true,
-    this.hintText = ''
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(  
-      controller: this.controller,
-      textCapitalization: TextCapitalization.sentences,
-      autofocus: false,
-      cursorColor: Colors.red.shade300,
-      // obscureText: true,
-      decoration: InputDecoration( 
-        focusedBorder: OutlineInputBorder(  
-          borderRadius: BorderRadius.circular(15.0),
-          borderSide: BorderSide(color: Colors.red.shade300, width: 2.0)
-        ),
-        border: OutlineInputBorder(  
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        helperText: this.helpText,
-        hintText: this.hintText,
-        prefixIcon: Icon(this.icon, color: Colors.red.shade300),
-        enabled: this.enable ?? true
+          ),
+        ],
       ),
     );
   }
 }
 
-
-class _CreateButton extends StatelessWidget {
+class _CreateAccountButton extends StatelessWidget {
   
   final TextEditingController identification;
   final TextEditingController fullName;
   final TextEditingController email;
   final TextEditingController pass;
 
-  const _CreateButton({
+  const _CreateAccountButton({
     Key? key, 
     required this.identification,  
     required this.fullName, 
@@ -220,7 +179,7 @@ class _CreateButton extends StatelessWidget {
           child: Text('Create account', style: TextStyle(fontSize: 20, color: Colors.white))
         )
       ),
-      onPressed: () { 
+      onPressed: () {  //TODO: Add fuction
         print(this.identification.text);
         print(this.fullName.text);
         print(this.email.text);
