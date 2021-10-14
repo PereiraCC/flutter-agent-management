@@ -37,7 +37,10 @@ class SingScreen extends StatelessWidget {
 
 class _CreateBody extends StatelessWidget {
 
-  final  TextEditingController _nameController = new TextEditingController();
+  final TextEditingController _identificationController = new TextEditingController();
+  final TextEditingController _fullNameController       = new TextEditingController();
+  final TextEditingController _emailController          = new TextEditingController();
+  final TextEditingController _passController           = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class _CreateBody extends StatelessWidget {
             hintText: 'Identification',
             helpText: 'Example: 00000000', 
             icon: Icons.badge, 
-            controller: _nameController
+            controller: _identificationController
           ),
 
           SizedBox(height: 15),
@@ -65,7 +68,7 @@ class _CreateBody extends StatelessWidget {
             hintText: 'Full Name',
             helpText: 'Example: Carlos Pereira', 
             icon: Icons.person, 
-            controller: _nameController
+            controller: _fullNameController
           ),
 
           SizedBox(height: 15),
@@ -74,7 +77,7 @@ class _CreateBody extends StatelessWidget {
             hintText: 'Email',
             helpText: 'Example: test@test.com', 
             icon: Icons.mail, 
-            controller: _nameController
+            controller: _emailController
           ),
 
           SizedBox(height: 15),
@@ -83,8 +86,17 @@ class _CreateBody extends StatelessWidget {
             hintText: 'Password',
             helpText: '', 
             icon: Icons.password, 
-            controller: _nameController
+            controller: _passController
           ),
+
+          _CreateButton(
+            identification: _identificationController,
+            fullName      : _fullNameController,
+            email         : _emailController,
+            pass          : _passController,
+          ),
+
+          CustomSingleButton(title: 'Already a User? Log in', onPressed: () => print('log in button')),
         ],
       ),
     );
@@ -152,6 +164,7 @@ class _Input extends StatelessWidget {
       textCapitalization: TextCapitalization.sentences,
       autofocus: false,
       cursorColor: Colors.red.shade300,
+      // obscureText: true,
       decoration: InputDecoration( 
         focusedBorder: OutlineInputBorder(  
           borderRadius: BorderRadius.circular(15.0),
@@ -165,6 +178,54 @@ class _Input extends StatelessWidget {
         prefixIcon: Icon(this.icon, color: Colors.red.shade300),
         enabled: this.enable ?? true
       ),
+    );
+  }
+}
+
+
+class _CreateButton extends StatelessWidget {
+  
+  final TextEditingController identification;
+  final TextEditingController fullName;
+  final TextEditingController email;
+  final TextEditingController pass;
+
+  const _CreateButton({
+    Key? key, 
+    required this.identification,  
+    required this.fullName, 
+    required this.email, 
+    required this.pass,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      child: Container(
+        width: 250,
+        height: 50,
+        decoration: BoxDecoration(  
+          color: Colors.red.shade300,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 5),
+            )
+          ]
+        ),
+        child: Center(
+          child: Text('Create account', style: TextStyle(fontSize: 20, color: Colors.white))
+        )
+      ),
+      onPressed: () { 
+        print(this.identification.text);
+        print(this.fullName.text);
+        print(this.email.text);
+        print(this.pass.text);
+      }
     );
   }
 }
