@@ -14,8 +14,7 @@ class CurvedHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Especificamos el canvas
-      height: 1080,
+      height: (this.screen == Screens.Create) ? 1080 : 0,
       width: double.infinity,
       child: CustomPaint(  
         painter: _HeaderCurvoPainter( screen ),
@@ -51,8 +50,8 @@ class _HeaderCurvoPainter extends CustomPainter {
 
     } else {
 
-      path.lineTo(0, size.height * 0.25);
-      path.quadraticBezierTo(size.width * 0.5, size.height * 0.25 ,size.width, size.height * 0);
+      path.lineTo(0, size.height * 0.75);
+      path.quadraticBezierTo(size.width * 0.5, size.height * 0.85 ,size.width, size.height * 0);
 
     }
 
