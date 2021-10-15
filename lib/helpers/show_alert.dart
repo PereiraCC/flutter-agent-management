@@ -16,6 +16,8 @@ showAlert({
   required String title,
   required String subTitle,
   required String urlImage,
+  required String successPage,
+  required String cancelPage,
   String? userName,
   required StatusAlert status
 }) {
@@ -53,10 +55,10 @@ showAlert({
             elevation: 5,
             textColor: Colors.blue,
             onPressed: () {
-              if(title == 'Success'){
-                Navigator.pushNamed(context, 'home');
+              if(status == StatusAlert.Success){
+                Navigator.pushNamed(context, successPage);
               } else {
-                Navigator.pushNamed(context, 'create');
+                Navigator.pushNamed(context, cancelPage);
               }
             },
           )
