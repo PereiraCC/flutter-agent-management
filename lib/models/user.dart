@@ -12,7 +12,8 @@ class User {
     User({
         this.uid,
         this.profileImage,
-        required this.google,
+        this.password,
+        this.google,
         required this.email,
         required this.identification,
         required this.name,
@@ -20,7 +21,8 @@ class User {
 
     String? uid;
     String? profileImage;
-    bool google;
+    String? password;
+    bool? google;
     String email;
     String identification;
     String name;
@@ -41,5 +43,12 @@ class User {
         "email": email,
         "identification": identification,
         "name": name,
+    };
+
+    Map<String, dynamic> toJsonServices() => {
+        'identification' : identification,
+        'name'           : name,
+        'email'          : email,
+        'password'       : password,
     };
 }
