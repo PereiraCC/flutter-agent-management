@@ -130,7 +130,9 @@ class _DeleteIcon extends StatelessWidget {
         subTitle : 'Successfully deleted agent', 
         urlImage : 'assets/male-icon.jpg', 
         userName : '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
-        status   : StatusAlert.Success
+        status   : StatusAlert.Success,
+        successPage : 'home',
+        cancelPage  : 'create'
       );
     } else {
       showAlert(
@@ -139,7 +141,9 @@ class _DeleteIcon extends StatelessWidget {
         subTitle : 'Failed to delete an agent', 
         urlImage : 'assets/male-icon.jpg', 
         userName : '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
-        status   : StatusAlert.Error
+        status   : StatusAlert.Error,
+        successPage : 'home',
+        cancelPage  : 'create'
       );
     }
   }
@@ -408,12 +412,14 @@ class _SaveButton extends StatelessWidget {
       if(resp) {
         provider.changePhoto = false;
         showAlert(
-          context  : context, 
-          title    : 'Success', 
-          subTitle : 'Successfully created agent', 
-          urlImage : 'assets/male-icon.jpg', 
-          userName : '${newAgent.name} ${newAgent.lastname}',
-          status   : StatusAlert.Success
+          context     : context, 
+          title       : 'Success', 
+          subTitle    : 'Successfully created agent', 
+          urlImage    : 'assets/male-icon.jpg', 
+          userName    : '${newAgent.name} ${newAgent.lastname}',
+          status      : StatusAlert.Success,
+          successPage : 'home',
+          cancelPage  : 'create'
         );
       } else {
 
@@ -423,7 +429,9 @@ class _SaveButton extends StatelessWidget {
           subTitle : 'Failed to create an agent', 
           urlImage : 'assets/male-icon.jpg', 
           userName : '${newAgent.name} ${newAgent.lastname}',
-          status   : StatusAlert.Error
+          status   : StatusAlert.Error,
+          successPage : 'home',
+          cancelPage  : 'create'
         );  
 
       }
@@ -434,7 +442,9 @@ class _SaveButton extends StatelessWidget {
         subTitle : 'Failed to create an agent', 
         urlImage : 'assets/male-icon.jpg', 
         userName : '${newAgent.name} ${newAgent.lastname}',
-        status   : StatusAlert.Error
+        status   : StatusAlert.Error,
+        successPage : 'home',
+        cancelPage  : 'create'
       );
     }
   }
@@ -468,7 +478,9 @@ class _SaveButton extends StatelessWidget {
           subTitle : 'Successfully updated agent', 
           urlImage : 'assets/male-icon.jpg', 
           userName : '${newAgent.name} ${newAgent.lastname}',
-          status   : StatusAlert.Success
+          status   : StatusAlert.Success,
+          successPage : 'home',
+          cancelPage  : 'create'
         );
       } else {
         showAlert(
@@ -477,7 +489,9 @@ class _SaveButton extends StatelessWidget {
           subTitle : 'Failed to update an agent', 
           urlImage : 'assets/male-icon.jpg', 
           userName : '${newAgent.name} ${newAgent.lastname}',
-          status   : StatusAlert.Error
+          status   : StatusAlert.Error,
+          successPage : 'home',
+          cancelPage  : 'create'
         );  
       }
     } else {
@@ -487,7 +501,9 @@ class _SaveButton extends StatelessWidget {
         subTitle : 'Failed to update an agent', 
         urlImage : 'assets/male-icon.jpg', 
         userName : '${newAgent.name} ${newAgent.lastname}',
-        status   : StatusAlert.Error
+        status   : StatusAlert.Error,
+        successPage : 'home',
+        cancelPage  : 'create'
       );
     }
   }
