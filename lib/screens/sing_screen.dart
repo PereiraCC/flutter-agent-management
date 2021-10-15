@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
 
+import 'package:agent_management/models/user.dart';
+
+import 'package:agent_management/services/user_service.dart';
+import 'package:agent_management/helpers/show_alert.dart';
+
 class SingScreen extends StatelessWidget {
 
   @override
@@ -179,12 +184,48 @@ class _CreateAccountButton extends StatelessWidget {
           child: Text('Create account', style: TextStyle(fontSize: 20, color: Colors.white))
         )
       ),
-      onPressed: () {  //TODO: Add fuction
-        print(this.identification.text);
-        print(this.fullName.text);
-        print(this.email.text);
-        print(this.pass.text);
-      }
+      onPressed: () => _createUser(context)
     );
   }
+
+  void _createUser(BuildContext context) async {
+
+    bool resp;
+
+    final newUser = new User(
+      identification : this.identification.text,
+      name           : this.fullName.text, 
+      email          : this.email.text, 
+      password       : this.pass.text, 
+    );
+
+    resp = await UserService.createUser(newUser);
+
+    if(resp){
+
+      showAlert(
+        context  : context, 
+        title    : 'Success', 
+        subTitle : 'Successfully created user', 
+        urlImage : 'assets/male-icon.jpg', 
+        userName : '${newUser.name}',
+        status   : StatusAlert.Success,
+        successPage: 'sing',
+        cancelPage: 'sing'
+      );
+      
+    } else {
+      showAlert(
+        context  : context, 
+        title    : 'Error', 
+        subTitle : 'Failed to create a user', 
+        urlImage : 'assets/male-icon.jpg', 
+        userName : '${newUser.name}',
+        status   : StatusAlert.Error,
+        successPage: 'sing',
+        cancelPage: 'sing'
+      );
+    }
+  }
+
 }
