@@ -12,7 +12,7 @@ class HeaderCreate extends StatelessWidget {
     return Stack(
       children :[
         Container(
-          child: CurvedHeader()
+          child: CurvedHeader( screen: Screens.Create )
         ),
         _Title(),
       ] 
@@ -26,12 +26,31 @@ class _Title extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  
+
   @override
   Widget build(BuildContext context) {
+
+    void eventBack() {
+      final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+      agentProvider.back = true;
+      if(agentProvider.updating){
+        agentProvider.updating = false;
+        agentProvider.agent = Agent.empty();
+      }
+      Navigator.pushNamed(context, 'home');
+    }
+
     return Column(
       children: [
 
-        _ArrowBackIcon(),
+        ArrowBackIcon(
+          top       : 25, 
+          right     : 5, 
+          bottom    : 0, 
+          left      : 0, 
+          onPressed : () => eventBack()
+        ),
 
         // Title
         Container(
@@ -49,31 +68,31 @@ class _Title extends StatelessWidget {
   }
 }
 
-class _ArrowBackIcon extends StatelessWidget {
+// class _ArrowBackIcon extends StatelessWidget {
     
-  const _ArrowBackIcon({
-    Key? key,
-  }) : super(key: key);
+//   const _ArrowBackIcon({
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 25, right: 5),
-      height: 40,
-      width: 100,
-      child: IconButton(
-        padding: EdgeInsets.only(right: 50),
-        icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-        onPressed: () {
-          final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-          agentProvider.back = true;
-          if(agentProvider.updating){
-            agentProvider.updating = false;
-            agentProvider.agent = Agent.empty();
-          }
-          Navigator.pushNamed(context, 'home');
-        },
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: EdgeInsets.only(top: 25, right: 5),
+//       height: 40,
+//       width: 100,
+//       child: IconButton(
+//         padding: EdgeInsets.only(right: 50),
+//         icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+//         onPressed: () {
+//           final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+//           agentProvider.back = true;
+//           if(agentProvider.updating){
+//             agentProvider.updating = false;
+//             agentProvider.agent = Agent.empty();
+//           }
+//           Navigator.pushNamed(context, 'home');
+//         },
+//       ),
+//     );
+//   }
+// }

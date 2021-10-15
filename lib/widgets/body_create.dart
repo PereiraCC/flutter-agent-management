@@ -253,7 +253,7 @@ class _Form extends StatelessWidget {
 
           _InputTitle(text: 'Identification'),
           SizedBox(height: 10),
-          _Input(
+          CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.identification : '', 
             helpText: 'Example: 101110222', 
             icon: Icons.badge, 
@@ -265,7 +265,7 @@ class _Form extends StatelessWidget {
 
           _InputTitle(text: 'Name'),
           SizedBox(height: 10),
-          _Input(
+          CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.name : '',
             helpText: 'Example: Carlos', 
             icon: Icons.person, 
@@ -276,7 +276,7 @@ class _Form extends StatelessWidget {
 
           _InputTitle(text: 'Last name'),
           SizedBox(height: 10),
-          _Input(
+          CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.lastname : '',
             helpText: 'Example: Pereira', 
             icon: Icons.person, 
@@ -287,7 +287,7 @@ class _Form extends StatelessWidget {
 
           _InputTitle(text: 'Email'),
           SizedBox(height: 10),
-          _Input(
+          CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.email : '',
             helpText: 'Example: carlos@pereira.com', 
             icon: Icons.mail, 
@@ -298,7 +298,7 @@ class _Form extends StatelessWidget {
 
           _InputTitle(text: 'Phone Number'),
           SizedBox(height: 10),
-          _Input(
+          CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.phone : '',
             helpText: 'Example: 11112222', 
             icon: Icons.phone, 
@@ -338,50 +338,6 @@ class _InputTitle extends StatelessWidget {
         size: 15,
         font: FontWeight.bold,
         color: Colors.red.shade300,
-      ),
-    );
-  }
-}
-
-class _Input extends StatelessWidget {
-
-  final String helpText;
-  final String? hintText;
-  final IconData icon;
-  final TextEditingController controller;
-  final bool? enable;
-  
-  const _Input({
-    Key? key, 
-    required this.helpText, 
-    required this.icon, 
-    required this.controller,
-    this.enable = true,
-    this.hintText = ''
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20),
-      child: TextField(  
-        controller: this.controller,
-        textCapitalization: TextCapitalization.sentences,
-        autofocus: false,
-        cursorColor: Colors.red.shade300,
-        decoration: InputDecoration( 
-          focusedBorder: OutlineInputBorder(  
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: BorderSide(color: Colors.red.shade300, width: 2.0)
-          ),
-          border: OutlineInputBorder(  
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          helperText: this.helpText,
-          hintText: this.hintText,
-          suffixIcon: Icon(this.icon, color: Colors.red.shade300),
-          enabled: this.enable ?? true
-        ),
       ),
     );
   }
