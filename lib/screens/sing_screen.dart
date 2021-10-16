@@ -27,7 +27,7 @@ class SingScreen extends StatelessWidget {
               right     : 5, 
               bottom    : 0, 
               left      : 30, 
-              onPressed : () => print('sing arrow back icon') //TODO: Add fuction
+              onPressed : () => Navigator.pushNamed(context, 'login')
             ),
       
             _CreateBody(),
@@ -101,7 +101,10 @@ class _CreateBody extends StatelessWidget {
             pass          : _passController,
           ),
 
-          CustomSingleButton(title: 'Already a User? Log in', onPressed: () => print('log in button')),
+          CustomSingleButton(
+            title: 'Already a User? Log in', 
+            onPressed: () => Navigator.pushNamed(context, 'login')
+          ),
         ],
       ),
     );
