@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-List<User> agentFromJson(String str) => List<User>.from(json.decode(str).map((x) => User.fromJson(x)));
+List<User> userFromJson(String str) => List<User>.from(json.decode(str).map((x) => User.fromJson(x)));
 
-String agentToJson(List<User> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String userToJson(List<User> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class User {
     User({
@@ -19,13 +19,15 @@ class User {
         required this.name,
     });
 
+    User.empty();
+
     String? uid;
     String? profileImage;
     String? password;
     bool? google;
-    String email;
-    String identification;
-    String name;
+    String? email;
+    String? identification;
+    String? name;
 
     factory User.fromJson(Map<String, dynamic> json) => User(
         uid: json["uid"],
