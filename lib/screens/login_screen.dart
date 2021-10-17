@@ -1,7 +1,12 @@
+import 'package:agent_management/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
+import 'package:agent_management/services/user_service.dart';
+
+import 'package:agent_management/helpers/show_alert.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
 
@@ -29,8 +34,8 @@ class LoginScreen extends StatelessWidget {
 
 class _CreateBody extends StatelessWidget {
 
-  final TextEditingController _emailController = new TextEditingController();
-  final TextEditingController _passwordController       = new TextEditingController();
+  final TextEditingController _emailController    = new TextEditingController();
+  final TextEditingController _passwordController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +71,8 @@ class _CreateBody extends StatelessWidget {
             hintText: 'Password',
             helpText: '', 
             icon: Icons.password, 
-            controller: _passwordController
+            controller: _passwordController,
+            isPassword: true,
           ),
 
           SizedBox(height: 15),
@@ -163,8 +169,34 @@ class _LoginButton extends StatelessWidget {
           child: Text('Log in with your account', style: TextStyle(fontSize: 20, color: Colors.white))
         )
       ),
-      onPressed: () {}
+      onPressed: () => login(context)
     );
   }
+
+  void login(BuildContext context) async {
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final resp = await UserService.login(this.email.text, this.pass.text, context);
+
+    if(resp){
+
+      Navigator.pushReplacementNamed(context, 'home');
+      
+    } else {
+
+      showAlert(
+        context  : context, 
+        title    : 'Error', 
+        subTitle : 'Failed to log in', 
+        urlImage : 'assets/male-icon.jpg', 
+        userName : userProvider.msgError,
+        status   : StatusAlert.Error,
+        successPage: 'login',
+        cancelPage: 'login'
+      );
+    }
+
+  }
+
 }
 
