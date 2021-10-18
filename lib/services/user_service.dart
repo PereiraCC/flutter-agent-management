@@ -80,4 +80,19 @@ class UserService {
     }
 
   }
+
+  static Future<bool> googleSing() async {
+
+    try {
+      
+      // TODO: Implementation of google sing - configuration QAuth client google console
+      return true;
+
+
+    } catch (err) {
+      print('Error: $err');
+      return false;
+    }
+
+  }
 }
