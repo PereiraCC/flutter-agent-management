@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
-
 import 'package:agent_management/models/user.dart';
+
+import 'package:agent_management/providers/user_provider.dart';
 
 import 'package:agent_management/services/user_service.dart';
 import 'package:agent_management/helpers/show_alert.dart';
@@ -167,12 +169,15 @@ class _CreateAccountButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final userProvider = Provider.of<UserProvider>(context);
+
     return TextButton(
       child: Container(
         width: 250,
         height: 50,
         decoration: BoxDecoration(  
-          color: Colors.red.shade300,
+          color:  ( !userProvider.isCreate ) ? Colors.red.shade300 : Colors.grey,
           borderRadius: BorderRadius.all(Radius.circular(15)),
           boxShadow: [
             BoxShadow(
@@ -187,13 +192,16 @@ class _CreateAccountButton extends StatelessWidget {
           child: Text('Create account', style: TextStyle(fontSize: 20, color: Colors.white))
         )
       ),
-      onPressed: () => _createUser(context)
+      onPressed: ( !userProvider.isCreate ) ? () => _createUser(context) : null
     );
   }
 
   void _createUser(BuildContext context) async {
 
     bool resp;
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.isCreate = true;
 
     final newUser = new User(
       identification : this.identification.text,
@@ -213,7 +221,7 @@ class _CreateAccountButton extends StatelessWidget {
         urlImage : 'assets/male-icon.jpg', 
         userName : '${newUser.name}',
         status   : StatusAlert.Success,
-        successPage: 'sing',
+        successPage: 'login',
         cancelPage: 'sing'
       );
       
@@ -229,6 +237,8 @@ class _CreateAccountButton extends StatelessWidget {
         cancelPage: 'sing'
       );
     }
+
+    userProvider.isCreate = false;
   }
 
 }

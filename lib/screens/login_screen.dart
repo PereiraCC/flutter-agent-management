@@ -1,9 +1,9 @@
-import 'package:agent_management/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
 import 'package:agent_management/services/user_service.dart';
+import 'package:agent_management/providers/user_provider.dart';
 
 import 'package:agent_management/helpers/show_alert.dart';
 import 'package:provider/provider.dart';
@@ -149,12 +149,15 @@ class _LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
+    final userProvider = Provider.of<UserProvider>(context);
+
     return TextButton(
       child: Container(
         width: 250,
         height: 50,
         decoration: BoxDecoration(  
-          color: Colors.red.shade300,
+          color: ( !userProvider.isLogin ) ? Colors.red.shade300 : Colors.grey,
           borderRadius: BorderRadius.all(Radius.circular(15)),
           boxShadow: [
             BoxShadow(
@@ -169,13 +172,15 @@ class _LoginButton extends StatelessWidget {
           child: Text('Log in with your account', style: TextStyle(fontSize: 20, color: Colors.white))
         )
       ),
-      onPressed: () => login(context)
+      onPressed: ( !userProvider.isLogin ) ? () => login( context ): null,
     );
   }
 
   void login(BuildContext context) async {
 
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.isLogin = true;
+
     final resp = await UserService.login(this.email.text, this.pass.text, context);
 
     if(resp){
@@ -195,6 +200,8 @@ class _LoginButton extends StatelessWidget {
         cancelPage: 'login'
       );
     }
+
+    userProvider.isLogin = false;
 
   }
 
