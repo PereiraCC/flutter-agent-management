@@ -119,7 +119,7 @@ class _CreateBody extends StatelessWidget {
             child: SignInButton(
               Buttons.GoogleDark,
               text: "Sign in with Google",
-              onPressed: () {},
+              onPressed: () => UserService.googleSing(),
               shape: StadiumBorder()
             ),
           ),
