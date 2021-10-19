@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.agent_management">
+    package="com.pereiracarlos.agent_management">
    <application
         android:label="agent_management"
         android:icon="@mipmap/ic_launcher">
