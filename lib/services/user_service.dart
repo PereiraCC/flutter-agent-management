@@ -1,13 +1,20 @@
 import 'dart:convert';
-import 'package:agent_management/providers/user_provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:agent_management/global/environment.dart';
 import 'package:agent_management/models/user.dart';
-import 'package:provider/provider.dart';
+import 'package:agent_management/providers/user_provider.dart';
 
 class UserService { 
+
+  static GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+    ],
+  );
 
   static Future<bool> createUser(User user) async {
 
@@ -85,7 +92,10 @@ class UserService {
 
     try {
       
-      // TODO: Implementation of google sing - configuration QAuth client google console
+      final GoogleSignInAccount? account = await _googleSignIn.signIn();
+      final googleKey = await account!.authentication;
+
+      print(googleKey.idToken);
       return true;
 
 
