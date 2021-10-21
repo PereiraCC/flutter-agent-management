@@ -39,6 +39,9 @@ class _CreateBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 210, left: 25, right: 25),
       child: Column(  
@@ -117,9 +120,9 @@ class _CreateBody extends StatelessWidget {
               ]
             ),
             child: SignInButton(
-              Buttons.GoogleDark,
-              text: "Sign in with Google",
-              onPressed: () => UserService.googleSing(),
+              ( !userProvider.isLogin ) ? Buttons.GoogleDark : Buttons.Google,
+              text: ( !userProvider.isLogin ) ? "Sign in with Google" : 'Wait google',
+              onPressed: ( !userProvider.isLogin ) ? () => loginGoogle(context) : () => null,
               shape: StadiumBorder()
             ),
           ),
@@ -133,6 +136,35 @@ class _CreateBody extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // TODO: Refactor
+  void loginGoogle(BuildContext context) async {
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.isLogin = true;
+
+    final resp = await UserService.googleSing(context);
+
+    if(resp){
+
+      Navigator.pushReplacementNamed(context, 'home');
+      
+    } else {
+
+      showAlert(
+        context  : context, 
+        title    : 'Error', 
+        subTitle : 'Failed to log in', 
+        urlImage : 'assets/male-icon.jpg', 
+        userName : userProvider.msgError,
+        status   : StatusAlert.Error,
+        successPage: 'login',
+        cancelPage: 'login'
+      );
+    }
+
+    userProvider.isLogin = false;
   }
 }
 
@@ -176,6 +208,7 @@ class _LoginButton extends StatelessWidget {
     );
   }
 
+  // TODO: Refactor
   void login(BuildContext context) async {
 
     final userProvider = Provider.of<UserProvider>(context, listen: false);
