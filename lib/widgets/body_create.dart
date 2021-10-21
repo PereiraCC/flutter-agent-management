@@ -158,7 +158,7 @@ class _PictureIcon extends StatelessWidget {
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Container(
-      margin: EdgeInsets.only(top: 150, left: widthScreen - 380),
+      margin: EdgeInsets.only(top: 150, left: widthScreen * 0.15),
       child: IconButton(
         icon: Icon(Icons.image, color: Colors.red.shade300),
         onPressed: () async {  
