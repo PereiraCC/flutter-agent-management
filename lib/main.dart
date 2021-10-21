@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
 
       ],
       child: MaterialApp(
-        title: 'Material App',
+        title: 'My Company Management',
         debugShowCheckedModeBanner: false,
         initialRoute: 'login',
         routes: getRoutes(),
