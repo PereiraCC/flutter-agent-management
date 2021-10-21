@@ -88,21 +88,44 @@ class UserService {
 
   }
 
-  static Future<bool> googleSing() async {
+  static Future<bool> googleSing(BuildContext context) async {
 
     try {
       
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
       final GoogleSignInAccount? account = await _googleSignIn.signIn();
       final googleKey = await account!.authentication;
 
-      print(googleKey.idToken);
-      return true;
+      Uri url = Uri.parse('${Environment.apiAuthGoogleUrl}');
 
+      final data = {
+        'id_token' : googleKey.idToken
+      };
 
+      final resp = await http.post(url, 
+        headers: {
+          'Content-Type' : 'application/json; charset=utf-8',
+        },
+        body: jsonEncode(data)
+      );
+
+      final decodedData = json.decode(resp.body);
+
+      if(resp.statusCode == 200) {
+
+        userProvider.token = decodedData['token'];
+        return true;
+
+      } else {
+
+        userProvider.msgError = 'Error: Sing in with google';
+        return false;
+
+      }
+      
     } catch (err) {
       print('Error: $err');
       return false;
     }
-
   }
 }
