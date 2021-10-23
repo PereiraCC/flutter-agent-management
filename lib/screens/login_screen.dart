@@ -13,21 +13,37 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(  
-        physics: BouncingScrollPhysics(),
-        child: Stack(  
-          children: [
-
-            Container(
-              height: 250,
-              child: CurvedHeader( screen: Screens.Sing ),
-            ), 
-
-            _CreateBody(),
-
-          ],
+      body:  SafeArea(
+        child: SingleChildScrollView(  
+          physics: BouncingScrollPhysics(),
+          child: Stack(  
+            children: [
+          
+              Container(
+                height: 250,
+                child: CurvedHeader( screen: Screens.Sing ),
+              ), 
+          
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 75, horizontal: 25),
+                padding: EdgeInsets.only(left: 20, right: 20),
+                width: 350,
+                child: Text(
+                  'Log in', 
+                  style: TextStyle(
+                    color: Colors.white, 
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold
+                  )
+                )
+              ),
+          
+              _CreateBody(),
+          
+            ],
+          ),
         ),
-      )
+      ),
    );
   }
 }
@@ -41,25 +57,12 @@ class _CreateBody extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final userProvider = Provider.of<UserProvider>(context);
+    final sizeHeight = MediaQuery.of(context).size.height;
 
     return Container(
       margin: EdgeInsets.only(top: 210, left: 25, right: 25),
       child: Column(  
         children: [
-
-          Container(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            width: 350,
-            child: Text(
-              'Log in', 
-              style: TextStyle(
-                color: Colors.red.shade300, 
-                fontSize: 25
-              )
-            )
-          ),
-
-          SizedBox(height: 20),
 
           CustomInput(
             hintText: 'Email',
@@ -127,7 +130,7 @@ class _CreateBody extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 80),
+          SizedBox(height: sizeHeight * 0.05),
 
           CustomSingleButton(
             title: 'New user? Create account', 
@@ -185,6 +188,7 @@ class _LoginButton extends StatelessWidget {
     final userProvider = Provider.of<UserProvider>(context);
 
     return TextButton(
+      autofocus: true,
       child: Container(
         width: 250,
         height: 50,

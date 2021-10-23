@@ -14,27 +14,31 @@ class SingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Stack(  
-          children: [
-      
-            Container(
-              height: 250,
-              child: CurvedHeader( screen: Screens.Sing ),
-            ), 
-      
-            ArrowBackIcon(
-              top       : 90, 
-              right     : 5, 
-              bottom    : 0, 
-              left      : 30, 
-              onPressed : () => Navigator.pushNamed(context, 'login')
-            ),
-      
-            _CreateBody(),
-      
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Stack(  
+            children: [
+        
+              Container(
+                height: 250,
+                child: CurvedHeader( screen: Screens.Sing ),
+              ), 
+        
+              ArrowBackIcon(
+                top       : 20, 
+                right     : 5, 
+                bottom    : 0, 
+                left      : 30, 
+                onPressed : () => Navigator.pushNamed(context, 'login')
+              ),
+
+              _Titles(),
+        
+              _CreateBody(),
+        
+            ],
+          ),
         ),
       )
    );
@@ -56,10 +60,6 @@ class _CreateBody extends StatelessWidget {
       width: 400,
       child: Column(
         children: [
-
-          _Titles(),
-
-          SizedBox(height: 20),
 
           CustomInput(
             hintText: 'Identification',
@@ -121,6 +121,7 @@ class _Titles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 80, horizontal: 10),
       padding: EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
@@ -130,8 +131,9 @@ class _Titles extends StatelessWidget {
             child: Text(
               'Create', 
               style: TextStyle(
-                color: Colors.red.shade300, 
-                fontSize: 25
+                color: Colors.white, 
+                fontSize: 25,
+                fontWeight: FontWeight.bold
               )
             )
           ),
@@ -141,8 +143,9 @@ class _Titles extends StatelessWidget {
             child: Text(
               'New account', 
               style: TextStyle(
-                color: Colors.red.shade300, 
-                fontSize: 25
+                color: Colors.white, 
+                fontSize: 25,
+                fontWeight: FontWeight.bold
               )
             )
           ),
