@@ -29,7 +29,13 @@ class _AppBarCustomState extends State<StatefulWidget> {
       centerTitle: true,
       backgroundColor: Colors.red.shade300,
       elevation: 10.0,
-      leading: Icon(Icons.menu, color: Colors.white),
+      leading: IconButton(
+        icon: Icon(Icons.login_outlined, color: Colors.white),
+        onPressed: () {
+          UserService.logout();
+          Navigator.pushReplacementNamed(context, 'login');
+        },
+      ),
       // toolbarHeight: 500,
       actions: [
         IconButton(
