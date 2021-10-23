@@ -4,12 +4,18 @@ import 'package:agent_management/providers/agent_provider.dart';
 import 'package:agent_management/providers/user_provider.dart';
 
 import 'package:agent_management/routes/routes.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.red.shade300,
+      statusBarBrightness: Brightness.dark,
+    ));
     return MultiProvider(
       providers: [
 
