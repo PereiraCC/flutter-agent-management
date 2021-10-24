@@ -150,11 +150,28 @@ class UserService {
 
     try {
       
-      return await storage.read(key: 'token') ?? '';
+      String token = await storage.read(key: 'token') ?? '';
+
+      if(token != ''){
+
+        Uri url = Uri.parse('${Environment.apiAuthValidUrl}');
+        final resp = await http.post(url, 
+          headers: {
+            'Content-Type' : 'application/json; charset=utf-8',
+          },
+          body: jsonEncode({'token' : token})
+        );
+      
+        if(resp.statusCode == 200) 
+          return token;
+      }
+      
+      return '';
 
     } catch (e) {
       print('Error in readToken $e');
       return '';
     }
   }
+  
 }
