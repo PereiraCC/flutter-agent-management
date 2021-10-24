@@ -1,14 +1,19 @@
 import 'dart:convert';
-import 'package:provider/provider.dart';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:agent_management/global/environment.dart';
 import 'package:agent_management/models/user.dart';
 import 'package:agent_management/providers/user_provider.dart';
 
 class UserService { 
+
+  static final storage = new FlutterSecureStorage();
 
   static GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -66,7 +71,7 @@ class UserService {
 
       if (resp.statusCode == 200) {
 
-        userProvider.token = decodedData['token'];
+        await storage.write(key: 'token', value: decodedData['token']);
         userProvider.user = User.fromJson(decodedData['documents'][0]);
         return true;
 
@@ -113,7 +118,7 @@ class UserService {
 
       if(resp.statusCode == 200) {
 
-        userProvider.token = decodedData['token'];
+        await storage.write(key: 'token', value: decodedData['token']);
         return true;
 
       } else {
@@ -128,4 +133,45 @@ class UserService {
       return false;
     }
   }
+
+  static Future logout() async {
+    try {
+      
+      await storage.delete(key: 'token');
+      return;
+
+    } catch (e) {
+      print('Error in logount: $e');
+    }
+
+  }
+
+  static Future<String> readToken() async {
+
+    try {
+      
+      String token = await storage.read(key: 'token') ?? '';
+
+      if(token != ''){
+
+        Uri url = Uri.parse('${Environment.apiAuthValidUrl}');
+        final resp = await http.post(url, 
+          headers: {
+            'Content-Type' : 'application/json; charset=utf-8',
+          },
+          body: jsonEncode({'token' : token})
+        );
+      
+        if(resp.statusCode == 200) 
+          return token;
+      }
+      
+      return '';
+
+    } catch (e) {
+      print('Error in readToken $e');
+      return '';
+    }
+  }
+  
 }

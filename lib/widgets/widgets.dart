@@ -2,8 +2,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:agent_management/models/agent.dart';
 
@@ -12,6 +12,7 @@ import 'package:agent_management/helpers/confirmation_alert.dart';
 
 import 'package:agent_management/providers/agent_provider.dart';
 import 'package:agent_management/services/agent_service.dart';
+import 'package:agent_management/services/user_service.dart';
 import 'package:agent_management/search/search_deletegate.dart';
 
 part 'appbar_custom.dart';

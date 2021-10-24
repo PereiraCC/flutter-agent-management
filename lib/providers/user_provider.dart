@@ -4,17 +4,10 @@ import 'package:agent_management/models/user.dart';
 
 class UserProvider with ChangeNotifier {
 
-  String _token    = '';
   String _msgError = '';
   bool _isLogin    = false;
   bool _isCreate   = false;
   User _user       = User.empty();
-
-  String get token => this._token;
-  set token(String token) {
-    this._token = token;
-    notifyListeners();
-  }
 
   String get msgError => this._msgError;
   set msgError(String msgError) {
