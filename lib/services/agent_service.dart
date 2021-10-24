@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -10,17 +8,17 @@ import 'package:http_parser/http_parser.dart';
 import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/global/environment.dart';
 
+import 'package:agent_management/services/user_service.dart';
 import 'package:agent_management/providers/db_access_provider.dart';
 
 class AgentService {
 
+  // TODO: add token 
   static Future<bool> createAgent(Agent agent) async {
 
     try {
       
       Uri url = Uri.parse('${Environment.apiAgentsUrl}');
-
-      // print(agent.toJson());
 
       final resp = await http.post(url, 
         headers: {
@@ -30,7 +28,6 @@ class AgentService {
       );
 
       if (resp.statusCode == 201) {
-        // print(resp.body[]);
         return true;
       } else {
         return false;
@@ -47,7 +44,9 @@ class AgentService {
 
     try {
       
-      final url = Uri.parse('${Environment.apiAgentsUrl}');
+      String userID = await UserService.readUserID();
+
+      final url = Uri.parse('${Environment.apiAgentsUrl}/$userID');
       final resp = await http.get(url);
 
       if(resp.statusCode == 200){
@@ -70,6 +69,7 @@ class AgentService {
 
   }
 
+  // TODO: add token 
   static Future<bool> updateAgent(Agent agent) async {
 
     try {
@@ -97,6 +97,7 @@ class AgentService {
 
   }
 
+  // TODO: add token 
   static Future<bool> deleteAgent(String identification) async {
 
     try {
@@ -121,6 +122,7 @@ class AgentService {
 
   }
 
+  // TODO: add token 
   static Future<bool> uploadImage(String identification, File photo) async {
 
     try {
