@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:agent_management/global/environment.dart';
 import 'package:agent_management/models/user.dart';
+import 'package:agent_management/global/environment.dart';
 import 'package:agent_management/providers/user_provider.dart';
 
 class UserService { 
@@ -73,6 +73,7 @@ class UserService {
 
         await storage.write(key: 'token', value: decodedData['token']);
         userProvider.user = User.fromJson(decodedData['documents'][0]);
+        await storage.write(key: 'userID', value: userProvider.user.uid);
         return true;
 
       } else if(resp.statusCode == 400 || resp.statusCode == 404) {
@@ -116,9 +117,11 @@ class UserService {
 
       final decodedData = json.decode(resp.body);
 
-      if(resp.statusCode == 200) {
+      if(resp.statusCode == 200 || resp.statusCode == 201) {
 
         await storage.write(key: 'token', value: decodedData['token']);
+        userProvider.user = User.fromJson(decodedData['documents'][0]);
+        await storage.write(key: 'userID', value: userProvider.user.uid);
         return true;
 
       } else {
@@ -138,6 +141,7 @@ class UserService {
     try {
       
       await storage.delete(key: 'token');
+      await storage.delete(key: 'userID');
       return;
 
     } catch (e) {
@@ -174,4 +178,15 @@ class UserService {
     }
   }
   
+  static Future<String> readUserID() async {
+
+    try {
+      
+      return await storage.read(key: 'userID') ?? '';
+
+    } catch (e) {
+      print('Error $e');
+      return '';
+    }
+  }
 }

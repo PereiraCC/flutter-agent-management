@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -10,6 +8,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:agent_management/models/agent.dart';
 import 'package:agent_management/global/environment.dart';
 
+import 'package:agent_management/services/user_service.dart';
 import 'package:agent_management/providers/db_access_provider.dart';
 
 class AgentService {
@@ -18,24 +17,19 @@ class AgentService {
 
     try {
       
-      Uri url = Uri.parse('${Environment.apiAgentsUrl}');
+      String token = await UserService.readToken();
 
-      // print(agent.toJson());
+      Uri url = Uri.parse('${Environment.apiAgentsUrl}');
 
       final resp = await http.post(url, 
         headers: {
           'Content-Type' : 'application/json; charset=utf-8',
+          'x-token'      : token
         },
         body: jsonEncode(agent.toJsonServices())
       );
 
-      if (resp.statusCode == 201) {
-        // print(resp.body[]);
-        return true;
-      } else {
-        return false;
-      }
-      
+      return resp.statusCode == 201;
 
     } catch (err) {
       print('error: $err');
@@ -47,7 +41,9 @@ class AgentService {
 
     try {
       
-      final url = Uri.parse('${Environment.apiAgentsUrl}');
+      String userID = await UserService.readUserID();
+
+      final url = Uri.parse('${Environment.apiAgentsUrl}/$userID');
       final resp = await http.get(url);
 
       if(resp.statusCode == 200){
@@ -65,30 +61,25 @@ class AgentService {
 
     } catch (err) {
       print('Error $err');
-      // return [];
     }
-
   }
 
   static Future<bool> updateAgent(Agent agent) async {
 
     try {
 
-       Uri url = Uri.parse('${Environment.apiAgentsUrl}/${agent.identification}');
+      String token = await UserService.readToken();
+      Uri url = Uri.parse('${Environment.apiAgentsUrl}/${agent.identification}');
       
       final resp = await http.put(url, 
         headers: {
           'Content-Type' : 'application/json; charset=utf-8',
+          'x-token'      : token
         },
         body: jsonEncode(agent.toJsonServices())
       );
 
-      if (resp.statusCode == 200) {
-        // print(resp.body[]);
-        return true;
-      } else {
-        return false;
-      }
+      return resp.statusCode == 200;
 
     } catch (err) {
       print('Error $err');
@@ -103,16 +94,16 @@ class AgentService {
 
       if(identification == 'no-identification') return false;
 
+      String token = await UserService.readToken();
       Uri url = Uri.parse('${Environment.apiAgentsUrl}/$identification');
       
-      final resp = await http.delete(url);
+      final resp = await http.delete(url,
+        headers: {
+          'x-token' : token
+        }
+      );
 
-      if (resp.statusCode == 200) {
-        // print(resp.body[]);
-        return true;
-      } else {
-        return false;
-      }
+       return resp.statusCode == 200;
 
     } catch (err) {
       print('Error $err');
@@ -127,6 +118,7 @@ class AgentService {
 
       if(identification == '') return false;
 
+      String token = await UserService.readToken();
       Uri url = Uri.parse('${Environment.apiUploadAgentsUrl}/$identification');
       final mimeType = mime(photo.path)!.split('/');
       
@@ -138,20 +130,18 @@ class AgentService {
       final file = await http.MultipartFile.fromPath(
         'file', 
         photo.path,
-        contentType: MediaType(mimeType[0], mimeType[1])
+        contentType: MediaType(mimeType[0], mimeType[1]),
       );
 
       imageUploadRequest.files.add(file);
+      imageUploadRequest.headers.addAll({
+        'x-token' : token
+      });
 
       final streamResponse = await imageUploadRequest.send();
       final resp = await http.Response.fromStream(streamResponse);
       
-      if (resp.statusCode == 200) {
-        // print(resp.body[]);
-        return true;
-      } else {
-        return false;
-      } 
+      return resp.statusCode == 200;
 
     } catch (err) {
       print('error: $err');
