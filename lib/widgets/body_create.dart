@@ -393,13 +393,15 @@ class _SaveButton extends StatelessWidget {
   void _createAgent(BuildContext context, AgentManamegentProvider provider) async {
 
     bool resp;
+    String userID = await UserService.readUserID();
 
     final newAgent = new Agent(
-      name: this.name.text, 
-      lastname: this.lastName.text, 
-      email: this.email.text, 
-      phone: this.phone.text, 
-      identification: this.identification.text
+      name           : this.name.text, 
+      lastname       : this.lastName.text, 
+      email          : this.email.text, 
+      phone          : this.phone.text, 
+      identification : this.identification.text,
+      userID         : userID
     );
 
     resp = await AgentService.createAgent(newAgent);
@@ -453,13 +455,15 @@ class _SaveButton extends StatelessWidget {
     
     bool resp;
     Agent agent = provider.agent;
+    String userID = await UserService.readUserID();
 
     final newAgent = new Agent(
-      name: (this.name.text == '') ? agent.name : this.name.text, 
-      lastname: (this.lastName.text == '') ? agent.lastname : this.lastName.text,
-      email: (this.email.text == '') ? agent.email : this.email.text, 
-      phone: (this.phone.text == '') ? agent.phone : this.phone.text, 
-      identification: (this.identification.text == '') ? agent.identification : this.identification.text,
+      name           : (this.name.text == '') ? agent.name : this.name.text, 
+      lastname       : (this.lastName.text == '') ? agent.lastname : this.lastName.text,
+      email          : (this.email.text == '') ? agent.email : this.email.text, 
+      phone          : (this.phone.text == '') ? agent.phone : this.phone.text, 
+      identification : (this.identification.text == '') ? agent.identification : this.identification.text,
+      userID         : userID
     );
 
     resp = await AgentService.updateAgent(newAgent);
