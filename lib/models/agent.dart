@@ -25,6 +25,7 @@ class Agent {
     Agent({
         this.idAgent,
         this.profileImage,
+        this.userID,
         required this.name,
         required this.lastname,
         required this.email,
@@ -41,6 +42,7 @@ class Agent {
     String? phone;
     String? identification;
     String? profileImage;
+    String? userID;
 
     factory Agent.fromJson(Map<String, dynamic> json) => Agent(
         identification : json['identification'].toString(),
@@ -78,5 +80,6 @@ class Agent {
         'lastname'       : lastname,
         'email'          : email,
         'phone'          : phone,
+        'userID'         : userID,
     };
 }
