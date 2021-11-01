@@ -7,7 +7,7 @@ import 'package:agent_management/providers/agent_provider.dart';
 import 'package:agent_management/services/agent_service.dart';
 
 
-class HomeScreen extends StatelessWidget {
+class AgentScreen extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {

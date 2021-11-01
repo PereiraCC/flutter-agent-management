@@ -12,7 +12,7 @@ Map<String, WidgetBuilder> getRoutes() {
     'sing'     : (_) => SingScreen(),
     'login'    : (_) => LoginScreen(),
 
-    'home'     : (_) => HomeScreen(),
+    'agent'    : (_) => AgentScreen(),
     'create'   : (_) => CreateAgentScreen(),
   };
 
