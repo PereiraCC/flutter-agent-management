@@ -15,7 +15,7 @@ class AgentScreen extends StatelessWidget {
     final agentsProvider = Provider.of<AgentManamegentProvider>(context);
 
     return Scaffold(
-      appBar: AppBarCustom('Agents list'),
+      appBar: AppBarCustom('Agents list', Tabs.Agents),
       body: (!agentsProvider.loading) 
               ? _CreateBody() 
               : Center(
