@@ -35,7 +35,10 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final size = MediaQuery.of(context).size;
+
     return Container(
+      // color: Colors.red,
       height: 150,
       margin: EdgeInsets.all(10),
       child: Row(  
@@ -48,8 +51,9 @@ class _Header extends StatelessWidget {
               children: [
 
                 Container(
+                  // color: Colors.green,
                   height: 100,
-                  width: 250,
+                  width: size.width - 140,
                   margin: EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,8 +133,12 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final size = MediaQuery.of(context).size;
+
     return Container(
-      width: 500,
+      width: size.width,
+      // color: Colors.red,
       margin: EdgeInsets.all(10),
       child: Column(  
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,11 +221,14 @@ class _CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final size = MediaQuery.of(context).size;
+
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.only(left: 10),
         height: 175,
-        width: 375,
+        width: size.width - 25,
         decoration: BoxDecoration(  
           color: this.color,
           borderRadius: BorderRadius.all(Radius.circular(20))
@@ -240,10 +251,10 @@ class _CategoryCard extends StatelessWidget {
     
             // Text
             Container(
-              width: 240,
-              height: 150,
+              width: size.width - 165,
+              height: 162,
               // color: Colors.green,
-              margin: EdgeInsets.only(top: 10, bottom: 20),
+              margin: EdgeInsets.only(top: 10, bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,  
                 children: [
@@ -271,7 +282,7 @@ class _CategoryCard extends StatelessWidget {
                     ),
                   ),
     
-                  SizedBox(height: 10),
+                  SizedBox(height: 8),
     
                   Container(
                     margin: EdgeInsets.all(10),
