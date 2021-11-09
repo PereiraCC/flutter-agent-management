@@ -5,7 +5,7 @@ class CustomInput extends StatelessWidget {
   final String helpText;
   final String? hintText;
   final IconData icon;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final bool? enable;
   final bool? isPassword;
   
@@ -13,7 +13,7 @@ class CustomInput extends StatelessWidget {
     Key? key, 
     required this.helpText, 
     required this.icon, 
-    required this.controller,
+    this.controller,
     this.enable = true,
     this.hintText = '',
     this.isPassword = false

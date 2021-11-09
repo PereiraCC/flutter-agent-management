@@ -255,7 +255,7 @@ class _Form extends StatelessWidget {
       child: Column(
         children: [
 
-          _InputTitle(text: 'Identification'),
+          InputTitleCustom(text: 'Identification'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.identification : '', 
@@ -267,7 +267,7 @@ class _Form extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _InputTitle(text: 'Name'),
+          InputTitleCustom(text: 'Name'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.name : '',
@@ -278,7 +278,7 @@ class _Form extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _InputTitle(text: 'Last name'),
+          InputTitleCustom(text: 'Last name'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.lastname : '',
@@ -289,7 +289,7 @@ class _Form extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _InputTitle(text: 'Email'),
+          InputTitleCustom(text: 'Email'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.email : '',
@@ -300,7 +300,7 @@ class _Form extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _InputTitle(text: 'Phone Number'),
+          InputTitleCustom(text: 'Phone Number'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.phone : '',
@@ -319,29 +319,6 @@ class _Form extends StatelessWidget {
             phone: _phoneController,
           )
         ],
-      ),
-    );
-  }
-}
-
-class _InputTitle extends StatelessWidget {
-
-  final String text;
-
-  const _InputTitle({
-    Key? key, required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(left: 20),
-      child: TextCustom(  
-        text: this.text,
-        size: 15,
-        font: FontWeight.bold,
-        color: Colors.red.shade300,
       ),
     );
   }

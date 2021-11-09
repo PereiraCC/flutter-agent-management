@@ -14,7 +14,7 @@ class EditProfileScreen extends StatelessWidget {
       
             HeaderProfile(),
       
-            // BodyScreenCreate(),
+            BodyEditProfile(),
 
           ],
         ),
