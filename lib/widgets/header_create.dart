@@ -55,7 +55,7 @@ class _Title extends StatelessWidget {
         // Title
         Container(
           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: Text('Profile', 
+          child: Text('Edit Agent', 
             style: TextStyle(
               fontSize: 30, 
               fontWeight: FontWeight.bold,

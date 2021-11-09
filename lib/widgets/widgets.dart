@@ -27,3 +27,4 @@ part 'upload_image.dart';
 part 'arrow_back_icon.dart';
 part 'custom_single_button.dart';
 part 'custom_input.dart';
+part 'header_profile.dart';
