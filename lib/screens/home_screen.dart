@@ -26,7 +26,6 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-
 class _Header extends StatelessWidget {
   const _Header({
     Key? key,

@@ -64,10 +64,8 @@ class _AppBarCustomState extends State<StatefulWidget> {
             }
           )
           : IconButton(
-            icon: Icon(Icons.menu, color: Colors.white),
-            onPressed: () {
-              print('button menu');
-            }
+            icon: Icon(Icons.settings, color: Colors.white),
+            onPressed: () => Navigator.pushNamed(context, 'editProfile')
           )
       ],
     );
