@@ -5,6 +5,7 @@ import 'package:agent_management/models/user.dart';
 class UserProvider with ChangeNotifier {
 
   String _msgError = '';
+  String _token    = '';
   bool _isLogin    = false;
   bool _isCreate   = false;
   User _user       = User.empty();
@@ -12,6 +13,11 @@ class UserProvider with ChangeNotifier {
   String get msgError => this._msgError;
   set msgError(String msgError) {
     this._msgError = msgError;
+  }
+
+  String get token => this._token;
+  set token(String token) {
+    this._token = token;
   }
 
   bool get isLogin => this._isLogin;
