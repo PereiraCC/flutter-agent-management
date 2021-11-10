@@ -399,8 +399,8 @@ class _SaveButton extends StatelessWidget {
           urlImage    : 'assets/male-icon.jpg', 
           userName    : '${newAgent.name} ${newAgent.lastname}',
           status      : StatusAlert.Success,
-          successPage : 'home',
-          cancelPage  : 'create'
+          successPage : 'agent',
+          cancelPage  : 'agentsOptions'
         );
       } else {
 
@@ -411,8 +411,8 @@ class _SaveButton extends StatelessWidget {
           urlImage : 'assets/male-icon.jpg', 
           userName : '${newAgent.name} ${newAgent.lastname}',
           status   : StatusAlert.Error,
-          successPage : 'home',
-          cancelPage  : 'create'
+          successPage : 'agent',
+          cancelPage  : 'agentsOptions'
         );  
 
       }
@@ -424,8 +424,8 @@ class _SaveButton extends StatelessWidget {
         urlImage : 'assets/male-icon.jpg', 
         userName : '${newAgent.name} ${newAgent.lastname}',
         status   : StatusAlert.Error,
-        successPage : 'home',
-        cancelPage  : 'create'
+        successPage : 'agent',
+        cancelPage  : 'agentsOptions'
       );
     }
   }

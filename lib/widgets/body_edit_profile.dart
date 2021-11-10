@@ -82,9 +82,28 @@ class _Picture extends StatelessWidget {
       margin: EdgeInsets.only(top: 190, left: widthScreen * 0.15),
       child: IconButton(
         icon: Icon(Icons.image, color: Colors.red.shade300),
-        onPressed: () {}
+        onPressed: () async {
+          await _imageProcess(context);
+        }
       ),
     );
+  }
+
+  _imageProcess(BuildContext context) async {
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    final _picker = ImagePicker();
+
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery
+    );
+
+    if (pickedFile?.path != null) {
+      userProvider.photo = File(pickedFile!.path);
+      userProvider.isChangePhoto = true;
+    }
+
   }
 }
 
@@ -257,12 +276,12 @@ class _SaveProfile extends StatelessWidget {
 
     if(resp){
 
-      // if(provider.changePhoto){
-      //   resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo);
-      // }
+      if(provider.isChangePhoto){
+        resp = await UserService.uploadImageUser(newUser.identification ?? '', provider.photo, provider.token);
+      }
 
-      // if(resp) {
-        // provider.changePhoto = false;
+      if(resp) {
+        provider.isChangePhoto = false;
         showAlert(
           context  : context, 
           title    : 'Success', 
@@ -273,18 +292,18 @@ class _SaveProfile extends StatelessWidget {
           successPage : 'home',
           cancelPage  : 'editProfile'
         );
-      // } else {
-      //   showAlert(
-      //     context  : context, 
-      //     title    : 'Error', 
-      //     subTitle : 'Failed to update an agent', 
-      //     urlImage : 'assets/male-icon.jpg', 
-      //     userName : '${user.name}',
-      //     status   : StatusAlert.Error,
-      //     successPage : 'home',
-      //     cancelPage  : 'editProfile'
-      //   );  
-      // // }
+      } else {
+        showAlert(
+          context  : context, 
+          title    : 'Error', 
+          subTitle : 'Failed to update an agent', 
+          urlImage : 'assets/male-icon.jpg', 
+          userName : '${user.name}',
+          status   : StatusAlert.Error,
+          successPage : 'home',
+          cancelPage  : 'editProfile'
+        );  
+      }
     } else {
       showAlert(
         context  : context, 

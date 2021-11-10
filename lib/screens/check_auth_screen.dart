@@ -12,7 +12,7 @@ class CheckAuthScreen extends StatelessWidget {
       backgroundColor: Colors.red.shade300,
       body: Center(
         child: FutureBuilder(
-          future: UserService.readToken(),
+          future: UserService.readToken(context),
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
 
             if( !snapshot.hasData )
