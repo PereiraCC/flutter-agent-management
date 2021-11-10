@@ -142,6 +142,49 @@ class UserService {
     }
   }
 
+  static Future<bool> updateUser(BuildContext context, User user) async {
+    try {
+      
+      String token = await UserService.readToken();
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      Uri url = Uri.parse('${Environment.apiUserUrl}/${user.identification}');
+
+      final resp = await http.put(url, 
+        headers: {
+          'Content-Type' : 'application/json; charset=utf-8',
+          'x-token'      : token
+        },
+        body: jsonEncode(user.toJsonServices())
+      );
+      
+
+        if (resp.statusCode == 200) {
+
+          final decodedData = json.decode(resp.body);
+          userProvider.user = User.fromJson(decodedData['user'][0]);
+          await storage.write(key: 'name',           value: userProvider.user.name);          
+          await storage.write(key: 'password',       value: userProvider.user.password);
+          // await storage.write(key: 'profileImage',   value: userProvider.user.profileImage);
+          return true;
+
+      // } else if(resp.statusCode == 400 || resp.statusCode == 404) {
+
+      //   userProvider.msgError = decodedData['msg'];
+      //   return false;
+
+      } else {
+
+        return false;
+
+      }
+
+    } catch (err) {
+       print('Error: $err');
+      return false;
+    }
+  }
+
   static Future logout() async {
     try {
       

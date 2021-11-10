@@ -55,6 +55,7 @@ class _Image extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final user = Provider.of<UserProvider>(context, listen: false).user;
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Container(
@@ -62,8 +63,8 @@ class _Image extends StatelessWidget {
       child: ImageAgent(
         wid: 100,
         hei: 100,
-        networkImage: false,
-        urlImage: 'assets/no-image.jpg',
+        networkImage: (user.profileImage == null) ? false : true,
+        urlImage: (user.profileImage == null) ? 'assets/no-image.jpg' : user.profileImage ?? '',
       )
     );
   }
@@ -134,6 +135,8 @@ class _FormProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+
     // Create controller for eath input
     final  TextEditingController _nameController    = new TextEditingController();
     final  TextEditingController _passworController = new TextEditingController();
@@ -146,7 +149,7 @@ class _FormProfile extends StatelessWidget {
           InputTitleCustom(text: 'Identification'),
           SizedBox(height: 10),
           CustomInput(
-            hintText: '', 
+            hintText: user.identification ?? '', 
             helpText: 'Example: 101110222', 
             icon: Icons.badge, 
             enable: false
@@ -157,7 +160,7 @@ class _FormProfile extends StatelessWidget {
           InputTitleCustom(text: 'Full Name'),
           SizedBox(height: 10),
           CustomInput(
-            hintText: '',
+            hintText: user.name ?? '',
             helpText: 'Example: Carlos', 
             icon: Icons.person, 
             controller: _nameController
@@ -168,7 +171,7 @@ class _FormProfile extends StatelessWidget {
           InputTitleCustom(text: 'Email'),
           SizedBox(height: 10),
           CustomInput(
-            hintText: '',
+            hintText: user.email ?? '',
             helpText: 'Example: carlos@pereira.com', 
             icon: Icons.mail,
             enable: false 
@@ -179,7 +182,7 @@ class _FormProfile extends StatelessWidget {
           InputTitleCustom(text: 'Password'),
           SizedBox(height: 10),
           CustomInput(
-            hintText: '',
+            hintText: '**************',
             helpText: '', 
             isPassword: true,
             icon: Icons.password, 
@@ -211,6 +214,9 @@ class _SaveProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final user = Provider.of<UserProvider>(context);
+
     return TextButton(
       child: Container(
         width: 250,
@@ -231,8 +237,66 @@ class _SaveProfile extends StatelessWidget {
           child: Text('Save', style: TextStyle(fontSize: 20, color: Colors.white))
         )
       ),
-      onPressed: () => {}
+      onPressed: () => _updateUser(context, user)
     );
+  }
+
+   void _updateUser(BuildContext context, UserProvider provider) async {
+    
+    bool resp;
+    User user = provider.user;
+
+    final newUser = new User(
+      identification : user.identification,
+      name           : (this.name.text == '') ? user.name : this.name.text, 
+      email          : user.email,
+      password       : (this.password.text == '') ? user.password : this.password.text,
+    );
+
+    resp = await UserService.updateUser(context, newUser);
+
+    if(resp){
+
+      // if(provider.changePhoto){
+      //   resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo);
+      // }
+
+      // if(resp) {
+        // provider.changePhoto = false;
+        showAlert(
+          context  : context, 
+          title    : 'Success', 
+          subTitle : 'Successfully updated agent', 
+          urlImage : 'assets/male-icon.jpg', 
+          userName : '${user.name}',
+          status   : StatusAlert.Success,
+          successPage : 'home',
+          cancelPage  : 'editProfile'
+        );
+      // } else {
+      //   showAlert(
+      //     context  : context, 
+      //     title    : 'Error', 
+      //     subTitle : 'Failed to update an agent', 
+      //     urlImage : 'assets/male-icon.jpg', 
+      //     userName : '${user.name}',
+      //     status   : StatusAlert.Error,
+      //     successPage : 'home',
+      //     cancelPage  : 'editProfile'
+      //   );  
+      // // }
+    } else {
+      showAlert(
+        context  : context, 
+        title    : 'Error', 
+        subTitle : 'Failed to update an agent', 
+        urlImage : 'assets/male-icon.jpg', 
+        userName : '${user.name}',
+        status   : StatusAlert.Error,
+        successPage : 'home',
+        cancelPage  : 'editProfile'
+      );
+    }
   }
 
 }

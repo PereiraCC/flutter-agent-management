@@ -6,11 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:agent_management/models/agent.dart';
+import 'package:agent_management/models/user.dart';
 
 import 'package:agent_management/helpers/show_alert.dart';
 import 'package:agent_management/helpers/confirmation_alert.dart';
 
 import 'package:agent_management/providers/agent_provider.dart';
+import 'package:agent_management/providers/user_provider.dart';
 import 'package:agent_management/services/agent_service.dart';
 import 'package:agent_management/services/user_service.dart';
 import 'package:agent_management/search/search_deletegate.dart';
