@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/models/user.dart';
 
 class UserProvider with ChangeNotifier {
 
-  String _msgError = '';
-  String _token    = '';
-  bool _isLogin    = false;
-  bool _isCreate   = false;
-  User _user       = User.empty();
+  String _msgError    = '';
+  String _token       = '';
+  bool _isLogin       = false;
+  bool _isCreate      = false;
+  bool _ischangePhoto = false;
+  File _photo         = new File('');
+  User _user          = User.empty();
 
   String get msgError => this._msgError;
   set msgError(String msgError) {
@@ -29,6 +33,18 @@ class UserProvider with ChangeNotifier {
   bool get isCreate => this._isCreate;
   set isCreate(bool isCreate){
     this._isCreate = isCreate;
+    notifyListeners();
+  }
+  
+  bool get isChangePhoto => this._ischangePhoto;
+  set isChangePhoto(bool isChangePhoto){
+    this._ischangePhoto = isChangePhoto;
+    notifyListeners();
+  }
+
+  File get photo => _photo;
+  set photo(File data) {
+    this._photo = data;
     notifyListeners();
   }
 
