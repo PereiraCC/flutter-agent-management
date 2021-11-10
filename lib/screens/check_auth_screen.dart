@@ -1,4 +1,3 @@
-import 'package:agent_management/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/screens/screens.dart';
@@ -36,8 +35,9 @@ class CheckAuthScreen extends StatelessWidget {
               });
 
             } else {
-
-              Future.microtask(() {
+              
+              Future.microtask(() async {
+                await UserService.readUser(context);
                 Navigator.pushReplacement(context, PageRouteBuilder(
                   pageBuilder: (_ , __, ___ ) => HomeScreen(),
                   transitionDuration: Duration( seconds: 0)

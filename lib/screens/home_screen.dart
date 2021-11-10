@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
+import 'package:agent_management/providers/user_provider.dart';
+// import 'package:agent_management/services/user_service.dart';
 
 class HomeScreen extends StatelessWidget {
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +38,7 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final user = Provider.of<UserProvider>(context, listen: false).user;
     final size = MediaQuery.of(context).size;
 
     return Container(
@@ -76,7 +81,7 @@ class _Header extends StatelessWidget {
                       Container(
                         width: 280,
                         child:  Text(
-                          'Carlos Pereira',
+                          user.name ?? 'No name',
                           style: TextStyle(  
                             fontSize: 30,
                             fontWeight: FontWeight.bold
@@ -96,8 +101,8 @@ class _Header extends StatelessWidget {
             child: ImageAgent(
               hei: 80, 
               wid: 80, 
-              networkImage: true,
-              urlImage: 'https://lh3.googleusercontent.com/a-/AOh14GjYi1RFAcHsx-ptoaBkTWPTzNpJgcJ35mwvbwrwuw=s96-c'
+              networkImage: (user.profileImage != null) ? true : false,
+              urlImage: user.profileImage ?? 'assets/no-image.jpg'
             ),
             
 
