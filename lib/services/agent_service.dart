@@ -13,12 +13,10 @@ import 'package:agent_management/providers/db_access_provider.dart';
 
 class AgentService {
 
-  static Future<bool> createAgent(Agent agent) async {
+  static Future<bool> createAgent(Agent agent, String token) async {
 
     try {
       
-      String token = await UserService.readToken();
-
       Uri url = Uri.parse('${Environment.apiAgentsUrl}');
 
       final resp = await http.post(url, 
@@ -64,12 +62,13 @@ class AgentService {
     }
   }
 
-  static Future<bool> updateAgent(Agent agent) async {
+  static Future<bool> updateAgent(Agent agent, String token) async {
 
     try {
 
-      String token = await UserService.readToken();
-      Uri url = Uri.parse('${Environment.apiAgentsUrl}/${agent.identification}');
+      String userID = await UserService.readUserID();
+
+      Uri url = Uri.parse('${Environment.apiAgentsUrl}/$userID/${agent.identification}');
       
       final resp = await http.put(url, 
         headers: {
@@ -88,14 +87,15 @@ class AgentService {
 
   }
 
-  static Future<bool> deleteAgent(String identification) async {
+  static Future<bool> deleteAgent(String identification, String token) async {
 
     try {
 
       if(identification == 'no-identification') return false;
 
-      String token = await UserService.readToken();
-      Uri url = Uri.parse('${Environment.apiAgentsUrl}/$identification');
+      String userID = await UserService.readUserID();
+
+      Uri url = Uri.parse('${Environment.apiAgentsUrl}/$userID/$identification');
       
       final resp = await http.delete(url,
         headers: {
@@ -112,14 +112,15 @@ class AgentService {
 
   }
 
-  static Future<bool> uploadImage(String identification, File photo) async {
+  static Future<bool> uploadImage(String identification, File photo, String token) async {
 
     try {
 
       if(identification == '') return false;
 
-      String token = await UserService.readToken();
-      Uri url = Uri.parse('${Environment.apiUploadAgentsUrl}/$identification');
+      String userID = await UserService.readUserID();
+
+      Uri url = Uri.parse('${Environment.apiUploadAgentsUrl}/$identification?userID=$userID');
       final mimeType = mime(photo.path)!.split('/');
       
       final imageUploadRequest = http.MultipartRequest(  

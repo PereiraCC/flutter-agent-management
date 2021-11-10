@@ -6,7 +6,7 @@ void setAgent({required BuildContext context, required Agent agent}) {
   final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
   agentProvider.updating = true;
   agentProvider.agent = agent;
-  Navigator.pushNamed(context, 'create');
+  Navigator.pushNamed(context, 'agentsOptions');
 
 }
 

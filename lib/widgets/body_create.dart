@@ -118,7 +118,8 @@ class _DeleteIcon extends StatelessWidget {
   void deleteAgent(BuildContext context) async {
 
     final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-    final resp = await AgentService.deleteAgent(agentProvider.agent.identification ?? 'no-identification');
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final resp = await AgentService.deleteAgent(agentProvider.agent.identification ?? 'no-identification', userProvider.token);
 
     if(agentProvider.updating) 
         agentProvider.updating = false;
@@ -371,6 +372,7 @@ class _SaveButton extends StatelessWidget {
 
     bool resp;
     String userID = await UserService.readUserID();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     final newAgent = new Agent(
       name           : this.name.text, 
@@ -381,11 +383,11 @@ class _SaveButton extends StatelessWidget {
       userID         : userID
     );
 
-    resp = await AgentService.createAgent(newAgent);
+    resp = await AgentService.createAgent(newAgent, userProvider.token);
 
     if(resp){
       if(provider.changePhoto){
-        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo);
+        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo, userProvider.token);
       }
 
       if(resp) {
@@ -433,6 +435,7 @@ class _SaveButton extends StatelessWidget {
     bool resp;
     Agent agent = provider.agent;
     String userID = await UserService.readUserID();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     final newAgent = new Agent(
       name           : (this.name.text == '') ? agent.name : this.name.text, 
@@ -443,12 +446,12 @@ class _SaveButton extends StatelessWidget {
       userID         : userID
     );
 
-    resp = await AgentService.updateAgent(newAgent);
+    resp = await AgentService.updateAgent(newAgent, userProvider.token);
 
     if(resp){
 
       if(provider.changePhoto){
-        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo);
+        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo, userProvider.token);
       }
 
       if(resp) {
