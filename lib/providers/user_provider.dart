@@ -1,17 +1,28 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/models/user.dart';
 
 class UserProvider with ChangeNotifier {
 
-  String _msgError = '';
-  bool _isLogin    = false;
-  bool _isCreate   = false;
-  User _user       = User.empty();
+  String _msgError    = '';
+  String _token       = '';
+  bool _isLogin       = false;
+  bool _isCreate      = false;
+  bool _isUpdate      = false;
+  bool _ischangePhoto = false;
+  File _photo         = new File('');
+  User _user          = User.empty();
 
   String get msgError => this._msgError;
   set msgError(String msgError) {
     this._msgError = msgError;
+  }
+
+  String get token => this._token;
+  set token(String token) {
+    this._token = token;
   }
 
   bool get isLogin => this._isLogin;
@@ -23,6 +34,24 @@ class UserProvider with ChangeNotifier {
   bool get isCreate => this._isCreate;
   set isCreate(bool isCreate){
     this._isCreate = isCreate;
+    notifyListeners();
+  }
+  
+  bool get isUpdate => this._isUpdate;
+  set isUpdate(bool isUpdate){
+    this._isUpdate = isUpdate;
+    notifyListeners();
+  }
+
+  bool get isChangePhoto => this._ischangePhoto;
+  set isChangePhoto(bool isChangePhoto){
+    this._ischangePhoto = isChangePhoto;
+    notifyListeners();
+  }
+
+  File get photo => _photo;
+  set photo(File data) {
+    this._photo = data;
     notifyListeners();
   }
 

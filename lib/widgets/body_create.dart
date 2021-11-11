@@ -118,7 +118,8 @@ class _DeleteIcon extends StatelessWidget {
   void deleteAgent(BuildContext context) async {
 
     final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-    final resp = await AgentService.deleteAgent(agentProvider.agent.identification ?? 'no-identification');
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final resp = await AgentService.deleteAgent(agentProvider.agent.identification ?? 'no-identification', userProvider.token);
 
     if(agentProvider.updating) 
         agentProvider.updating = false;
@@ -255,7 +256,7 @@ class _Form extends StatelessWidget {
       child: Column(
         children: [
 
-          _InputTitle(text: 'Identification'),
+          InputTitleCustom(text: 'Identification'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.identification : '', 
@@ -267,7 +268,7 @@ class _Form extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _InputTitle(text: 'Name'),
+          InputTitleCustom(text: 'Name'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.name : '',
@@ -278,7 +279,7 @@ class _Form extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _InputTitle(text: 'Last name'),
+          InputTitleCustom(text: 'Last name'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.lastname : '',
@@ -289,7 +290,7 @@ class _Form extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _InputTitle(text: 'Email'),
+          InputTitleCustom(text: 'Email'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.email : '',
@@ -300,7 +301,7 @@ class _Form extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _InputTitle(text: 'Phone Number'),
+          InputTitleCustom(text: 'Phone Number'),
           SizedBox(height: 10),
           CustomInput(
             hintText: (agentProvider.updating) ? agentProvider.agent.phone : '',
@@ -319,29 +320,6 @@ class _Form extends StatelessWidget {
             phone: _phoneController,
           )
         ],
-      ),
-    );
-  }
-}
-
-class _InputTitle extends StatelessWidget {
-
-  final String text;
-
-  const _InputTitle({
-    Key? key, required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(left: 20),
-      child: TextCustom(  
-        text: this.text,
-        size: 15,
-        font: FontWeight.bold,
-        color: Colors.red.shade300,
       ),
     );
   }
@@ -394,6 +372,7 @@ class _SaveButton extends StatelessWidget {
 
     bool resp;
     String userID = await UserService.readUserID();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     final newAgent = new Agent(
       name           : this.name.text, 
@@ -404,11 +383,11 @@ class _SaveButton extends StatelessWidget {
       userID         : userID
     );
 
-    resp = await AgentService.createAgent(newAgent);
+    resp = await AgentService.createAgent(newAgent, userProvider.token);
 
     if(resp){
       if(provider.changePhoto){
-        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo);
+        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo, userProvider.token);
       }
 
       if(resp) {
@@ -420,8 +399,8 @@ class _SaveButton extends StatelessWidget {
           urlImage    : 'assets/male-icon.jpg', 
           userName    : '${newAgent.name} ${newAgent.lastname}',
           status      : StatusAlert.Success,
-          successPage : 'home',
-          cancelPage  : 'create'
+          successPage : 'agent',
+          cancelPage  : 'agentsOptions'
         );
       } else {
 
@@ -432,8 +411,8 @@ class _SaveButton extends StatelessWidget {
           urlImage : 'assets/male-icon.jpg', 
           userName : '${newAgent.name} ${newAgent.lastname}',
           status   : StatusAlert.Error,
-          successPage : 'home',
-          cancelPage  : 'create'
+          successPage : 'agent',
+          cancelPage  : 'agentsOptions'
         );  
 
       }
@@ -445,8 +424,8 @@ class _SaveButton extends StatelessWidget {
         urlImage : 'assets/male-icon.jpg', 
         userName : '${newAgent.name} ${newAgent.lastname}',
         status   : StatusAlert.Error,
-        successPage : 'home',
-        cancelPage  : 'create'
+        successPage : 'agent',
+        cancelPage  : 'agentsOptions'
       );
     }
   }
@@ -456,6 +435,7 @@ class _SaveButton extends StatelessWidget {
     bool resp;
     Agent agent = provider.agent;
     String userID = await UserService.readUserID();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     final newAgent = new Agent(
       name           : (this.name.text == '') ? agent.name : this.name.text, 
@@ -466,12 +446,12 @@ class _SaveButton extends StatelessWidget {
       userID         : userID
     );
 
-    resp = await AgentService.updateAgent(newAgent);
+    resp = await AgentService.updateAgent(newAgent, userProvider.token);
 
     if(resp){
 
       if(provider.changePhoto){
-        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo);
+        resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo, userProvider.token);
       }
 
       if(resp) {

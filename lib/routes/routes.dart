@@ -8,15 +8,16 @@ import 'package:agent_management/screens/screens.dart';
 Map<String, WidgetBuilder> getRoutes() {
 
   return <String, WidgetBuilder> {
-    'checking' : (_) => CheckAuthScreen(),
+    'checking'      : (_) => CheckAuthScreen(),
 
-    'home'     : (_) => HomeScreen(),
+    'home'          : (_) => HomeScreen(),
 
-    'sing'     : (_) => SingScreen(),
-    'login'    : (_) => LoginScreen(),
+    'sing'          : (_) => SingScreen(),
+    'login'         : (_) => LoginScreen(),
+    'editProfile'   : (_) => EditProfileScreen(),
 
-    'agent'    : (_) => AgentScreen(),
-    'create'   : (_) => CreateAgentScreen(),
+    'agent'         : (_) => AgentScreen(),
+    'agentsOptions' : (_) => AgentsOptionsScreen(),    
   };
 
 }
