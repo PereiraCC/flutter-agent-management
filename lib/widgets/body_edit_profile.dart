@@ -55,17 +55,19 @@ class _Image extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final user = Provider.of<UserProvider>(context, listen: false).user;
+    final userProvider = Provider.of<UserProvider>(context);
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Container(
       margin: EdgeInsets.only(top: 140, left: widthScreen * 0.35),
-      child: ImageAgent(
-        wid: 100,
-        hei: 100,
-        networkImage: (user.profileImage == null) ? false : true,
-        urlImage: (user.profileImage == null) ? 'assets/no-image.jpg' : user.profileImage ?? '',
-      )
+      child: (!userProvider.isChangePhoto) 
+        ? ImageAgent(
+          wid: 100,
+          hei: 100,
+          networkImage: (userProvider.user.profileImage == null) ? false : true,
+          urlImage: (userProvider.user.profileImage == null) ? 'assets/no-image.jpg' : userProvider.user.profileImage ?? '',
+        )
+        : UploadImage(photo: userProvider.photo)
     );
   }
 }
@@ -205,7 +207,8 @@ class _FormProfile extends StatelessWidget {
             helpText: '', 
             isPassword: true,
             icon: Icons.password, 
-            controller: _passworController
+            controller: _passworController,
+            enable: (user.identification == 'google-id') ? false : true,
           ),
 
           SizedBox(height: 20),
@@ -234,14 +237,14 @@ class _SaveProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final user = Provider.of<UserProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
 
     return TextButton(
       child: Container(
         width: 250,
         height: 50,
         decoration: BoxDecoration(  
-          color: Colors.red.shade300,
+          color: ( !userProvider.isUpdate ) ? Colors.red.shade300 : Colors.grey,
           borderRadius: BorderRadius.all(Radius.circular(15)),
           boxShadow: [
             BoxShadow(
@@ -256,12 +259,13 @@ class _SaveProfile extends StatelessWidget {
           child: Text('Save', style: TextStyle(fontSize: 20, color: Colors.white))
         )
       ),
-      onPressed: () => _updateUser(context, user)
+      onPressed:  ( !userProvider.isLogin ) ? () => _updateUser(context, userProvider) : null,
     );
   }
 
    void _updateUser(BuildContext context, UserProvider provider) async {
     
+    provider.isUpdate = true;
     bool resp;
     User user = provider.user;
 
@@ -281,13 +285,15 @@ class _SaveProfile extends StatelessWidget {
       }
 
       if(resp) {
+        UserService.readUser(context);
         provider.isChangePhoto = false;
+        provider.isUpdate = false;
         showAlert(
           context  : context, 
           title    : 'Success', 
           subTitle : 'Successfully updated agent', 
           urlImage : 'assets/male-icon.jpg', 
-          userName : '${user.name}',
+          userName : '${newUser.name}',
           status   : StatusAlert.Success,
           successPage : 'home',
           cancelPage  : 'editProfile'
@@ -298,7 +304,7 @@ class _SaveProfile extends StatelessWidget {
           title    : 'Error', 
           subTitle : 'Failed to update an agent', 
           urlImage : 'assets/male-icon.jpg', 
-          userName : '${user.name}',
+          userName : '${newUser.name}',
           status   : StatusAlert.Error,
           successPage : 'home',
           cancelPage  : 'editProfile'
@@ -310,7 +316,7 @@ class _SaveProfile extends StatelessWidget {
         title    : 'Error', 
         subTitle : 'Failed to update an agent', 
         urlImage : 'assets/male-icon.jpg', 
-        userName : '${user.name}',
+        userName : '${newUser.name}',
         status   : StatusAlert.Error,
         successPage : 'home',
         cancelPage  : 'editProfile'

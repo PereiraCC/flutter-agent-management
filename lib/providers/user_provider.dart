@@ -10,6 +10,7 @@ class UserProvider with ChangeNotifier {
   String _token       = '';
   bool _isLogin       = false;
   bool _isCreate      = false;
+  bool _isUpdate      = false;
   bool _ischangePhoto = false;
   File _photo         = new File('');
   User _user          = User.empty();
@@ -36,6 +37,12 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
   
+  bool get isUpdate => this._isUpdate;
+  set isUpdate(bool isUpdate){
+    this._isUpdate = isUpdate;
+    notifyListeners();
+  }
+
   bool get isChangePhoto => this._ischangePhoto;
   set isChangePhoto(bool isChangePhoto){
     this._ischangePhoto = isChangePhoto;

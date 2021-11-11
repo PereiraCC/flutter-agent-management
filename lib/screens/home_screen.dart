@@ -1,3 +1,4 @@
+import 'package:agent_management/providers/agent_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -138,6 +139,7 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final countAgent = Provider.of<AgentManamegentProvider>(context).countAgent;
     final size = MediaQuery.of(context).size;
 
     return Container(
@@ -168,7 +170,7 @@ class _Body extends StatelessWidget {
             color: Colors.blue.shade50,
             urlImage: 'assets/agents.jpg',
             title: 'Agents',
-            subtitle: 'Total 6 Agents',
+            subtitle: 'Total $countAgent Agents',
             text: 'Management your agents',
             event: () => Navigator.pushNamed(context, 'agent'),
           ),
@@ -192,7 +194,7 @@ class _Body extends StatelessWidget {
             title: 'Profile',
             subtitle: 'Carlos Pereira',
             text: 'Management your account',
-            event: () => Navigator.pushNamed(context, 'agent'),
+            event: () => Navigator.pushNamed(context, 'editProfile'),
           ),
 
           SizedBox(height: 20),

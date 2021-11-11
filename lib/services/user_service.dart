@@ -172,9 +172,12 @@ class UserService {
       if (resp.statusCode == 200) {
 
         userProvider.user = User.fromJson(decodedData['user'][0]);
-        await storage.write(key: 'name',           value: userProvider.user.name);          
-        await storage.write(key: 'password',       value: userProvider.user.password);
-        await storage.write(key: 'profileImage',   value: userProvider.user.profileImage);
+        await storage.delete(key: 'name');
+        await storage.delete(key: 'password');
+        await storage.delete(key: 'profileImage');
+        await storage.write(key:  'name',           value: userProvider.user.name);          
+        await storage.write(key:  'password',       value: userProvider.user.password);
+        await storage.write(key:  'profileImage',   value: userProvider.user.profileImage);
         return true;
 
       } else if(resp.statusCode == 400 || resp.statusCode == 401 || resp.statusCode == 404) {

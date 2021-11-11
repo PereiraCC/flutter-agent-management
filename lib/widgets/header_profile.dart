@@ -24,6 +24,9 @@ class _ProfileTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -33,7 +36,10 @@ class _ProfileTitle extends StatelessWidget {
           right     : 0, 
           bottom    : 0, 
           left      : 10, 
-          onPressed : () => Navigator.pushNamed(context, 'home')
+          onPressed : () {
+            userProvider.isChangePhoto = false;
+            Navigator.pushNamed(context, 'home');
+          } 
         ),
 
         // Title
