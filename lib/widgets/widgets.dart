@@ -7,8 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:agent_management/models/models.dart';
 
-import 'package:agent_management/helpers/show_alert.dart';
-import 'package:agent_management/helpers/confirmation_alert.dart';
+import 'package:agent_management/helpers/helpers.dart';
 
 import 'package:agent_management/providers/agent_provider.dart';
 import 'package:agent_management/providers/user_provider.dart';
