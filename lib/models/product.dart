@@ -16,10 +16,12 @@ class Product {
         required this.title,
     });
 
-    bool    available;
-    int     price;
-    String  code;
-    String  title;
+    Product.empty();
+
+    bool?   available;
+    int?    price;
+    String? code;
+    String? title;
     String? profileImage;
     String? uid;
     String? userID;
@@ -33,6 +35,18 @@ class Product {
         uid          : json["uid"],
         userID       : json["userID"],
     );
+
+    static List<Product> fromJsonList( List<dynamic> jsonList  ) {
+
+      List<Product> products = [];
+
+      for ( var item in jsonList  ) {
+        products.add( new Product.fromJson(item) );
+      }
+
+      return products;
+
+    }
 
     Map<String, dynamic> toJson() => {
         "available"     : available,
