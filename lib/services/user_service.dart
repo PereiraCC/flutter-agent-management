@@ -10,7 +10,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:agent_management/models/user.dart';
+import 'package:agent_management/models/models.dart';
 import 'package:agent_management/global/environment.dart';
 import 'package:agent_management/providers/user_provider.dart';
 
