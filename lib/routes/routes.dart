@@ -18,6 +18,8 @@ Map<String, WidgetBuilder> getRoutes() {
 
     'agent'         : (_) => AgentScreen(),
     'agentsOptions' : (_) => AgentsOptionsScreen(),    
+
+    'product'       : (_) => ProductsScreen(),
   };
 
 }

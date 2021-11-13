@@ -183,7 +183,7 @@ class _Body extends StatelessWidget {
             title: 'Products',
             subtitle: 'Total 5 Products',
             text: 'Management your products',
-            event: () => Navigator.pushNamed(context, 'agent'),
+            event: () => Navigator.pushNamed(context, 'product'),
           ),
 
           SizedBox(height: 20),
