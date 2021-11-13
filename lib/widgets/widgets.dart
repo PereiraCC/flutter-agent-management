@@ -8,9 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:agent_management/models/models.dart';
 import 'package:agent_management/helpers/helpers.dart';
 import 'package:agent_management/providers/providers.dart';
-
-import 'package:agent_management/services/agent_service.dart';
-import 'package:agent_management/services/user_service.dart';
+import 'package:agent_management/services/services.dart';
 
 import 'package:agent_management/search/search_deletegate.dart';
 
