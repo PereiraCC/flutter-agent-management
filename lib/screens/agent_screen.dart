@@ -93,7 +93,7 @@ class _FloatiangButton extends StatelessWidget {
           SizedBox(height: 10),
 
           FloatingActionButton(
-            onPressed: () => Navigator.pushNamed(context, 'create'),
+            onPressed: () => Navigator.pushNamed(context, 'agentsOptions'),
             backgroundColor: Colors.red.shade300,
             child: Icon(Icons.add, color: Colors.white),
             heroTag: null,
