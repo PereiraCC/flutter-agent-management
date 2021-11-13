@@ -1,3 +1,4 @@
+import 'package:agent_management/providers/providers.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agent_management/providers/agent_provider.dart';
@@ -25,6 +26,10 @@ class MyApp extends StatelessWidget {
 
         ChangeNotifierProvider(
           create: ( _ ) => UserProvider(),
+        ),
+
+        ChangeNotifierProvider(
+          create: ( _ ) => ProductProvider(),
         ),
 
       ],

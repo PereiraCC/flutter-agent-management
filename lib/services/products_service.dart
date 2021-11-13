@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'package:agent_management/providers/providers.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,7 @@ import 'package:agent_management/models/models.dart';
 import 'package:agent_management/services/services.dart';
 
 import 'package:agent_management/global/environment.dart';
+import 'package:provider/provider.dart';
 
 class ProductsServices {
 
@@ -14,6 +16,7 @@ class ProductsServices {
 
     try {
       
+      final productProvider = Provider.of<ProductProvider>(context, listen: false);
       String userID = await UserService.readUserID();
 
       final url = Uri.parse('${Environment.apiProductsUrl}/$userID');
@@ -24,10 +27,9 @@ class ProductsServices {
         final decodedData = json.decode(resp.body);
         final products = Product.fromJsonList(decodedData['documents']);
 
-        // TODO: Add list products to provider 
+        productProvider.products = products;
 
         return true;
-
       }
 
       return false;
