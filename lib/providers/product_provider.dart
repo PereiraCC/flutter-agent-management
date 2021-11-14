@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class ProductProvider with ChangeNotifier {
 
   bool _isLoading = false;
+  bool _isSuccess = false;
   List<Product> _products  = [];
   Product _product = new Product.empty();
 
@@ -15,9 +16,16 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool get isSuccess => _isSuccess;
+  set isSuccess(bool data){
+    this._isSuccess = data;
+    notifyListeners();
+  }
+
   List<Product> get products => _products;
   set products(List<Product> data){
     this._products = data;
+    this.isSuccess = true;
     notifyListeners();
   }
 
