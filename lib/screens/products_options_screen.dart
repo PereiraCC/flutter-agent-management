@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 
 import 'package:agent_management/widgets/widgets.dart';
 
-class AgentsOptionsScreen extends StatelessWidget {
-  
+class ProductsOptionsScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
+    // final productProvider = Provider.of<ProductProvider>(context);
+
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SingleChildScrollView(  
         physics: BouncingScrollPhysics(),
-        child: Stack(
+        child: Stack(  
           children: [
-      
-            HeaderCreate(category: TypeCategory.Agents),
-      
-            BodyScreenCreate(),
+
+            HeaderCreate(category: TypeCategory.Products),
 
           ],
         ),
-      ),
-    );
+      )
+   );
   }
 }
-

@@ -60,8 +60,7 @@ class _FloatingButtons extends StatelessWidget {
           SizedBox(height: 10),
 
           FloatingActionButton(
-            // TODO: Change route name
-            onPressed: () => Navigator.pushNamed(context, 'product'),
+            onPressed: () => Navigator.pushNamed(context, 'productOptions'),
             backgroundColor: Colors.red.shade300,
             child: Icon(Icons.add, color: Colors.white),
             heroTag: null,
