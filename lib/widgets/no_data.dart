@@ -1,16 +1,23 @@
-part  of 'widgets.dart';
+part of 'widgets.dart';
+
+enum TypeCategory {
+  Agents,
+  Products
+}
 
 class NoData extends StatelessWidget {
   
   final String title;
   final String subtitle;
   final String secondSubtitle;
+  final TypeCategory? category;
 
   const NoData({
     Key? key, 
     required this.title, 
     required this.subtitle, 
-    required this.secondSubtitle
+    required this.secondSubtitle, 
+    this.category = TypeCategory.Agents
   }) : super(key: key);
 
  @override
@@ -29,7 +36,7 @@ class NoData extends StatelessWidget {
           child: ImageAgent(
             wid: 100,
             hei: 100,
-            urlImage: 'assets/male-icon.jpg',
+            urlImage: (this.category == TypeCategory.Agents ) ? 'assets/agents.jpg' : 'assets/products.jpg',
             networkImage: false
           )
         ),
