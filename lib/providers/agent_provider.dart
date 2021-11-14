@@ -11,7 +11,7 @@ class AgentManamegentProvider with ChangeNotifier {
   String _countAgent = '';
   bool _loading = false;
   bool _updating = false;
-  bool _changePhoto = false;
+  bool _isChangePhoto = false;
   bool _back = true;
   File _photo = new File('');
   List<Agent> _agents = [];
@@ -35,9 +35,9 @@ class AgentManamegentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool get changePhoto => _changePhoto;
-  set changePhoto(bool data) {
-    this._changePhoto = data;
+  bool get isChangePhoto => _isChangePhoto;
+  set isChangePhoto(bool data) {
+    this._isChangePhoto = data;
     notifyListeners();
   }
 
