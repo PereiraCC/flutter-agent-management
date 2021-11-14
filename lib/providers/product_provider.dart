@@ -1,12 +1,17 @@
 
 
-import 'package:agent_management/models/models.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-class ProductProvider with ChangeNotifier {
+import 'package:agent_management/models/models.dart';
 
+class ProductProvider with ChangeNotifier {
+  
   bool _isLoading = false;
   bool _isSuccess = false;
+  bool _isChangePhoto = false;
+  File _photo = new File('');
   List<Product> _products  = [];
   Product _product = new Product.empty();
 
@@ -19,6 +24,18 @@ class ProductProvider with ChangeNotifier {
   bool get isSuccess => _isSuccess;
   set isSuccess(bool data){
     this._isSuccess = data;
+    notifyListeners();
+  }
+
+  bool get isChangePhoto => _isChangePhoto;
+  set isChangePhoto(bool data) {
+    this._isChangePhoto = data;
+    notifyListeners();
+  }
+
+  File get photo => _photo;
+  set photo(File data) {
+    this._photo = data;
     notifyListeners();
   }
 
