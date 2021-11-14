@@ -76,7 +76,7 @@ class _ShowResults extends StatelessWidget {
               physics: BouncingScrollPhysics(),
               itemCount: agents.length,
               itemBuilder: ( _, i) {
-                return CardAgent(agent: agents[i]);
+                return CategoryCard(category: TypeCategory.Agents, agent: agents[i]);
               },
             );
 

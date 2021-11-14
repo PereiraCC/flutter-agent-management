@@ -1,4 +1,5 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,7 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    ProductsServices.getAllProducts(context);
     final productsProvider = Provider.of<ProductProvider>(context);
 
     return Scaffold(
@@ -79,26 +81,39 @@ class _CreateBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final products = Provider.of<ProductProvider>(context).products;
+    final productsProvider = Provider.of<ProductProvider>(context);
 
-    if(products.length > 0) {
+    if(productsProvider.products.length > 0) {
 
       return ListView.builder(
         physics: BouncingScrollPhysics(),
-        itemCount: products.length,
+        itemCount: productsProvider.products.length,
         itemBuilder: ( _, i) {
-          // TODO: Create CardProduct
-          // return CardAgent(agent: products[i]);
-          return Text(products[i].title ?? 'no-data');
+          return CategoryCard(category: TypeCategory.Products, product: productsProvider.products[i]);
         },
       );
 
-    } else {
+    } else if( !productsProvider.isSuccess ) { 
+
+      return Center(
+        child: CircularProgressIndicator(
+          color: Colors.red.shade300,
+        ),
+      );
+
+    }
+    else if( productsProvider.products.length == 0 ) {
+
       return NoData(
         title: 'No products',
         subtitle: 'Please press the + button to add a new product',
         secondSubtitle: 'Please press the sync button to get new products',
+        category: TypeCategory.Products
       );
+
+    } 
+    else {
+      return Container();
     }
   }
 }

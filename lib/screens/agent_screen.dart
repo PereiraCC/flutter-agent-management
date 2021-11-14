@@ -50,7 +50,7 @@ class _CreateBody extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         itemCount: agentsProvider.agents.length,
         itemBuilder: ( _, i) {
-          return  CardAgent(agent: agentsProvider.agents[i]);
+          return CategoryCard(category: TypeCategory.Agents, agent: agentsProvider.agents[i]);
         },
       );
 

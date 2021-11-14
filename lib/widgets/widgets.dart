@@ -16,7 +16,7 @@ part 'appbar_custom.dart';
 part 'arrow_back_icon.dart';
 part 'body_create.dart';
 part 'body_edit_profile.dart';
-part 'card_agent.dart';
+part 'category_card.dart';
 part 'curved_header.dart';
 part 'custom_input.dart';
 part 'custom_single_button.dart';
