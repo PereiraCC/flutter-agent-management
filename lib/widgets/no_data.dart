@@ -2,7 +2,8 @@ part of 'widgets.dart';
 
 enum TypeCategory {
   Agents,
-  Products
+  Products,
+  Users
 }
 
 class NoData extends StatelessWidget {
