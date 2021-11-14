@@ -29,3 +29,4 @@ part 'no_data.dart';
 part 'text_custom.dart';
 part 'upload_image.dart';
 part 'box_background_body.dart';
+part 'picture_button.dart';
