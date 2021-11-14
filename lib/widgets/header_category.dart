@@ -76,8 +76,8 @@ class _Title extends StatelessWidget {
           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Text(
             (this.category == TypeCategory.Agents) 
-            ? (agentProvider.updating) ? 'Edit' : 'Create'
-            : 'Create',
+            ? (agentProvider.updating) ? 'Edit Agents' : 'Create Agents'
+            : 'Create Products',
             style: TextStyle(
               fontSize: 30, 
               fontWeight: FontWeight.bold,
