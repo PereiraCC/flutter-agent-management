@@ -2,9 +2,9 @@
 part of 'widgets.dart';
 
 
-class BodyScreenCreate extends StatelessWidget {
+class BodyAgent extends StatelessWidget {
 
-  const BodyScreenCreate({
+  const BodyAgent({
     Key? key,
   }) : super(key: key);
 

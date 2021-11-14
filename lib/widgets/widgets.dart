@@ -14,7 +14,7 @@ import 'package:agent_management/search/search_deletegate.dart';
 
 part 'appbar_custom.dart';
 part 'arrow_back_icon.dart';
-part 'body_create.dart';
+part 'body_agent.dart';
 part 'body_edit_profile.dart';
 part 'category_card.dart';
 part 'curved_header.dart';

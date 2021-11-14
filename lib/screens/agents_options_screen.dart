@@ -14,7 +14,7 @@ class AgentsOptionsScreen extends StatelessWidget {
       
             HeaderCreate(category: TypeCategory.Agents),
       
-            BodyScreenCreate(),
+            BodyAgent(),
 
           ],
         ),
