@@ -3,12 +3,25 @@ part of 'widgets.dart';
 // This function sets the Agent to the provider and navigates to create the screen.
 void setAgent({required BuildContext context, required Agent agent}) {
 
-  if(agent.identification == null) {
+  if(agent.identification != '') {
     
     final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
     agentProvider.updating = true;
     agentProvider.agent = agent;
     Navigator.pushNamed(context, 'agentsOptions');
+
+  }
+
+}
+
+void setProduct({required BuildContext context, required Product product}) {
+
+  if(product.code != '') {
+    
+    final productsProvider = Provider.of<ProductProvider>(context, listen: false);
+    // productsProvider.updating = true;
+    productsProvider.product = product;
+    Navigator.pushNamed(context, 'productOptions');
 
   }
 
@@ -31,7 +44,7 @@ class CategoryCard extends StatelessWidget {
     return GestureDetector(
       onTap: (this.category == TypeCategory.Agents) 
              ? () => setAgent(context: context, agent: this.agent ?? new Agent.empty())
-             : () {},//TODO: Create function for products
+             : () => setProduct(context: context, product: this.product ?? new Product.empty()),
       child:
         Container(
           width: 350,
@@ -162,7 +175,7 @@ class _ArrowIcon extends StatelessWidget {
       child: IconButton(
         onPressed: (this.category == TypeCategory.Agents) 
              ? () => setAgent(context: context, agent: this.agent ?? new Agent.empty())
-             : () {},//TODO: Create function for products
+             : () => setProduct(context: context, product: this.product ?? new Product.empty()),
         icon: Icon(Icons.arrow_forward_ios, color: Colors.red.shade300)
       ),
     );
