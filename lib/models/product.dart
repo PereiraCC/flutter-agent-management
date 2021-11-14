@@ -30,7 +30,7 @@ class Product {
         available    : json["available"],
         code         : json["code"],
         price        : json["price"],
-        profileImage : json["profile_image"],
+        profileImage : (json["profile_image"] == '') ? 'no-image' : json["profile_image"],
         title        : json["title"],
         uid          : json["uid"],
         userID       : json["userID"],
