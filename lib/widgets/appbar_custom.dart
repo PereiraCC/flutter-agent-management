@@ -47,7 +47,7 @@ class _AppBarCustomState extends State<StatefulWidget> {
       : IconButton( 
         icon: Icon(Icons.arrow_back_ios, color: Colors.white),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.pushReplacementNamed(context, 'home');
         },  
       ),
       // toolbarHeight: 500,
