@@ -7,8 +7,6 @@ class ProductsOptionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // final productProvider = Provider.of<ProductProvider>(context);
-
     return Scaffold(
       body: SingleChildScrollView(  
         physics: BouncingScrollPhysics(),
@@ -16,6 +14,8 @@ class ProductsOptionsScreen extends StatelessWidget {
           children: [
 
             HeaderCreate(category: TypeCategory.Products),
+
+            BodyProduct(),
 
           ],
         ),
