@@ -10,6 +10,7 @@ class ProductProvider with ChangeNotifier {
   
   bool _isLoading = false;
   bool _isSuccess = false;
+  bool _isUpdating = false;
   bool _isChangePhoto = false;
   File _photo = new File('');
   List<Product> _products  = [];
@@ -24,6 +25,12 @@ class ProductProvider with ChangeNotifier {
   bool get isSuccess => _isSuccess;
   set isSuccess(bool data){
     this._isSuccess = data;
+    notifyListeners();
+  }
+
+  bool get isUpdating => _isUpdating;
+  set isUpdating(bool data){
+    this._isUpdating = data;
     notifyListeners();
   }
 
