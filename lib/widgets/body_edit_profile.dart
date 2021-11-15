@@ -9,11 +9,11 @@ class BodyEditProfile extends StatelessWidget {
 
       children: [
 
-        _Back(),
+        BoxBackgroundBody(height: 800),
 
-        _Image(),
+        _UserCircleImage(),
 
-        _Picture(),
+        PictureButton(category: TypeCategory.Users),
 
         _ContentCustom()
 
@@ -23,34 +23,7 @@ class BodyEditProfile extends StatelessWidget {
   }
 }
 
-class _Back extends StatelessWidget {
-
-  const _Back({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(  
-      height: 800,
-      margin: EdgeInsets.only(top: 190, right: 10, left: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 5),
-          )
-        ]
-      ),
-    );
-  }
-}
-
-class _Image extends StatelessWidget {
+class _UserCircleImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -69,43 +42,6 @@ class _Image extends StatelessWidget {
         )
         : UploadImage(photo: userProvider.photo)
     );
-  }
-}
-
-class _Picture extends StatelessWidget {
-
-  
-  @override
-  Widget build(BuildContext context) {
-
-    final widthScreen = MediaQuery.of(context).size.width;
-
-    return Container(
-      margin: EdgeInsets.only(top: 190, left: widthScreen * 0.15),
-      child: IconButton(
-        icon: Icon(Icons.image, color: Colors.red.shade300),
-        onPressed: () async {
-          await _imageProcess(context);
-        }
-      ),
-    );
-  }
-
-  _imageProcess(BuildContext context) async {
-
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-
-    final _picker = ImagePicker();
-
-    final pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery
-    );
-
-    if (pickedFile?.path != null) {
-      userProvider.photo = File(pickedFile!.path);
-      userProvider.isChangePhoto = true;
-    }
-
   }
 }
 

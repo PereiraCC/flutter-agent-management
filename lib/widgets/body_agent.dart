@@ -11,18 +11,25 @@ class BodyAgent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+    final agentProvider = Provider.of<AgentManamegentProvider>(context);
     
     return Stack(
       children: [
 
-        _BoxBackgroundBody(),
+        BoxBackgroundBody(height: 880),
 
-        _CircleImage(),
+        _AgentCircleImage(),
 
-        _PictureIcon(),
+        PictureButton(category: TypeCategory.Agents),
         
-        _DeleteIcon(agentProvider: agentProvider),
+        Container(
+          child: (agentProvider.updating ) 
+                  ? DeleteButton(
+                    category: TypeCategory.Agents, 
+                    name: '${agentProvider.agent.name} ${agentProvider.agent.lastname}'
+                  )
+                  : Container(),
+        ),
 
         _Content(agentProvider: agentProvider)
 
@@ -31,7 +38,7 @@ class BodyAgent extends StatelessWidget {
   }
 }
 
-class _CircleImage extends StatelessWidget {
+class _AgentCircleImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +47,8 @@ class _CircleImage extends StatelessWidget {
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Container(
-      margin: EdgeInsets.only(top: 100, left: widthScreen * 0.35),
-      child: (!agentPro.changePhoto) ? ImageAgent(
+      margin: EdgeInsets.only(top: 140, left: widthScreen * 0.35),
+      child: (!agentPro.isChangePhoto) ? ImageAgent(
         wid: 100,
         hei: 100,
         networkImage: (agentPro.updating) 
@@ -57,136 +64,6 @@ class _CircleImage extends StatelessWidget {
   }
 }
 
-class _BoxBackgroundBody extends StatelessWidget {
-  const _BoxBackgroundBody({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(  
-      height: 880,
-      margin: EdgeInsets.only(top: 150, right: 10, left: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 5),
-          )
-        ]
-      ),
-    );
-  }
-}
-
-class _DeleteIcon extends StatelessWidget {
-  
-  final AgentManamegentProvider agentProvider;
-
-  const _DeleteIcon({Key? key, required this.agentProvider}) : super(key: key);
-    
-  @override
-  Widget build(BuildContext context) {
-    
-    final widthScreen = MediaQuery.of(context).size.width;
-    
-    return Container(
-      height: 50,
-      margin: EdgeInsets.only(top: 150, left: widthScreen - 80),
-      child: (agentProvider.updating) ? IconButton(
-        icon: Icon(Icons.delete, color: Colors.red.shade300),
-        onPressed: () {
-          showConfirmationAlert(
-            context: context,
-            title: 'Delete an agent',
-            subtitle: 'Do you want to remove this agent?',
-            urlImage: 'assets/male-icon.jpg',
-            userName: '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
-            continueEvent: () async => deleteAgent(context),
-            cancelEvent: () => Navigator.pop(context)
-          );
-        }, 
-      )
-      : Container()
-    );
-  }
-
-  void deleteAgent(BuildContext context) async {
-
-    final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final resp = await AgentService.deleteAgent(agentProvider.agent.identification ?? 'no-identification', userProvider.token);
-
-    if(agentProvider.updating) 
-        agentProvider.updating = false;
-
-    if(resp){
-      showAlert(
-        context  : context, 
-        title    : 'Success', 
-        subTitle : 'Successfully deleted agent', 
-        urlImage : 'assets/male-icon.jpg', 
-        userName : '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
-        status   : StatusAlert.Success,
-        successPage : 'home',
-        cancelPage  : 'create'
-      );
-    } else {
-      showAlert(
-        context  : context, 
-        title    : 'Error', 
-        subTitle : 'Failed to delete an agent', 
-        urlImage : 'assets/male-icon.jpg', 
-        userName : '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
-        status   : StatusAlert.Error,
-        successPage : 'home',
-        cancelPage  : 'create'
-      );
-    }
-  }
-}
-
-class _PictureIcon extends StatelessWidget {
-
-  
-  @override
-  Widget build(BuildContext context) {
-
-    final widthScreen = MediaQuery.of(context).size.width;
-
-    return Container(
-      margin: EdgeInsets.only(top: 150, left: widthScreen * 0.15),
-      child: IconButton(
-        icon: Icon(Icons.image, color: Colors.red.shade300),
-        onPressed: () async {  
-          await  _imageProcess(context);
-        },  
-      ),
-    );
-  }
-
-  _imageProcess(BuildContext context) async {
-
-    final agentPro = Provider.of<AgentManamegentProvider>(context, listen: false);
-
-    final _picker = ImagePicker();
-
-    final pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery
-    );
-
-    if (pickedFile?.path != null) {
-      agentPro.photo = File(pickedFile!.path);
-      agentPro.changePhoto = true;
-    }
-
-  }
-}
-
 class _Content extends StatelessWidget {
 
   final AgentManamegentProvider agentProvider;
@@ -199,7 +76,7 @@ class _Content extends StatelessWidget {
     final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
     
     return Container(
-      margin: EdgeInsets.only(top: 210),
+      margin: EdgeInsets.only(top: 250),
       width: 400,
       child: Column(
         children: [
@@ -386,12 +263,12 @@ class _SaveButton extends StatelessWidget {
     resp = await AgentService.createAgent(newAgent, userProvider.token);
 
     if(resp){
-      if(provider.changePhoto){
+      if(provider.isChangePhoto){
         resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo, userProvider.token);
       }
 
       if(resp) {
-        provider.changePhoto = false;
+        provider.isChangePhoto = false;
         showAlert(
           context     : context, 
           title       : 'Success', 
@@ -450,12 +327,12 @@ class _SaveButton extends StatelessWidget {
 
     if(resp){
 
-      if(provider.changePhoto){
+      if(provider.isChangePhoto){
         resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo, userProvider.token);
       }
 
       if(resp) {
-        provider.changePhoto = false;
+        provider.isChangePhoto = false;
         showAlert(
           context  : context, 
           title    : 'Success', 
