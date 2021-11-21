@@ -1,7 +1,6 @@
 
 part of 'widgets.dart';
 
-
 class BodyAgent extends StatelessWidget {
 
   const BodyAgent({
@@ -31,7 +30,7 @@ class BodyAgent extends StatelessWidget {
                   : Container(),
         ),
 
-        _Content(agentProvider: agentProvider)
+        _ContentAgents()
 
       ]
     );
@@ -64,11 +63,9 @@ class _AgentCircleImage extends StatelessWidget {
   }
 }
 
-class _Content extends StatelessWidget {
+class _ContentAgents extends StatelessWidget {
 
-  final AgentManamegentProvider agentProvider;
-
-  const _Content({Key? key, required this.agentProvider}) : super(key: key);
+  const _ContentAgents({Key? key}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -103,18 +100,18 @@ class _Content extends StatelessWidget {
 
           SizedBox(height: 15),
 
-          _Form(agentProvider: agentProvider),
+          _FormAgents(agentProvider: agentProvider),
         ],
       ),
     );
   }
 }
 
-class _Form extends StatelessWidget {
+class _FormAgents extends StatelessWidget {
 
   final AgentManamegentProvider agentProvider;
 
-  const _Form({
+  const _FormAgents({
     required this.agentProvider, 
   });
     
@@ -189,7 +186,7 @@ class _Form extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          _SaveButton(
+          _AgentsButton(
             identification: _identificationController,
             name: _nameController,
             lastName: _lastNameController,
@@ -202,7 +199,7 @@ class _Form extends StatelessWidget {
   }
 }
 
-class _SaveButton extends StatelessWidget {
+class _AgentsButton extends StatelessWidget {
   
   final TextEditingController identification;
   final TextEditingController name;
@@ -210,7 +207,7 @@ class _SaveButton extends StatelessWidget {
   final TextEditingController email;
   final TextEditingController phone;
 
-  const _SaveButton({
+  const _AgentsButton({
     Key? key, 
     required this.identification, 
     required this.name, 
@@ -340,8 +337,8 @@ class _SaveButton extends StatelessWidget {
           urlImage : 'assets/male-icon.jpg', 
           userName : '${newAgent.name} ${newAgent.lastname}',
           status   : StatusAlert.Success,
-          successPage : 'home',
-          cancelPage  : 'create'
+          successPage : 'agent',
+          cancelPage  : 'agentsOptions'
         );
       } else {
         showAlert(
@@ -351,8 +348,8 @@ class _SaveButton extends StatelessWidget {
           urlImage : 'assets/male-icon.jpg', 
           userName : '${newAgent.name} ${newAgent.lastname}',
           status   : StatusAlert.Error,
-          successPage : 'home',
-          cancelPage  : 'create'
+          successPage : 'agent',
+          cancelPage  : 'agentsOptions'
         );  
       }
     } else {
@@ -363,8 +360,8 @@ class _SaveButton extends StatelessWidget {
         urlImage : 'assets/male-icon.jpg', 
         userName : '${newAgent.name} ${newAgent.lastname}',
         status   : StatusAlert.Error,
-        successPage : 'home',
-        cancelPage  : 'create'
+        successPage : 'agent',
+        cancelPage  : 'agentsOptions'
       );
     }
   }
