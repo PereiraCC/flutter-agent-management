@@ -8,10 +8,11 @@ import 'package:agent_management/models/models.dart';
 
 class ProductProvider with ChangeNotifier {
   
-  bool _isLoading = false;
-  bool _isSuccess = false;
-  bool _isUpdating = false;
+  bool _isLoading     = false;
+  bool _isSuccess     = false;
+  bool _isUpdating    = false;
   bool _isChangePhoto = false;
+  bool _isAvailable   = false;
   File _photo = new File('');
   List<Product> _products  = [];
   Product _product = new Product.empty();
@@ -39,6 +40,13 @@ class ProductProvider with ChangeNotifier {
     this._isChangePhoto = data;
     notifyListeners();
   }
+
+  bool get isAvailable => _isAvailable;
+  set isAvailable(bool data) {
+    this._isAvailable = data;
+    notifyListeners();
+  }
+
 
   File get photo => _photo;
   set photo(File data) {
