@@ -2,7 +2,9 @@ part of 'widgets.dart';
 
 enum Screens {
   Sing,
-  Create
+  Agents,
+  Products,
+  Profile
 }
 
 class CurvedHeader extends StatelessWidget {
@@ -14,7 +16,7 @@ class CurvedHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: (this.screen == Screens.Create) ? 1080 : 0,
+      height: (this.screen == Screens.Sing) ? 0 : (this.screen == Screens.Agents || this.screen == Screens.Profile) ? 1100 : 900,
       width: double.infinity,
       child: CustomPaint(  
         painter: _HeaderCurvoPainter( screen ),
@@ -42,7 +44,7 @@ class _HeaderCurvoPainter extends CustomPainter {
     final path = new Path();
 
     // Drawing with the path and the pencil
-    if(this.screen == Screens.Create) {
+    if(this.screen == Screens.Agents || this.screen == Screens.Products || this.screen == Screens.Profile) {
 
       path.lineTo(0, size.height * 0.30);
       path.quadraticBezierTo(size.width * 0.5, size.height * 0.40 ,size.width, size.height * 0.30);

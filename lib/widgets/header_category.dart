@@ -15,7 +15,7 @@ class HeaderCreate extends StatelessWidget {
     return Stack(
       children :[
         Container(
-          child: CurvedHeader( screen: Screens.Create )
+          child: CurvedHeader( screen: (this.category == TypeCategory.Agents) ? Screens.Agents : Screens.Products)
         ),
         _Title(this.category),
       ] 

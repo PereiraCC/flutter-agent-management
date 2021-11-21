@@ -7,7 +7,7 @@ class HeaderProfile extends StatelessWidget {
     return Stack(
       children :[
         Container(
-          child: CurvedHeader( screen: Screens.Create )
+          child: CurvedHeader( screen: Screens.Profile )
         ),
         
         _ProfileTitle()
