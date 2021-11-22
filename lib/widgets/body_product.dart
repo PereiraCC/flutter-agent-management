@@ -230,7 +230,7 @@ class _ProductsButton extends StatelessWidget {
     );
   }
 
-  void _createProducts(BuildContext context, ProductProvider provider) async {
+  void _createProduct(BuildContext context, ProductProvider provider) async {
 
     provider.isLoading = true;
     bool resp;
@@ -255,6 +255,7 @@ class _ProductsButton extends StatelessWidget {
 
       if(resp) {
         provider.isChangePhoto = false;
+        provider.isAvailable = false;
         showAlert(
           context     : context, 
           title       : 'Success', 
@@ -295,76 +296,81 @@ class _ProductsButton extends StatelessWidget {
     provider.isLoading = false;
   }
 
-  // void _updateAgent(BuildContext context, AgentManamegentProvider provider) async {
+  void _updateProduct(BuildContext context, ProductProvider provider) async {
     
-  //   bool resp;
-  //   Agent agent = provider.agent;
-  //   String userID = await UserService.readUserID();
-  //   final userProvider = Provider.of<UserProvider>(context, listen: false);
+    provider.isLoading = true;
+    bool resp;
+    Product product = provider.product;
+    String userID = await UserService.readUserID();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-  //   final newAgent = new Agent(
-  //     name           : (this.name.text == '') ? agent.name : this.name.text, 
-  //     lastname       : (this.lastName.text == '') ? agent.lastname : this.lastName.text,
-  //     email          : (this.email.text == '') ? agent.email : this.email.text, 
-  //     phone          : (this.phone.text == '') ? agent.phone : this.phone.text, 
-  //     identification : (this.identification.text == '') ? agent.identification : this.identification.text,
-  //     userID         : userID
-  //   );
+    final newProduct = new Product(
+      code: (this.code.text == '') ? product.code : this.code.text,
+      title: (this.title.text == '') ? product.title : this.title.text,
+      price: (this.price.text == '') ? product.price : int.parse(price.text),
+      available: provider.isAvailable, 
+      userID: userID
+    );
 
-  //   resp = await AgentService.updateAgent(newAgent, userProvider.token);
+    resp = await ProductsServices.updateProduct(newProduct, userProvider.token);
 
-  //   if(resp){
+    if(resp){
 
-  //     if(provider.isChangePhoto){
-  //       resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo, userProvider.token);
-  //     }
+      if(provider.isChangePhoto){
+        resp = await ProductsServices.uploadImage(newProduct.code ?? '', provider.photo, userProvider.token);
+      }
 
-  //     if(resp) {
-  //       provider.isChangePhoto = false;
-  //       showAlert(
-  //         context  : context, 
-  //         title    : 'Success', 
-  //         subTitle : 'Successfully updated agent', 
-  //         urlImage : 'assets/male-icon.jpg', 
-  //         userName : '${newAgent.name} ${newAgent.lastname}',
-  //         status   : StatusAlert.Success,
-  //         successPage : 'agent',
-  //         cancelPage  : 'agentsOptions'
-  //       );
-  //     } else {
-  //       showAlert(
-  //         context  : context, 
-  //         title    : 'Error', 
-  //         subTitle : 'Failed to update an agent', 
-  //         urlImage : 'assets/male-icon.jpg', 
-  //         userName : '${newAgent.name} ${newAgent.lastname}',
-  //         status   : StatusAlert.Error,
-  //         successPage : 'agent',
-  //         cancelPage  : 'agentsOptions'
-  //       );  
-  //     }
-  //   } else {
-  //     showAlert(
-  //       context  : context, 
-  //       title    : 'Error', 
-  //       subTitle : 'Failed to update an agent', 
-  //       urlImage : 'assets/male-icon.jpg', 
-  //       userName : '${newAgent.name} ${newAgent.lastname}',
-  //       status   : StatusAlert.Error,
-  //       successPage : 'agent',
-  //       cancelPage  : 'agentsOptions'
-  //     );
-  //   }
-  // }
+      if(resp) {
+        provider.isChangePhoto = false;
+        provider.product = Product.empty();
+        provider.isUpdating = false;
+        provider.isAvailable = false;
+        showAlert(
+          context     : context, 
+          title       : 'Success', 
+          subTitle    : 'Successfully updated product', 
+          urlImage    : 'assets/products.jpg', 
+          userName    : '${newProduct.title}',
+          status      : StatusAlert.Success,
+          successPage : 'product',
+          cancelPage  : 'productOptions'
+        );
+      } else {
+        showAlert(
+          context     : context, 
+          title       : 'Error', 
+          subTitle    : 'Failed to update a product', 
+          urlImage    : 'assets/products.jpg', 
+          userName    : '${newProduct.title}',
+          status      : StatusAlert.Error,
+          successPage : 'product',
+          cancelPage  : 'productOptions'
+        );  
+      }
+    } else {
+      showAlert(
+        context     : context, 
+        title       : 'Error', 
+        subTitle    : 'Failed to update an product', 
+        urlImage    : 'assets/products.jpg', 
+        userName    : '${newProduct.title}',
+        status      : StatusAlert.Error,
+        successPage : 'product',
+        cancelPage  : 'productOptions'
+      );
+    }
+
+    provider.isLoading = false;
+  }
 
   void createAndUpdateProducts(BuildContext context) {
 
     final productsProvider = Provider.of<ProductProvider>(context, listen: false);
 
     if(!productsProvider.isUpdating) {
-      _createProducts(context, productsProvider);
+      _createProduct(context, productsProvider);
     } else {
-      // _updateAgent(context, agentProvider);      
+      _updateProduct(context, productsProvider);      
     }
   }
 

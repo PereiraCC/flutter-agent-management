@@ -47,13 +47,12 @@ class _Title extends StatelessWidget {
         Navigator.pushNamed(context, 'agent');
 
       } else {
-        // TODO: Come back here when updated product
         // productProvider.back = true;
-        // if(productProvider.updating){
-        //   productProvider.updating = false;
-        //   productProvider.product = Product.empty();
-        // }
-        productProvider.product = Product.empty();
+        if(productProvider.isUpdating) {
+          productProvider.isUpdating = false;
+          productProvider.product = Product.empty();
+          productProvider.isAvailable = false;
+        }
         Navigator.pushNamed(context, 'product');
 
       }

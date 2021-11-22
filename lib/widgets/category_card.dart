@@ -19,12 +19,12 @@ void setProduct({required BuildContext context, required Product product}) {
   if(product.code != '') {
     
     final productsProvider = Provider.of<ProductProvider>(context, listen: false);
-    // productsProvider.updating = true;
+    productsProvider.isUpdating = true;
     productsProvider.product = product;
+    productsProvider.isAvailable = product.available ?? false;
     Navigator.pushNamed(context, 'productOptions');
-
+    
   }
-
 }
 
 class CategoryCard extends StatelessWidget {
