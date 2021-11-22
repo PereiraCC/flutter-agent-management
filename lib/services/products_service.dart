@@ -1,14 +1,14 @@
 
 import 'dart:convert';
-import 'package:agent_management/providers/providers.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:agent_management/models/models.dart';
 import 'package:agent_management/services/services.dart';
+import 'package:agent_management/providers/providers.dart';
 
 import 'package:agent_management/global/environment.dart';
-import 'package:provider/provider.dart';
 
 class ProductsServices {
 
@@ -40,4 +40,26 @@ class ProductsServices {
     }
   }
 
+  static Future<bool> createProduct(Product product, String token) async {
+
+    try {
+      
+      Uri url = Uri.parse('${Environment.apiProductsUrl}');
+
+      final resp = await http.post(url, 
+        headers: {
+          'Content-Type' : 'application/json; charset=utf-8',
+          'x-token'      : token
+        },
+        body: jsonEncode(product.toJsonServices())
+      );
+
+      return resp.statusCode == 201;
+
+    } catch (err) {
+      print('error: $err');
+      return false;
+    }
+
+  }
 }
