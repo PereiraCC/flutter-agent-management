@@ -31,3 +31,4 @@ part 'upload_image.dart';
 part 'box_background_body.dart';
 part 'picture_button.dart';
 part 'delete_button.dart';
+part 'products_switch.dart';
