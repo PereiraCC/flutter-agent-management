@@ -44,7 +44,7 @@ class DeleteButton extends StatelessWidget {
         break;
       
       case TypeCategory.Products:
-        removeProduct(context);
+          removeProduct(context);
         break;
 
       default:
@@ -59,20 +59,27 @@ class DeleteButton extends StatelessWidget {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final resp = await AgentService.deleteAgent(agentProvider.agent.identification ?? 'no-identification', userProvider.token);
 
-    if(agentProvider.updating) 
-        agentProvider.updating = false;
 
     if(resp){
+      
+      String fullName = '${agentProvider.agent.name} ${agentProvider.agent.lastname}';
+
+      if(agentProvider.updating) 
+        agentProvider.isChangePhoto = false;
+        agentProvider.agent = Agent.empty();
+        agentProvider.updating = false;
+
       showAlert(
         context     : context, 
         title       : 'Success', 
         subTitle    : 'Successfully deleted agent', 
         urlImage    : 'assets/agents.jpg', 
-        userName    : '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
+        userName    : fullName,
         status      : StatusAlert.Success,
         successPage : 'agent',
         cancelPage  : 'agentsOptions'
       );
+
     } else {
       showAlert(
         context     : context, 
@@ -89,36 +96,43 @@ class DeleteButton extends StatelessWidget {
 
   void removeProduct(BuildContext context) async {
 
-    // TODO: Change logic
-    // final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
-    // final userProvider = Provider.of<UserProvider>(context, listen: false);
-    // final resp = await AgentService.deleteAgent(agentProvider.agent.identification ?? 'no-identification', userProvider.token);
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final resp = await ProductsServices.deleteProduct(productProvider.product.code ?? 'no-code', userProvider.token);
 
-    // if(agentProvider.updating) 
-    //     agentProvider.updating = false;
 
-    // if(resp){
-    //   showAlert(
-    //     context     : context, 
-    //     title       : 'Success', 
-    //     subTitle    : 'Successfully deleted product', 
-    //     urlImage    : 'assets/products.jpg', 
-    //     userName    : '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
-    //     status      : StatusAlert.Success,
-    //     successPage : 'products',
-    //     cancelPage  : 'productOptions'
-    //   );
-    // } else {
-    //   showAlert(
-    //     context     : context, 
-    //     title       : 'Error', 
-    //     subTitle    : 'Failed to delete a product', 
-    //     urlImage    : 'assets/products.jpg', 
-    //     userName    : '${agentProvider.agent.name} ${agentProvider.agent.lastname}',
-    //     status      : StatusAlert.Error,
-    //     successPage : 'products',
-    //     cancelPage  : 'productOptions'
-    //   );
-    // }
+    if(resp){
+
+      String title = productProvider.product.title ?? 'no-name';
+
+      if(productProvider.isUpdating) 
+          productProvider.isChangePhoto = false;
+          productProvider.product = Product.empty();
+          productProvider.isUpdating = false;
+          productProvider.isAvailable = false;
+
+
+      showAlert(
+        context     : context, 
+        title       : 'Success', 
+        subTitle    : 'Successfully deleted product', 
+        urlImage    : 'assets/products.jpg', 
+        userName    : '$title',
+        status      : StatusAlert.Success,
+        successPage : 'product',
+        cancelPage  : 'productOptions'
+      );
+    } else {
+      showAlert(
+        context     : context, 
+        title       : 'Error', 
+        subTitle    : 'Failed to delete a product', 
+        urlImage    : 'assets/products.jpg', 
+        userName    : '${productProvider.product.title}',
+        status      : StatusAlert.Error,
+        successPage : 'product',
+        cancelPage  : 'productOptions'
+      );
+    }
   }
 }
