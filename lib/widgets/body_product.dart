@@ -6,7 +6,7 @@ class BodyProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final productProvider = Provider.of<ProductProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
 
     return Stack(
       children: [
@@ -112,8 +112,6 @@ class _FormProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final productPro = Provider.of<ProductProvider>(context);
-
     // Create controller for eath input
     final TextEditingController _codeController  = new TextEditingController();
     final TextEditingController _titleController = new TextEditingController();
@@ -161,25 +159,13 @@ class _FormProducts extends StatelessWidget {
           InputTitleCustom(text: 'Available'),
           SizedBox(height: 10),
           Container(
-            // color: Colors.red,
             padding: EdgeInsets.only(left: 20, right: 20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
                 Container(
-                  // color: Colors.red,
-                  child: Switch(
-                    activeColor: Colors.red.shade300,
-                    value: productPro.isAvailable, 
-                    onChanged: (value) => {
-                      if(!productPro.isAvailable){
-                        productPro.isAvailable = true
-                      } else {
-                        productPro.isAvailable = false
-                      }
-                    }
-                  ),
+                  child: ProductsSwitch(),
                 ),
 
                 SizedBox(width: 45),
@@ -217,12 +203,15 @@ class _ProductsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final productsProvider = Provider.of<ProductProvider>(context);
+
     return TextButton(
       child: Container(
         width: 200,
         height: 50,
         decoration: BoxDecoration(  
-          color: Colors.red.shade300,
+          color: ( !productsProvider.isLoading ) ? Colors.red.shade300 : Colors.grey,
           borderRadius: BorderRadius.all(Radius.circular(15)),
           boxShadow: [
             BoxShadow(
@@ -237,72 +226,73 @@ class _ProductsButton extends StatelessWidget {
           child: Text('Save', style: TextStyle(fontSize: 20, color: Colors.white))
         )
       ),
-      // onPressed: () => createAndUpdateAgent(context)
-      onPressed: () => {}
+      onPressed: ( !productsProvider.isLoading ) ? () => createAndUpdateProducts(context) : () {}
     );
   }
 
-  // void _createAgent(BuildContext context, AgentManamegentProvider provider) async {
+  void _createProducts(BuildContext context, ProductProvider provider) async {
 
-  //   bool resp;
-  //   String userID = await UserService.readUserID();
-  //   final userProvider = Provider.of<UserProvider>(context, listen: false);
+    provider.isLoading = true;
+    bool resp;
+    String userID = await UserService.readUserID();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-  //   final newAgent = new Agent(
-  //     name           : this.name.text, 
-  //     lastname       : this.lastName.text, 
-  //     email          : this.email.text, 
-  //     phone          : this.phone.text, 
-  //     identification : this.identification.text,
-  //     userID         : userID
-  //   );
+    final newProduct = new Product(
+      code: code.text, 
+      title: title.text,
+      price: int.parse(price.text), 
+      available: provider.isAvailable, 
+      userID: userID
+    );
 
-  //   resp = await AgentService.createAgent(newAgent, userProvider.token);
+    resp = await ProductsServices.createProduct(newProduct, userProvider.token);
 
-  //   if(resp){
-  //     if(provider.isChangePhoto){
-  //       resp = await AgentService.uploadImage(newAgent.identification ?? '', provider.photo, userProvider.token);
-  //     }
+    if(resp){
+      // if(provider.isChangePhoto){
+      //   resp = await ProductsServices.uploadImage(newProduct.identification ?? '', provider.photo, userProvider.token);
+      // }
 
-  //     if(resp) {
-  //       provider.isChangePhoto = false;
-  //       showAlert(
-  //         context     : context, 
-  //         title       : 'Success', 
-  //         subTitle    : 'Successfully created agent', 
-  //         urlImage    : 'assets/male-icon.jpg', 
-  //         userName    : '${newAgent.name} ${newAgent.lastname}',
-  //         status      : StatusAlert.Success,
-  //         successPage : 'agent',
-  //         cancelPage  : 'agentsOptions'
-  //       );
-  //     } else {
+      if(resp) {
+        provider.isChangePhoto = false;
+        showAlert(
+          context     : context, 
+          title       : 'Success', 
+          subTitle    : 'Successfully created products', 
+          urlImage    : 'assets/products.jpg', 
+          userName    : '${newProduct.title}',
+          status      : StatusAlert.Success,
+          successPage : 'product',
+          cancelPage  : 'productOptions'
+        );
+      } else {
 
-  //       showAlert(
-  //         context  : context, 
-  //         title    : 'Error', 
-  //         subTitle : 'Failed to create an agent', 
-  //         urlImage : 'assets/male-icon.jpg', 
-  //         userName : '${newAgent.name} ${newAgent.lastname}',
-  //         status   : StatusAlert.Error,
-  //         successPage : 'agent',
-  //         cancelPage  : 'agentsOptions'
-  //       );  
+        showAlert(
+          context     : context, 
+          title       : 'Error', 
+          subTitle    : 'Failed to create an product', 
+          urlImage    : 'assets/products.jpg', 
+          userName    : '${newProduct.title}',
+          status      : StatusAlert.Error,
+          successPage : 'product',
+          cancelPage  : 'productOptions'
+        );  
 
-  //     }
-  //   } else {
-  //     showAlert(
-  //       context  : context, 
-  //       title    : 'Error', 
-  //       subTitle : 'Failed to create an agent', 
-  //       urlImage : 'assets/male-icon.jpg', 
-  //       userName : '${newAgent.name} ${newAgent.lastname}',
-  //       status   : StatusAlert.Error,
-  //       successPage : 'agent',
-  //       cancelPage  : 'agentsOptions'
-  //     );
-  //   }
-  // }
+      }
+    } else {
+      showAlert(
+        context     : context, 
+        title       : 'Error', 
+        subTitle    : 'Failed to create an product', 
+        urlImage    : 'assets/products.jpg', 
+        userName    : '${newProduct.title}',
+        status      : StatusAlert.Error,
+        successPage : 'product',
+        cancelPage  : 'productOptions'
+      );
+    }
+
+    provider.isLoading = false;
+  }
 
   // void _updateAgent(BuildContext context, AgentManamegentProvider provider) async {
     
@@ -366,15 +356,15 @@ class _ProductsButton extends StatelessWidget {
   //   }
   // }
 
-  // void createAndUpdateAgent(BuildContext context) {
+  void createAndUpdateProducts(BuildContext context) {
 
-  //   final agentProvider = Provider.of<AgentManamegentProvider>(context, listen: false);
+    final productsProvider = Provider.of<ProductProvider>(context, listen: false);
 
-  //   if(!agentProvider.updating) {
-  //     _createAgent(context, agentProvider);
-  //   } else {
-  //     _updateAgent(context, agentProvider);      
-  //   }
-  // }
+    if(!productsProvider.isUpdating) {
+      _createProducts(context, productsProvider);
+    } else {
+      // _updateAgent(context, agentProvider);      
+    }
+  }
 
 }
