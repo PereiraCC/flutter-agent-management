@@ -1,8 +1,13 @@
 
+import 'dart:io';
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:mime_type/mime_type.dart';
+import 'package:http_parser/http_parser.dart';
 
 import 'package:agent_management/models/models.dart';
 import 'package:agent_management/services/services.dart';
@@ -61,5 +66,43 @@ class ProductsServices {
       return false;
     }
 
+  }
+
+  static Future<bool> uploadImage(String code, File photo, String token) async {
+
+    try {
+
+      if(code == '') return false;
+
+      String userID = await UserService.readUserID();
+
+      Uri url = Uri.parse('${Environment.apiUploadProductsUrl}/$code?userID=$userID');
+      final mimeType = mime(photo.path)!.split('/');
+      
+      final imageUploadRequest = http.MultipartRequest(  
+        'PUT',
+        url
+      );
+
+      final file = await http.MultipartFile.fromPath(
+        'file', 
+        photo.path,
+        contentType: MediaType(mimeType[0], mimeType[1]),
+      );
+
+      imageUploadRequest.files.add(file);
+      imageUploadRequest.headers.addAll({
+        'x-token' : token
+      });
+
+      final streamResponse = await imageUploadRequest.send();
+      final resp = await http.Response.fromStream(streamResponse);
+      
+      return resp.statusCode == 200;
+
+    } catch (err) {
+      print('error: $err');
+      return false;
+    }
   }
 }
