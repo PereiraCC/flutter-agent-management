@@ -93,6 +93,31 @@ class ProductsServices {
 
   }
 
+  static Future<bool> deleteProduct(String code, String token) async {
+
+    try {
+
+      if(code == 'no-code') return false;
+
+      String userID = await UserService.readUserID();
+
+      Uri url = Uri.parse('${Environment.apiProductsUrl}/$userID/$code');
+      
+      final resp = await http.delete(url,
+        headers: {
+          'x-token' : token
+        }
+      );
+
+       return resp.statusCode == 200;
+
+    } catch (err) {
+      print('Error $err');
+      return false;
+    }
+
+  }
+
   static Future<bool> uploadImage(String code, File photo, String token) async {
 
     try {
