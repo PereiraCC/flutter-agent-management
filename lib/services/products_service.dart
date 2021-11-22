@@ -68,6 +68,31 @@ class ProductsServices {
 
   }
 
+  static Future<bool> updateProduct(Product product, String token) async {
+
+    try {
+
+      String userID = await UserService.readUserID();
+
+      Uri url = Uri.parse('${Environment.apiProductsUrl}/$userID/${product.code}');
+      
+      final resp = await http.put(url, 
+        headers: {
+          'Content-Type' : 'application/json; charset=utf-8',
+          'x-token'      : token
+        },
+        body: jsonEncode(product.toJsonServices())
+      );
+
+      return resp.statusCode == 200;
+
+    } catch (err) {
+      print('Error $err');
+      return false;
+    }
+
+  }
+
   static Future<bool> uploadImage(String code, File photo, String token) async {
 
     try {
