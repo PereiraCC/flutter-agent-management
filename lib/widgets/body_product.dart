@@ -248,9 +248,10 @@ class _ProductsButton extends StatelessWidget {
     resp = await ProductsServices.createProduct(newProduct, userProvider.token);
 
     if(resp){
-      // if(provider.isChangePhoto){
-      //   resp = await ProductsServices.uploadImage(newProduct.identification ?? '', provider.photo, userProvider.token);
-      // }
+
+      if(provider.isChangePhoto){
+        resp = await ProductsServices.uploadImage(newProduct.code ?? '', provider.photo, userProvider.token);
+      }
 
       if(resp) {
         provider.isChangePhoto = false;
